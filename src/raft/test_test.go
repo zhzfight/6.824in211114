@@ -8,7 +8,9 @@ package raft
 // test with the original before submitting.
 //
 
-import "testing"
+import (
+	"testing"
+)
 import "fmt"
 import "time"
 import "math/rand"
@@ -699,6 +701,7 @@ func TestFigure82C(t *testing.T) {
 				_, _, ok := cfg.rafts[i].Start(rand.Int())
 				if ok {
 					leader = i
+					//log.Printf("loop find a leader%d",leader)
 				}
 			}
 		}
@@ -816,7 +819,7 @@ func TestFigure8Unreliable2C(t *testing.T) {
 			cfg.connect(i)
 		}
 	}
-
+	//log.Printf("reach the end")
 	cfg.one(rand.Int()%10000, servers, true)
 
 	cfg.end()
