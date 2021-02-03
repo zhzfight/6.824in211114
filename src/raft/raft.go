@@ -61,7 +61,7 @@ const (
 	CANDIDATE         NodeState     = 2
 	ElectionTime      time.Duration = 350
 	HeartbeatInterval time.Duration = time.Duration(100) * time.Millisecond
-	AppliedInterval   time.Duration = time.Duration(500) * time.Millisecond
+	AppliedInterval   time.Duration = time.Duration(100) * time.Millisecond
 )
 
 //
@@ -176,6 +176,7 @@ type RequestVoteReply struct {
 //
 func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	// Your code here (2A, 2B).
+	//
 	//log.Printf("server%d term%d log%v get vote request from candidate%d term%d lastLogIndex%d lastLogTerm%d", rf.me, rf.currentTerm, rf.log, args.CandidateId, args.Term, args.LastLogIndex, args.LastLogTerm)
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
@@ -193,40 +194,13 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 		return
 	}
 
-	if rf.state == LEADER {
-		if args.Term == rf.currentTerm {
-			return
-		}
-		rf.currentTerm = args.Term
-		rf.convertTo(FOLLOWER)
-		if args.LastLogTerm < rf.log[rf.lastLogIndex].Term {
-			return
-		}
-		if args.LastLogTerm == rf.log[rf.lastLogIndex].Term && args.LastLogIndex < rf.lastLogIndex {
-			return
-		}
-		rf.votedFor = args.CandidateId
-		reply.VoteGranted = true
-	} else if rf.state == CANDIDATE {
-		if args.Term == rf.currentTerm {
-			return
-		}
-		rf.currentTerm = args.Term
-		rf.convertTo(FOLLOWER)
-		if args.LastLogTerm < rf.log[rf.lastLogIndex].Term {
-			return
-		}
-		if args.LastLogTerm == rf.log[rf.lastLogIndex].Term && args.LastLogIndex < rf.lastLogIndex {
-			return
-		}
-		rf.votedFor = args.CandidateId
-		reply.VoteGranted = true
-	} else {
-		if args.Term > rf.currentTerm {
+	/*
+		if rf.state == LEADER {
+			if args.Term == rf.currentTerm {
+				return
+			}
 			rf.currentTerm = args.Term
-			rf.votedFor = -1
-		}
-		if rf.votedFor == -1 || rf.votedFor == args.CandidateId {
+			rf.convertTo(FOLLOWER)
 			if args.LastLogTerm < rf.log[rf.lastLogIndex].Term {
 				return
 			}
@@ -235,32 +209,61 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 			}
 			rf.votedFor = args.CandidateId
 			reply.VoteGranted = true
-			rf.electionTimer.Reset(randTimeDuration(ElectionTime))
-		}
-
-	}
-
-	/*
-		reply.Term=rf.currentTerm
-		reply.VoteGranted=false
-		if args.Term<rf.currentTerm||
-			(args.Term==rf.currentTerm&&rf.votedFor!=-1&&rf.votedFor!=args.CandidateId){
-			return
-		}
-		if args.Term>rf.currentTerm{
-			rf.currentTerm=args.Term
+		} else if rf.state == CANDIDATE {
+			if args.Term == rf.currentTerm {
+				return
+			}
+			rf.currentTerm = args.Term
 			rf.convertTo(FOLLOWER)
+			if args.LastLogTerm < rf.log[rf.lastLogIndex].Term {
+				return
+			}
+			if args.LastLogTerm == rf.log[rf.lastLogIndex].Term && args.LastLogIndex < rf.lastLogIndex {
+				return
+			}
+			rf.votedFor = args.CandidateId
+			reply.VoteGranted = true
+		} else {
+			if args.Term > rf.currentTerm {
+				rf.currentTerm = args.Term
+				rf.votedFor = -1
+			}
+			if rf.votedFor == -1 || rf.votedFor == args.CandidateId {
+				if args.LastLogTerm < rf.log[rf.lastLogIndex].Term {
+					return
+				}
+				if args.LastLogTerm == rf.log[rf.lastLogIndex].Term && args.LastLogIndex < rf.lastLogIndex {
+					return
+				}
+				rf.votedFor = args.CandidateId
+				reply.VoteGranted = true
+				rf.electionTimer.Reset(randTimeDuration(ElectionTime))
+			}
+
 		}
-		if args.LastLogTerm < rf.log[rf.lastLogIndex].Term {
-			return
-		}
-		if args.LastLogTerm == rf.log[rf.lastLogIndex].Term && args.LastLogIndex < rf.lastLogIndex {
-			return
-		}
-		rf.votedFor=args.CandidateId
-		reply.VoteGranted=true
-		rf.electionTimer.Reset(randTimeDuration(ElectionTime))
+
 	*/
+
+	reply.Term = rf.currentTerm
+	reply.VoteGranted = false
+	if args.Term < rf.currentTerm ||
+		(args.Term == rf.currentTerm && rf.votedFor != -1 && rf.votedFor != args.CandidateId) {
+		return
+	}
+	if args.Term > rf.currentTerm {
+		rf.currentTerm = args.Term
+		rf.convertTo(FOLLOWER)
+	}
+	if args.LastLogTerm < rf.log[rf.lastLogIndex].Term {
+		return
+	}
+	if args.LastLogTerm == rf.log[rf.lastLogIndex].Term && args.LastLogIndex < rf.lastLogIndex {
+		return
+	}
+	rf.votedFor = args.CandidateId
+	reply.VoteGranted = true
+	rf.electionTimer.Reset(randTimeDuration(ElectionTime))
+
 }
 
 type AppendEntriesArgs struct {
@@ -575,6 +578,13 @@ func (rf *Raft) convertTo(target NodeState) {
 
 // surrounded by lock
 func (rf *Raft) broadcast() {
+	//log.Printf("rf.log:%v",rf.log)
+	index := make([]int, 0)
+	index = append(index, rf.matchIndex...)
+	sort.Ints(index)
+	if index[len(rf.peers)/2] > rf.commitIndex && rf.log[index[len(rf.peers)/2]].Term == rf.currentTerm {
+		rf.commitIndex = index[len(rf.peers)/2]
+	}
 	for server, _ := range rf.peers {
 		if server == rf.me {
 			continue
@@ -586,7 +596,8 @@ func (rf *Raft) broadcast() {
 			if rf.nextIndex[server] > rf.lastLogIndex {
 				entries = nil
 			} else {
-				entries = rf.log[rf.nextIndex[server] : rf.lastLogIndex+1]
+				entries = make([]entry, len(rf.log[(preLogIndex+1):]))
+				copy(entries, rf.log[preLogIndex+1:])
 
 			}
 			args := AppendEntriesArgs{
@@ -615,6 +626,7 @@ func (rf *Raft) broadcast() {
 						rf.matchIndex[server] = preLogIndex + len(entries)
 						// update commitIndex here?
 					}
+
 				} else {
 					if reply.Term > rf.currentTerm {
 						rf.currentTerm = reply.Term
@@ -623,40 +635,21 @@ func (rf *Raft) broadcast() {
 					} else {
 						// rf.nextIndex[server] -= 1
 
-						if rf.log[reply.ConflictedIndex].Term == reply.ConflictedTerm {
-							rf.nextIndex[server] = reply.ConflictedIndex + 1
-						} else {
+						if reply.ConflictedTerm == -1 {
 							rf.nextIndex[server] = reply.ConflictedIndex
-						}
-
-						/*
-							if reply.ConflictedTerm == -1 {
-								rf.nextIndex[server] = reply.ConflictedIndex
-								log.Printf("conflictedTerm-1:server%d's nextIndex conflict,the reply conflictedIndex is %d,reset to %d", server, reply.ConflictedIndex, rf.nextIndex[server])
+						} else {
+							if rf.log[reply.ConflictedIndex].Term == reply.ConflictedTerm {
+								rf.nextIndex[server] = reply.ConflictedIndex + 1
 							} else {
-								for i := args.PrevLogIndex; i >= 1; i-- {
-									if rf.log[i-1].Term == reply.ConflictedTerm {
-										rf.nextIndex[server] = i
-										break
-									}
-								}
-								log.Printf("conflictedTermelse:server%d's nextIndex conflict,the reply conflictedIndex is %d,reset to %d", server,reply.ConflictedIndex, rf.nextIndex[server])
+								rf.nextIndex[server] = reply.ConflictedIndex
 							}
-
-						*/
+						}
 
 					}
 				}
 
 			}
 		}(server)
-	}
-
-	index := make([]int, 0)
-	index = append(index, rf.matchIndex...)
-	sort.Ints(index)
-	if index[len(rf.peers)/2] > rf.commitIndex && rf.log[index[len(rf.peers)/2]].Term == rf.currentTerm {
-		rf.commitIndex = index[len(rf.peers)/2]
 	}
 
 	/*
