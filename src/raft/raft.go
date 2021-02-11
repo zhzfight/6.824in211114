@@ -21,7 +21,6 @@ import (
 	"../labgob"
 	"bytes"
 	"math/rand"
-	"sort"
 	"sync"
 	"time"
 )
@@ -61,7 +60,7 @@ const (
 	CANDIDATE         NodeState     = 2
 	ElectionTime      time.Duration = 350
 	HeartbeatInterval time.Duration = time.Duration(100) * time.Millisecond
-	AppliedInterval   time.Duration = time.Duration(100) * time.Millisecond
+	AppliedInterval   time.Duration = time.Duration(50) * time.Millisecond
 )
 
 //
@@ -90,6 +89,7 @@ type Raft struct {
 	matchIndex     []int
 	applyCh        chan ApplyMsg
 	lastApplied    int
+	noopCount      int
 }
 
 // return currentTerm and whether this server
@@ -411,14 +411,16 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	defer rf.mu.Unlock()
 	defer rf.persist()
 	if rf.state == LEADER {
-
+		if command == "noop" {
+			rf.noopCount++
+		}
 		item := entry{Term: rf.currentTerm, Command: command}
 		rf.lastLogIndex++
 		rf.log = append(rf.log, item)
 		rf.matchIndex[rf.me] = rf.lastLogIndex
-		//log.Printf("leader%d start item%v", rf.me, item)
+		//log.Printf("leader%d start item%v in index%d,its real index is %d", rf.me, item,rf.lastLogIndex,rf.lastLogIndex-rf.noopCount)
 	}
-	index := rf.lastLogIndex
+	index := rf.lastLogIndex - rf.noopCount
 	term := rf.currentTerm
 	isLeader := rf.state == LEADER
 
@@ -439,6 +441,8 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 func (rf *Raft) Kill() {
 	atomic.StoreInt32(&rf.dead, 1)
 	// Your code here, if desired.
+	rf.electionTimer.Stop()
+	rf.heartbeatTimer.Stop()
 }
 
 func (rf *Raft) killed() bool {
@@ -472,13 +476,14 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.commitIndex = 0
 	rf.applyCh = applyCh
 	rf.lastApplied = 0
+	rf.noopCount = 0
 	rf.log = make([]entry, 0)
 	rf.log = append(rf.log, entry{Term: 0, Command: 0})
 
 	rf.heartbeatTimer = time.NewTimer(1 * time.Second)
 	rf.heartbeatTimer.Stop()
 	rf.electionTimer = time.NewTimer(randTimeDuration(ElectionTime))
-	rf.appliedTimer = time.NewTimer(AppliedInterval)
+
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
 	rf.lastLogIndex = len(rf.log) - 1
@@ -505,45 +510,39 @@ func Make(peers []*labrpc.ClientEnd, me int,
 					rf.heartbeatTimer.Reset(HeartbeatInterval)
 				}
 				rf.mu.Unlock()
-			case <-rf.appliedTimer.C:
-				{
-					rf.mu.Lock()
-					rf.applyToStateMachine()
-					rf.appliedTimer.Reset(AppliedInterval)
-					rf.mu.Unlock()
-				}
+
 			}
 		}
 	}()
+	go func() {
+		noopCount := 0
+		for {
+			//log.Printf("server%d state%d term%d commitIndex%d lastlogIndex%d the entry in commitIndex is %v,log%v", rf.me, rf.state, rf.currentTerm, rf.commitIndex,rf.lastLogIndex,rf.log[rf.commitIndex] ,rf.log)
+			rf.mu.Lock()
+			if rf.lastApplied == rf.commitIndex {
+				rf.mu.Unlock()
+			} else {
+				entriesToApply := append([]entry{}, rf.log[rf.lastApplied+1:rf.commitIndex+1]...)
+				startIdx := rf.lastApplied + 1
+				rf.lastApplied = rf.commitIndex
+				rf.mu.Unlock()
+				for idx, entry := range entriesToApply {
+					if entry.Command == "noop" {
+						noopCount++
+						continue
+					}
+					//log.Printf("server%d apply {cmd:%v,cmdIndex:%d}",rf.me,entry.Command,startIdx+idx-noopCount)
+					applyMsg := ApplyMsg{Command: entry.Command, CommandIndex: startIdx + idx - noopCount, CommandValid: true}
+					rf.applyCh <- applyMsg
+				}
+			}
 
+			time.Sleep(AppliedInterval)
+		}
+	}()
 	return rf
 }
 
-func (rf *Raft) applyToStateMachine() {
-	//log.Printf("server%d state%d term%d commitIndex%d log%v", rf.me, rf.state, rf.currentTerm, rf.commitIndex, rf.log)
-	if rf.lastApplied == rf.commitIndex {
-		return
-	}
-	entriesToApply := append([]entry{}, rf.log[rf.lastApplied+1:rf.commitIndex+1]...)
-	go func(startIdx int, entriesToApply []entry) {
-		for idx, entry := range entriesToApply {
-			applyMsg := ApplyMsg{Command: entry.Command, CommandIndex: startIdx + idx, CommandValid: true}
-			rf.applyCh <- applyMsg
-		}
-	}(rf.lastApplied+1, entriesToApply)
-	/*
-		go func(from int, to int) {
-			for i := from; i <= to; i++ {
-
-				applyMsg := ApplyMsg{Command: rf.log[i].Command, CommandIndex: i, CommandValid: true}
-				rf.applyCh <- applyMsg
-
-			}
-		}(rf.lastApplied+1, rf.commitIndex)
-
-	*/
-	rf.lastApplied = rf.commitIndex
-}
 func (rf *Raft) convertTo(target NodeState) {
 	if target == rf.state {
 		return
@@ -567,6 +566,16 @@ func (rf *Raft) convertTo(target NodeState) {
 			rf.matchIndex[server] = 0
 		}
 		//log.Printf("server%d become leader", rf.me)
+		rf.noopCount = 0
+		for i := 1; i <= rf.lastLogIndex; i++ {
+			if rf.log[i].Command == "noop" {
+				rf.noopCount++
+			}
+		}
+		go func() {
+			rf.Start("noop")
+		}()
+
 		rf.electionTimer.Stop()
 		rf.broadcast()
 		rf.heartbeatTimer.Reset(HeartbeatInterval)
@@ -579,11 +588,19 @@ func (rf *Raft) convertTo(target NodeState) {
 // surrounded by lock
 func (rf *Raft) broadcast() {
 	//log.Printf("rf.log:%v",rf.log)
-	index := make([]int, 0)
-	index = append(index, rf.matchIndex...)
-	sort.Ints(index)
-	if index[len(rf.peers)/2] > rf.commitIndex && rf.log[index[len(rf.peers)/2]].Term == rf.currentTerm {
-		rf.commitIndex = index[len(rf.peers)/2]
+	for N := len(rf.log) - 1; N > rf.commitIndex; N-- {
+		count := 0
+		for _, matchIndex := range rf.matchIndex {
+			if matchIndex >= N {
+				count += 1
+			}
+		}
+
+		if count > len(rf.peers)/2 && rf.log[N].Term == rf.currentTerm {
+			// most of nodes agreed on rf.log[i]
+			rf.commitIndex = N
+			break
+		}
 	}
 	for server, _ := range rf.peers {
 		if server == rf.me {
@@ -627,6 +644,15 @@ func (rf *Raft) broadcast() {
 						// update commitIndex here?
 					}
 
+					/*
+						index := make([]int, 0)
+						index = append(index, rf.matchIndex...)
+						sort.Ints(index)
+						if index[len(rf.peers)/2] > rf.commitIndex {
+							rf.commitIndex = index[len(rf.peers)/2]
+						}
+					*/
+
 				} else {
 					if reply.Term > rf.currentTerm {
 						rf.currentTerm = reply.Term
@@ -651,22 +677,6 @@ func (rf *Raft) broadcast() {
 			}
 		}(server)
 	}
-
-	/*
-		for N := len(rf.log) - 1; N > rf.commitIndex; N-- {
-			count := 0
-			for _, matchIndex := range rf.matchIndex {
-				if matchIndex >= N {
-					count += 1
-				}
-			}
-			if count > len(rf.peers)/2 {
-				rf.commitIndex = N
-				break
-			}
-		}
-
-	*/
 }
 
 // surrounded by lock

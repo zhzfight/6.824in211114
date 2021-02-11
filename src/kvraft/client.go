@@ -1,9 +1,10 @@
 package kvraft
 
-import "../labrpc"
+import (
+	"../labrpc"
+)
 import "crypto/rand"
 import "math/big"
-
 
 type Clerk struct {
 	servers []*labrpc.ClientEnd
@@ -39,7 +40,22 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 func (ck *Clerk) Get(key string) string {
 
 	// You will have to modify this function.
-	return ""
+	args := GetArgs{Key: key}
+	reply := GetReply{}
+	for {
+		for i := 0; i < len(ck.servers); i++ {
+			if ok := ck.servers[i].Call("KVServer.Get", &args, &reply); ok {
+				if reply.Err == OK {
+					return reply.Value
+				} else if reply.Err == ErrWrongLeader {
+					continue
+				} else {
+					return ""
+				}
+			}
+		}
+	}
+
 }
 
 //
@@ -54,6 +70,21 @@ func (ck *Clerk) Get(key string) string {
 //
 func (ck *Clerk) PutAppend(key string, value string, op string) {
 	// You will have to modify this function.
+	go func() {
+		args := PutAppendArgs{Key: key, Value: value, Op: op}
+		reply := PutAppendReply{}
+		for {
+			for i := 0; i < len(ck.servers); i++ {
+				if ok := ck.servers[i].Call("KVServer.PutAppend", &args, &reply); ok {
+					if reply.Err == OK {
+						return
+					} else {
+						continue
+					}
+				}
+			}
+		}
+	}()
 }
 
 func (ck *Clerk) Put(key string, value string) {

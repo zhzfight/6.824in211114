@@ -3,8 +3,9 @@ package kvraft
 import (
 	"../labgob"
 	"../labrpc"
-	"log"
 	"../raft"
+	"log"
+	"strings"
 	"sync"
 	"sync/atomic"
 )
@@ -18,11 +19,13 @@ func DPrintf(format string, a ...interface{}) (n int, err error) {
 	return
 }
 
-
 type Op struct {
 	// Your definitions here.
 	// Field names must start with capital letters,
 	// otherwise RPC will break.
+	Operator string
+	Key      string
+	Value    string
 }
 
 type KVServer struct {
@@ -35,15 +38,38 @@ type KVServer struct {
 	maxraftstate int // snapshot if log grows this big
 
 	// Your definitions here.
-}
 
+	database map[string]string
+}
 
 func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 	// Your code here.
+	_, isLeader := kv.rf.GetState()
+	if !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+	res, ok := kv.database[args.Key]
+	if ok {
+		reply.Value = res
+		reply.Err = OK
+	} else {
+		reply.Value = ""
+		reply.Err = ErrNoKey
+	}
+
 }
 
 func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	// Your code here.
+
+	cmd := args.Op + " " + args.Key + ":" + args.Value
+	index, _, isLeader := kv.rf.Start(cmd)
+	if !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+
 }
 
 //
@@ -96,6 +122,35 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	kv.rf = raft.Make(servers, me, persister, kv.applyCh)
 
 	// You may need initialization code here.
+
+	kv.database = make(map[string]string)
+
+	go func() {
+		for {
+			applyMsg := <-kv.applyCh
+			if applyMsg.CommandValid {
+				cmd := applyMsg.Command.(string)
+				split := strings.Split(cmd, " ")
+				if split[0] == "Put" {
+					pair := strings.Split(split[1], ":")
+					kv.database[pair[0]] = pair[1]
+				} else if split[0] == "Append" {
+					pair := strings.Split(split[1], ":")
+					res, ok := kv.database[pair[0]]
+					if ok {
+						res += pair[1]
+						kv.database[pair[0]] = res
+					} else {
+						kv.database[pair[0]] = pair[1]
+					}
+				} else {
+					log.Printf("Unknown op:%s", split[0])
+				}
+			}
+
+		}
+
+	}()
 
 	return kv
 }

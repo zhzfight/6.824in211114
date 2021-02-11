@@ -464,6 +464,7 @@ func (cfg *config) one(cmd interface{}, expectedServers int, retry bool) int {
 				//log.Printf("cmd1%v,index%d,cmd%v,nd%d",cmd1,index,cmd,nd)
 				if nd > 0 && nd >= expectedServers {
 					// committed
+
 					if cmd1 == cmd {
 						// and it was the command we submitted.
 
