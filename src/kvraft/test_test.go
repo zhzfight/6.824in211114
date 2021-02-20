@@ -137,6 +137,7 @@ func partitioner(t *testing.T, cfg *config, ch chan bool, done *int32) {
 				}
 			}
 		}
+		//log.Printf("partition  p1:%v, p2:%v",pa[0],pa[1])
 		cfg.partition(pa[0], pa[1])
 		time.Sleep(electionTimeout + time.Duration(rand.Int63()%200)*time.Millisecond)
 	}
@@ -192,7 +193,7 @@ func GenericTest(t *testing.T, part string, nclients int, unreliable bool, crash
 		clnts[i] = make(chan int)
 	}
 	for i := 0; i < 3; i++ {
-		// log.Printf("Iteration %v\n", i)
+		//log.Printf("Iteration %v\n", i)
 		atomic.StoreInt32(&done_clients, 0)
 		atomic.StoreInt32(&done_partitioner, 0)
 		go spawn_clients_and_wait(t, cfg, nclients, func(cli int, myck *Clerk, t *testing.T) {
@@ -206,13 +207,14 @@ func GenericTest(t *testing.T, part string, nclients int, unreliable bool, crash
 			for atomic.LoadInt32(&done_clients) == 0 {
 				if (rand.Int() % 1000) < 500 {
 					nv := "x " + strconv.Itoa(cli) + " " + strconv.Itoa(j) + " y"
-					// log.Printf("%d: client new append %v\n", cli, nv)
+					//log.Printf("%d: client new append %v\n", cli, nv)
 					Append(cfg, myck, key, nv)
 					last = NextValue(last, nv)
 					j++
 				} else {
-					// log.Printf("%d: client new get %v\n", cli, key)
+
 					v := Get(cfg, myck, key)
+					//log.Printf("%d: client new get key:%v,value:%v", cli, key,v)
 					if v != last {
 						log.Fatalf("get wrong value, key %v, wanted:\n%v\n, got\n%v\n", key, last, v)
 					}
@@ -231,7 +233,7 @@ func GenericTest(t *testing.T, part string, nclients int, unreliable bool, crash
 		atomic.StoreInt32(&done_partitioner, 1) // tell partitioner to quit
 
 		if partitions {
-			// log.Printf("wait for partitioner\n")
+			//log.Printf("wait for partitioner\n")
 			<-ch_partitioner
 			// reconnect network and submit a request. A client may
 			// have submitted a request in a minority.  That request
@@ -243,14 +245,14 @@ func GenericTest(t *testing.T, part string, nclients int, unreliable bool, crash
 		}
 
 		if crash {
-			// log.Printf("shutdown servers\n")
+			//log.Printf("shutdown servers\n")
 			for i := 0; i < nservers; i++ {
 				cfg.ShutdownServer(i)
 			}
 			// Wait for a while for servers to shutdown, since
 			// shutdown isn't a real crash and isn't instantaneous
 			time.Sleep(electionTimeout)
-			// log.Printf("restart servers\n")
+			//log.Printf("restart servers\n")
 			// crash and re-start all
 			for i := 0; i < nservers; i++ {
 				cfg.StartServer(i)
@@ -266,8 +268,9 @@ func GenericTest(t *testing.T, part string, nclients int, unreliable bool, crash
 			// 	log.Printf("Warning: client %d managed to perform only %d put operations in 1 sec?\n", i, j)
 			// }
 			key := strconv.Itoa(i)
-			// log.Printf("Check %v for client %d\n", j, i)
+			//log.Printf("Check %v for client %d\n", j, i)
 			v := Get(cfg, ck, key)
+			//log.Printf("key%s:value%s",key,v)
 			checkClntAppends(t, i, v, j)
 		}
 
@@ -335,7 +338,7 @@ func GenericTestLinearizability(t *testing.T, part string, nclients int, nserver
 		clnts[i] = make(chan int)
 	}
 	for i := 0; i < 3; i++ {
-		// log.Printf("Iteration %v\n", i)
+		//log.Printf("Iteration %v\n", i)
 		atomic.StoreInt32(&done_clients, 0)
 		atomic.StoreInt32(&done_partitioner, 0)
 		go spawn_clients_and_wait(t, cfg, nclients, func(cli int, myck *Clerk, t *testing.T) {
@@ -350,10 +353,12 @@ func GenericTestLinearizability(t *testing.T, part string, nclients int, nserver
 				var out models.KvOutput
 				start := int64(time.Since(begin))
 				if (rand.Int() % 1000) < 500 {
+					//log.Printf("%d: client new append key:%v value:%v\n", cli, key,nv)
 					Append(cfg, myck, key, nv)
 					inp = models.KvInput{Op: 2, Key: key, Value: nv}
 					j++
 				} else if (rand.Int() % 1000) < 100 {
+					//log.Printf("%d: client put key:%v value:%v\n", cli, key,nv)
 					Put(cfg, myck, key, nv)
 					inp = models.KvInput{Op: 1, Key: key, Value: nv}
 					j++
@@ -361,6 +366,7 @@ func GenericTestLinearizability(t *testing.T, part string, nclients int, nserver
 					v := Get(cfg, myck, key)
 					inp = models.KvInput{Op: 0, Key: key}
 					out = models.KvOutput{Value: v}
+					//log.Printf("%d: client get key:%v value:%v\n", cli, key,v)
 				}
 				end := int64(time.Since(begin))
 				op := porcupine.Operation{Input: inp, Call: start, Output: out, Return: end, ClientId: cli}
@@ -381,7 +387,7 @@ func GenericTestLinearizability(t *testing.T, part string, nclients int, nserver
 		atomic.StoreInt32(&done_partitioner, 1) // tell partitioner to quit
 
 		if partitions {
-			// log.Printf("wait for partitioner\n")
+			//log.Printf("wait for partitioner\n")
 			<-ch_partitioner
 			// reconnect network and submit a request. A client may
 			// have submitted a request in a minority.  That request
@@ -393,14 +399,14 @@ func GenericTestLinearizability(t *testing.T, part string, nclients int, nserver
 		}
 
 		if crash {
-			// log.Printf("shutdown servers\n")
+			//log.Printf("shutdown servers\n")
 			for i := 0; i < nservers; i++ {
 				cfg.ShutdownServer(i)
 			}
 			// Wait for a while for servers to shutdown, since
 			// shutdown isn't a real crash and isn't instantaneous
 			time.Sleep(electionTimeout)
-			// log.Printf("restart servers\n")
+			//log.Printf("restart servers\n")
 			// crash and re-start all
 			for i := 0; i < nservers; i++ {
 				cfg.StartServer(i)
@@ -438,7 +444,6 @@ func GenericTestLinearizability(t *testing.T, part string, nclients int, nserver
 				fmt.Printf("info: wrote history visualization to %s\n", file.Name())
 			}
 		}
-		t.Fatal("history is not linearizable")
 		t.Fatal("history is not linearizable")
 	} else if res == porcupine.Unknown {
 		fmt.Println("info: linearizability check timed out, assuming history is ok")

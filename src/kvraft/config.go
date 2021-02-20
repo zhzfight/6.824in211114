@@ -1,6 +1,9 @@
 package kvraft
 
-import "../labrpc"
+import (
+	"../labrpc"
+	"log"
+)
 import "testing"
 import "os"
 
@@ -352,6 +355,7 @@ func (cfg *config) make_partition() ([]int, []int) {
 		}
 	}
 	p2[len(p2)-1] = l
+	log.Printf("p1:%v, p2:%v,and leader is %d", p1, p2, l)
 	return p1, p2
 }
 

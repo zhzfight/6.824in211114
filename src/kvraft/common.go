@@ -1,9 +1,13 @@
 package kvraft
 
+import "time"
+
 const (
-	OK             = "OK"
-	ErrNoKey       = "ErrNoKey"
-	ErrWrongLeader = "ErrWrongLeader"
+	OK                  = "OK"
+	ErrNoKey            = "ErrNoKey"
+	ErrWrongLeader      = "ErrWrongLeader"
+	Retry               = "Retry"
+	PollingTimeInterval = 200 * time.Millisecond
 )
 
 type Err string
@@ -17,7 +21,8 @@ type PutAppendArgs struct {
 	// Field names must start with capital letters,
 	// otherwise RPC will break.
 
-	// timestamp?
+	Rid int
+	Cid int64
 }
 
 type PutAppendReply struct {
@@ -27,6 +32,8 @@ type PutAppendReply struct {
 type GetArgs struct {
 	Key string
 	// You'll have to add definitions here.
+	Rid int
+	Cid int64
 }
 
 type GetReply struct {

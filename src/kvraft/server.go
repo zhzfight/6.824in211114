@@ -5,9 +5,9 @@ import (
 	"../labrpc"
 	"../raft"
 	"log"
-	"strings"
 	"sync"
 	"sync/atomic"
+	"time"
 )
 
 const Debug = 0
@@ -26,49 +26,118 @@ type Op struct {
 	Operator string
 	Key      string
 	Value    string
+	Cid      int64
+	Rid      int
 }
 
 type KVServer struct {
-	mu      sync.Mutex
-	me      int
-	rf      *raft.Raft
-	applyCh chan raft.ApplyMsg
-	dead    int32 // set by Kill()
+	serialMu   sync.Mutex
+	logMu      sync.Mutex
+	databaseMu sync.Mutex
+	me         int
+	rf         *raft.Raft
+	applyCh    chan raft.ApplyMsg
+	dead       int32 // set by Kill()
 
 	maxraftstate int // snapshot if log grows this big
 
 	// Your definitions here.
 
 	database map[string]string
+	serial   map[int64]int
+	log      map[int]Op
+
+	offset int
 }
 
 func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 	// Your code here.
-	_, isLeader := kv.rf.GetState()
+	if _, isLeader := kv.rf.GetState(); !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+
+	cmd := Op{Operator: "Get", Key: args.Key, Cid: args.Cid}
+	index, _, isLeader := kv.rf.Start(cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
 		return
 	}
-	res, ok := kv.database[args.Key]
-	if ok {
-		reply.Value = res
-		reply.Err = OK
-	} else {
-		reply.Value = ""
-		reply.Err = ErrNoKey
+
+	t := time.Now()
+	for time.Since(t).Seconds() < 2 {
+		kv.logMu.Lock()
+		res, ok := kv.log[index]
+		kv.logMu.Unlock()
+		if ok {
+			if res == cmd {
+				kv.databaseMu.Lock()
+				value, have := kv.database[args.Key]
+				kv.databaseMu.Unlock()
+				if have {
+					reply.Value = value
+					reply.Err = OK
+					return
+				} else {
+					reply.Err = ErrNoKey
+					return
+				}
+			} else {
+				reply.Err = ErrWrongLeader
+				return
+			}
+		} else {
+			time.Sleep(20 * time.Millisecond)
+		}
 	}
+	reply.Err = ErrWrongLeader
+	return
 
 }
 
 func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	// Your code here.
 
-	cmd := args.Op + " " + args.Key + ":" + args.Value
+	if _, isLeader := kv.rf.GetState(); !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+	kv.serialMu.Lock()
+	res, ok := kv.serial[args.Cid]
+	kv.serialMu.Unlock()
+	if ok {
+		if res >= args.Rid {
+			reply.Err = OK
+			return
+		}
+	}
+
+	cmd := Op{Operator: args.Op, Key: args.Key, Value: args.Value, Cid: args.Cid, Rid: args.Rid}
+
 	index, _, isLeader := kv.rf.Start(cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
 		return
 	}
+	t := time.Now()
+	for time.Since(t).Seconds() < 2 {
+		kv.logMu.Lock()
+		res, ok := kv.log[index]
+		kv.logMu.Unlock()
+		if ok {
+			if res == cmd {
+				reply.Err = OK
+				return
+			} else {
+				reply.Err = ErrWrongLeader
+				return
+			}
+		} else {
+			time.Sleep(20 * time.Millisecond)
+		}
+	}
+	reply.Err = ErrWrongLeader
+	return
 
 }
 
@@ -124,33 +193,61 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	// You may need initialization code here.
 
 	kv.database = make(map[string]string)
+	kv.serial = make(map[int64]int)
+	kv.log = make(map[int]Op)
 
 	go func() {
 		for {
+
 			applyMsg := <-kv.applyCh
+			// log.Printf("applyMsg:%v", applyMsg)
 			if applyMsg.CommandValid {
-				cmd := applyMsg.Command.(string)
-				split := strings.Split(cmd, " ")
-				if split[0] == "Put" {
-					pair := strings.Split(split[1], ":")
-					kv.database[pair[0]] = pair[1]
-				} else if split[0] == "Append" {
-					pair := strings.Split(split[1], ":")
-					res, ok := kv.database[pair[0]]
+				cmd := applyMsg.Command.(Op)
+				if cmd.Operator == "Put" || cmd.Operator == "Append" {
+					kv.serialMu.Lock()
+					res, ok := kv.serial[cmd.Cid]
 					if ok {
-						res += pair[1]
-						kv.database[pair[0]] = res
+						if res >= cmd.Rid {
+							kv.serialMu.Unlock()
+							continue
+						} else {
+							kv.serial[cmd.Cid] = cmd.Rid
+						}
 					} else {
-						kv.database[pair[0]] = pair[1]
+						kv.serial[cmd.Cid] = cmd.Rid
 					}
-				} else {
-					log.Printf("Unknown op:%s", split[0])
+					kv.serialMu.Unlock()
 				}
+
+				if cmd.Operator == "Put" {
+					kv.databaseMu.Lock()
+					kv.database[cmd.Key] = cmd.Value
+					kv.databaseMu.Unlock()
+					//log.Printf("update put:key:%v, value:%v", cmd.Key, cmd.Value)
+				} else if cmd.Operator == "Append" {
+					kv.databaseMu.Lock()
+					res, ok := kv.database[cmd.Key]
+					if ok {
+						res = res + cmd.Value
+						kv.database[cmd.Key] = res
+					} else {
+						kv.database[cmd.Key] = cmd.Value
+					}
+					kv.databaseMu.Unlock()
+					//log.Printf("update append:key:%v, value:%v", cmd.Key, res)
+				}
+
+				kv.logMu.Lock()
+				kv.log[applyMsg.CommandIndex] = cmd
+				kv.logMu.Unlock()
+
 			}
 
 		}
 
 	}()
+
+	// snapshot
 
 	return kv
 }

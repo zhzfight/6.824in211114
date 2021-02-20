@@ -103,6 +103,7 @@ func (rf *Raft) GetState() (int, bool) {
 	defer rf.mu.Unlock()
 	term = rf.currentTerm
 	isleader = rf.state == LEADER
+	// log.Printf("server%d %v",rf.me,isleader)
 
 	return term, isleader
 }
@@ -147,6 +148,23 @@ func (rf *Raft) readPersist(data []byte) {
 		rf.votedFor = votedFor
 		rf.log = log
 	}
+}
+
+//
+// snapshot
+//
+type InstallSnapshotArgs struct {
+	Term              int
+	LeaderId          int
+	LastIncludedIndex int
+	LastIncludedTerm  int
+	Offset            int
+	Data              []byte
+	Done              bool
+}
+
+type InstallSnapshotReply struct {
+	Term int
 }
 
 //
@@ -407,6 +425,7 @@ func (rf *Raft) sendAppendEntries(server int, args *AppendEntriesArgs, reply *Ap
 func (rf *Raft) Start(command interface{}) (int, int, bool) {
 
 	// Your code here (2B).
+	// log.Printf("raft%d commitIndex%d start cmd:%v,now the rf.log:%v",rf.me,rf.commitIndex,command,rf.log)
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	defer rf.persist()
@@ -415,6 +434,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 			rf.noopCount++
 		}
 		item := entry{Term: rf.currentTerm, Command: command}
+		// log.Printf("item:%v",item)
 		rf.lastLogIndex++
 		rf.log = append(rf.log, item)
 		rf.matchIndex[rf.me] = rf.lastLogIndex
@@ -531,9 +551,11 @@ func Make(peers []*labrpc.ClientEnd, me int,
 						noopCount++
 						continue
 					}
-					//log.Printf("server%d apply {cmd:%v,cmdIndex:%d}",rf.me,entry.Command,startIdx+idx-noopCount)
+					// log.Printf("server%d apply {cmd:%v,cmdIndex:%d}",rf.me,entry.Command,startIdx+idx-noopCount)
 					applyMsg := ApplyMsg{Command: entry.Command, CommandIndex: startIdx + idx - noopCount, CommandValid: true}
+					//log.Printf("rf%d commit%d log%v apply %v",rf.me,rf.commitIndex,rf.log,applyMsg)
 					rf.applyCh <- applyMsg
+
 				}
 			}
 
@@ -608,6 +630,10 @@ func (rf *Raft) broadcast() {
 		}
 		go func(server int) {
 			rf.mu.Lock()
+			if rf.state != LEADER {
+				rf.mu.Unlock()
+				return
+			}
 			preLogIndex := rf.nextIndex[server] - 1
 			var entries []entry
 			if rf.nextIndex[server] > rf.lastLogIndex {
