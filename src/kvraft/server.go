@@ -4,6 +4,7 @@ import (
 	"../labgob"
 	"../labrpc"
 	"../raft"
+	"bytes"
 	"log"
 	"sync"
 	"sync/atomic"
@@ -47,7 +48,9 @@ type KVServer struct {
 	serial   map[int64]int
 	log      map[int]Op
 
-	offset int
+	// for snapshot
+	lastAppliedIndex int
+	preAppliedIndex  int
 }
 
 func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
@@ -65,7 +68,7 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 	}
 
 	t := time.Now()
-	for time.Since(t).Seconds() < 2 {
+	for time.Since(t).Milliseconds() < WaitResult {
 		kv.logMu.Lock()
 		res, ok := kv.log[index]
 		kv.logMu.Unlock()
@@ -120,7 +123,7 @@ func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		return
 	}
 	t := time.Now()
-	for time.Since(t).Seconds() < 2 {
+	for time.Since(t).Milliseconds() < WaitResult {
 		kv.logMu.Lock()
 		res, ok := kv.log[index]
 		kv.logMu.Unlock()
@@ -180,21 +183,24 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	// call labgob.Register on structures you want
 	// Go's RPC library to marshall/unmarshall.
 	labgob.Register(Op{})
-
+	//log.Printf("kvserver start")
 	kv := new(KVServer)
 	kv.me = me
 	kv.maxraftstate = maxraftstate
 
 	// You may need initialization code here.
+	kv.database = make(map[string]string)
+	kv.serial = make(map[int64]int)
+	kv.installSnapshot(persister.ReadSnapshot())
 
 	kv.applyCh = make(chan raft.ApplyMsg)
 	kv.rf = raft.Make(servers, me, persister, kv.applyCh)
 
 	// You may need initialization code here.
 
-	kv.database = make(map[string]string)
-	kv.serial = make(map[int64]int)
 	kv.log = make(map[int]Op)
+	kv.lastAppliedIndex = 0
+	kv.preAppliedIndex = 0
 
 	go func() {
 		for {
@@ -203,11 +209,13 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 			// log.Printf("applyMsg:%v", applyMsg)
 			if applyMsg.CommandValid {
 				cmd := applyMsg.Command.(Op)
-				if cmd.Operator == "Put" || cmd.Operator == "Append" {
+				if cmd.Operator != "Get" {
 					kv.serialMu.Lock()
+					kv.databaseMu.Lock()
 					res, ok := kv.serial[cmd.Cid]
 					if ok {
 						if res >= cmd.Rid {
+							kv.databaseMu.Unlock()
 							kv.serialMu.Unlock()
 							continue
 						} else {
@@ -216,38 +224,100 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 					} else {
 						kv.serial[cmd.Cid] = cmd.Rid
 					}
-					kv.serialMu.Unlock()
-				}
 
-				if cmd.Operator == "Put" {
-					kv.databaseMu.Lock()
-					kv.database[cmd.Key] = cmd.Value
-					kv.databaseMu.Unlock()
-					//log.Printf("update put:key:%v, value:%v", cmd.Key, cmd.Value)
-				} else if cmd.Operator == "Append" {
-					kv.databaseMu.Lock()
-					res, ok := kv.database[cmd.Key]
-					if ok {
-						res = res + cmd.Value
-						kv.database[cmd.Key] = res
-					} else {
+					if cmd.Operator == "Put" {
+
 						kv.database[cmd.Key] = cmd.Value
+
+						//log.Printf("update put:key:%v, value:%v", cmd.Key, cmd.Value)
+					} else if cmd.Operator == "Append" {
+
+						res, ok := kv.database[cmd.Key]
+						if ok {
+							res = res + cmd.Value
+							kv.database[cmd.Key] = res
+						} else {
+							kv.database[cmd.Key] = cmd.Value
+						}
+
+						//log.Printf("update append:key:%v, value:%v", cmd.Key, res)
 					}
+					kv.lastAppliedIndex = applyMsg.CommandIndex
 					kv.databaseMu.Unlock()
-					//log.Printf("update append:key:%v, value:%v", cmd.Key, res)
+					kv.serialMu.Unlock()
 				}
 
 				kv.logMu.Lock()
 				kv.log[applyMsg.CommandIndex] = cmd
 				kv.logMu.Unlock()
 
+			} else {
+				switch applyMsg.Command.(string) {
+				case "InstallSnapshot":
+					kv.installSnapshot(applyMsg.CommandData)
+				}
 			}
 
 		}
 
 	}()
 
-	// snapshot
+	if maxraftstate != -1 {
+		go kv.takeSnapshot(persister)
+	}
 
 	return kv
+}
+func (kv *KVServer) takeSnapshot(persister *raft.Persister) {
+	for {
+		if persister.RaftStateSize() > 4*kv.maxraftstate {
+			kv.serialMu.Lock()
+			kv.databaseMu.Lock()
+			w := new(bytes.Buffer)
+			e := labgob.NewEncoder(w)
+			e.Encode(kv.database)
+			e.Encode(kv.serial)
+			lastAppliedIndex := kv.lastAppliedIndex
+			kv.databaseMu.Unlock()
+			kv.serialMu.Unlock()
+			data := w.Bytes()
+			//log.Printf("server%d:snapshot trimming %d",kv.me,lastAppliedIndex)
+			kv.rf.TrimmingLogWithSnapshot(lastAppliedIndex, data)
+
+			// wait for start(cmd) timeout
+			time.Sleep(WaitResult)
+
+			// clean up the kv.log
+			kv.logMu.Lock()
+			for i := kv.preAppliedIndex + 1; i <= lastAppliedIndex; i++ {
+				delete(kv.log, i)
+			}
+			kv.logMu.Unlock()
+			kv.preAppliedIndex = lastAppliedIndex
+
+		}
+		time.Sleep(WaitResult)
+
+	}
+}
+
+func (kv *KVServer) installSnapshot(snapshot []byte) {
+	if snapshot == nil || len(snapshot) < 1 { // bootstrap without any state?
+		return
+	}
+
+	r := bytes.NewBuffer(snapshot)
+	d := labgob.NewDecoder(r)
+	var database map[string]string
+	var serial map[int64]int
+	if d.Decode(&database) != nil ||
+		d.Decode(&serial) != nil {
+		panic("fail to decode snapshot")
+	} else {
+
+		kv.database = database
+		kv.serial = serial
+
+	}
+
 }

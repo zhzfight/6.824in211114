@@ -6,8 +6,8 @@ const (
 	OK                  = "OK"
 	ErrNoKey            = "ErrNoKey"
 	ErrWrongLeader      = "ErrWrongLeader"
-	Retry               = "Retry"
 	PollingTimeInterval = 200 * time.Millisecond
+	WaitResult          = 1000
 )
 
 type Err string

@@ -53,8 +53,9 @@ func (ck *Clerk) Get(key string) string {
 	reply := GetReply{}
 	for {
 		for i := 0; i < len(ck.servers); i++ {
-			if ck.sendGet(i, &args, &reply) {
+			if ck.sendGet((i+ck.leader)%len(ck.servers), &args, &reply) {
 				if reply.Err == OK {
+					ck.leader = i
 					return reply.Value
 				} else if reply.Err == ErrWrongLeader {
 					continue
@@ -88,8 +89,9 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	reply := PutAppendReply{}
 	for {
 		for i := 0; i < len(ck.servers); i++ {
-			if ck.sendPutAppend(i, &args, &reply) {
+			if ck.sendPutAppend((i+ck.leader)%len(ck.servers), &args, &reply) {
 				if reply.Err == OK {
+					ck.leader = i
 					return
 				} else {
 					continue
