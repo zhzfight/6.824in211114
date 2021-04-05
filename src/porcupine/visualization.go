@@ -313,7 +313,7 @@ html {
             startTimestamps.add(el['Start'])
             allTimestamps.add(el['End'])
             // give elements GIDs
-            el['Gid'] = gid
+            el['GIDs'] = gid
             byGid[gid] = el
             gid++
           })
@@ -401,7 +401,7 @@ html {
               'start': el['Start'],
               'end': el['End'],
               'width': width,
-              'gid': el['Gid']
+              'gid': el['GIDs']
             }
           })
         ).sort((a, b) => a.end - b.end)
@@ -418,7 +418,7 @@ html {
             const included = new Set() // for figuring out illegal next LPs
             lin.forEach((id, position) => {
               included.add(id['Index'])
-              const gid = partition['History'][id['Index']]['Gid']
+              const gid = partition['History'][id['Index']]['GIDs']
               globalized.push(gid)
               eventToLinearizations[gid].push({'index': lgid, 'position': position})
             })
@@ -431,7 +431,7 @@ html {
             })
             partition['History'].forEach((el, index) => {
               if (!included.has(index) && el['Start'] < minEnd) {
-                eventIllegalLast[el['Gid']].push(lgid)
+                eventIllegalLast[el['GIDs']].push(lgid)
               }
             })
             lgid++

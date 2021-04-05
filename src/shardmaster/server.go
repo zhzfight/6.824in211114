@@ -1,45 +1,222 @@
 package shardmaster
 
-
-import "../raft"
+import (
+	"../raft"
+	"time"
+)
 import "../labrpc"
 import "sync"
 import "../labgob"
 
-
 type ShardMaster struct {
-	mu      sync.Mutex
-	me      int
-	rf      *raft.Raft
-	applyCh chan raft.ApplyMsg
+	serialMu  sync.Mutex
+	logMu     sync.Mutex
+	configsMu sync.Mutex
+	me        int
+	rf        *raft.Raft
+	applyCh   chan raft.ApplyMsg
 
 	// Your data here.
 
 	configs []Config // indexed by config num
+	serial  map[int64]int
+	log     map[int]Op
 }
-
 
 type Op struct {
 	// Your data here.
+	Operator string
+	Servers  map[int][]string
+	GIDs     []int
+	Shard    int
+	Num      int
+	GID      int
+	Cid      int64
+	Rid      int
 }
 
+func (sm *ShardMaster) duplicateCheck(Cid int64, Rid int) bool {
+	sm.serialMu.Lock()
+	res, ok := sm.serial[Cid]
+	sm.serialMu.Unlock()
+	if ok {
+		if res >= Rid {
+			return true
+		}
+	}
+	return false
+}
 
 func (sm *ShardMaster) Join(args *JoinArgs, reply *JoinReply) {
 	// Your code here.
+	if _, isLeader := sm.rf.GetState(); !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+	if sm.duplicateCheck(args.Cid, args.Rid) {
+		reply.Err = OK
+		return
+	}
+	cmd := Op{Operator: "Join", Servers: args.Servers, Cid: args.Cid, Rid: args.Rid}
+	index, _, isLeader := sm.rf.Start(cmd)
+	if !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+	t := time.Now()
+	for time.Since(t).Milliseconds() < WaitResult {
+		sm.logMu.Lock()
+		res, ok := sm.log[index]
+		sm.logMu.Unlock()
+		if ok {
+			if res.Cid == cmd.Cid && res.Rid == cmd.Rid {
+				reply.Err = OK
+				return
+			} else {
+				reply.Err = ErrWrongLeader
+				return
+			}
+		} else {
+			time.Sleep(20 * time.Millisecond)
+		}
+	}
+	reply.Err = ErrWrongLeader
+	return
+
 }
 
 func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 	// Your code here.
+	if _, isLeader := sm.rf.GetState(); !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+	if sm.duplicateCheck(args.Cid, args.Rid) {
+		reply.Err = OK
+		return
+	}
+	cmd := Op{Operator: "Leave", GIDs: args.GIDs, Cid: args.Cid, Rid: args.Rid}
+	index, _, isLeader := sm.rf.Start(cmd)
+	if !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+	t := time.Now()
+	for time.Since(t).Milliseconds() < WaitResult {
+		sm.logMu.Lock()
+		res, ok := sm.log[index]
+		sm.logMu.Unlock()
+		if ok {
+			if res.Cid == cmd.Cid && res.Rid == cmd.Rid {
+				reply.Err = OK
+				return
+			} else {
+				reply.Err = ErrWrongLeader
+				return
+			}
+		} else {
+			time.Sleep(20 * time.Millisecond)
+		}
+	}
+	reply.Err = ErrWrongLeader
+	return
 }
 
 func (sm *ShardMaster) Move(args *MoveArgs, reply *MoveReply) {
 	// Your code here.
+	if _, isLeader := sm.rf.GetState(); !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+	if sm.duplicateCheck(args.Cid, args.Rid) {
+		reply.Err = OK
+		return
+	}
+	cmd := Op{Operator: "Move", GID: args.GID, Shard: args.Shard, Cid: args.Cid, Rid: args.Rid}
+	index, _, isLeader := sm.rf.Start(cmd)
+	if !isLeader {
+		reply.Err = ErrWrongLeader
+		return
+	}
+	t := time.Now()
+	for time.Since(t).Milliseconds() < WaitResult {
+		sm.logMu.Lock()
+		res, ok := sm.log[index]
+		sm.logMu.Unlock()
+		if ok {
+			if res.Cid == cmd.Cid && res.Rid == cmd.Rid {
+				reply.Err = OK
+				return
+			} else {
+				reply.Err = ErrWrongLeader
+				return
+			}
+		} else {
+			time.Sleep(20 * time.Millisecond)
+		}
+	}
+	reply.Err = ErrWrongLeader
+	return
 }
 
 func (sm *ShardMaster) Query(args *QueryArgs, reply *QueryReply) {
 	// Your code here.
+	if _, isLeader := sm.rf.GetState(); !isLeader {
+		reply.Err = ErrWrongLeader
+		reply.WrongLeader = true
+		return
+	}
+	if sm.duplicateCheck(args.Cid, args.Rid) {
+		reply.Err = OK
+		reply.WrongLeader = false
+		return
+	}
+	cmd := Op{Operator: "Query", Cid: args.Cid, Rid: args.Rid}
+	index, _, isLeader := sm.rf.Start(cmd)
+	if !isLeader {
+		reply.Err = ErrWrongLeader
+		reply.WrongLeader = true
+		return
+	}
+	t := time.Now()
+	for time.Since(t).Milliseconds() < WaitResult {
+		sm.logMu.Lock()
+		res, ok := sm.log[index]
+		sm.logMu.Unlock()
+		if ok {
+			if res.Cid == cmd.Cid && res.Rid == cmd.Rid {
+				reply.Err = OK
+				reply.WrongLeader = false
+				sm.configsMu.Lock()
+				if args.Num == -1 || args.Num > len(sm.configs)-1 {
+					args.Num = len(sm.configs) - 1
+				}
+				shards := make([]int, NShards)
+				groups := make(map[int][]string)
+				for idx, gid := range sm.configs[args.Num].Shards {
+					shards[idx] = gid
+				}
+				for k, v := range sm.configs[args.Num].Groups {
+					groups[k] = v
+				}
+				reply.Config.Num = args.Num
+				reply.Config.Shards = shards
+				reply.Config.Groups = groups
+				sm.configsMu.Unlock()
+				return
+			} else {
+				reply.Err = ErrWrongLeader
+				reply.WrongLeader = true
+				return
+			}
+		} else {
+			time.Sleep(20 * time.Millisecond)
+		}
+	}
+	reply.Err = ErrWrongLeader
+	reply.WrongLeader = true
+	return
 }
-
 
 //
 // the tester calls Kill() when a ShardMaster instance won't
@@ -52,7 +229,7 @@ func (sm *ShardMaster) Kill() {
 	// Your code here, if desired.
 }
 
-// needed by shardkv tester
+// needed by shardsm tester
 func (sm *ShardMaster) Raft() *raft.Raft {
 	return sm.rf
 }
@@ -75,6 +252,52 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 	sm.rf = raft.Make(servers, me, persister, sm.applyCh)
 
 	// Your code here.
+	sm.serial = make(map[int64]int)
+	sm.log = make(map[int]Op)
+
+	go func() {
+		for {
+
+			applyMsg := <-sm.applyCh
+			if applyMsg.CommandValid {
+				cmd := applyMsg.Command.(Op)
+				if cmd.Operator != "Query" {
+					sm.serialMu.Lock()
+					res, ok := sm.serial[cmd.Cid]
+					if ok {
+						if res >= cmd.Rid {
+							sm.serialMu.Unlock()
+							continue
+						} else {
+							sm.serial[cmd.Cid] = cmd.Rid
+						}
+					} else {
+						sm.serial[cmd.Cid] = cmd.Rid
+					}
+
+					if cmd.Operator == "Join" {
+						sm.configsMu.Lock()
+
+						sm.configsMu.Unlock()
+					} else if cmd.Operator == "Leave" {
+						sm.configsMu.Lock()
+
+						sm.configsMu.Unlock()
+					} else if cmd.Operator == "Move" {
+						sm.configsMu.Lock()
+
+						sm.configsMu.Unlock()
+					}
+				}
+
+				sm.logMu.Lock()
+				sm.log[applyMsg.CommandIndex] = cmd
+				sm.logMu.Unlock()
+			}
+
+		}
+
+	}()
 
 	return sm
 }
