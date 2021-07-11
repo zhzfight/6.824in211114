@@ -4,7 +4,9 @@ package shardmaster
 // Shardmaster clerk.
 //
 
-import "../labrpc"
+import (
+	"../labrpc"
+)
 import "time"
 import "crypto/rand"
 import "math/big"
@@ -113,4 +115,5 @@ func (ck *Clerk) Move(shard int, gid int) {
 		}
 		time.Sleep(100 * time.Millisecond)
 	}
+
 }

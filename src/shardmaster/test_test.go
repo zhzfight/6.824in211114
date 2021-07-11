@@ -1,6 +1,7 @@
 package shardmaster
 
 import (
+	"log"
 	"sync"
 	"testing"
 )
@@ -13,7 +14,7 @@ func check(t *testing.T, groups []int, ck *Clerk) {
 	if len(c.Groups) != len(groups) {
 		t.Fatalf("wanted %v groups, got %v", len(groups), len(c.Groups))
 	}
-
+	log.Printf("%v", c)
 	// are the groups as expected?
 	for _, g := range groups {
 		_, ok := c.Groups[g]
@@ -140,12 +141,15 @@ func TestBasic(t *testing.T) {
 		ck.Join(map[int][]string{gid3: []string{"3a", "3b", "3c"}})
 		var gid4 int = 504
 		ck.Join(map[int][]string{gid4: []string{"4a", "4b", "4c"}})
+
 		for i := 0; i < NShards; i++ {
 			cf := ck.Query(-1)
+			log.Printf("query%d", i)
 			if i < NShards/2 {
 				ck.Move(i, gid3)
 				if cf.Shards[i] != gid3 {
 					cf1 := ck.Query(-1)
+					log.Printf("cf1 %v cf %v", cf1, cf)
 					if cf1.Num <= cf.Num {
 						t.Fatalf("Move should increase Config.Num")
 					}
@@ -200,6 +204,7 @@ func TestBasic(t *testing.T) {
 			cka[i].Leave([]int{gid + 1000})
 		}(xi)
 	}
+
 	for i := 0; i < npara; i++ {
 		<-ch
 	}

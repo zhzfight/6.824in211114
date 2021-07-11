@@ -31,7 +31,7 @@ type Config struct {
 const (
 	OK             = "OK"
 	ErrWrongLeader = "ErrWrongLeader"
-	WaitResult     = 1000
+	WaitResult     = 2000
 )
 
 type Err string

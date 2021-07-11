@@ -18,9 +18,10 @@ type ShardMaster struct {
 
 	// Your data here.
 
-	configs []Config // indexed by config num
-	serial  map[int64]int
-	log     map[int]Op
+	configs      []Config // indexed by config num
+	configNumber int
+	serial       map[int64]int
+	log          map[int]Op
 }
 
 type Op struct {
@@ -51,16 +52,19 @@ func (sm *ShardMaster) Join(args *JoinArgs, reply *JoinReply) {
 	// Your code here.
 	if _, isLeader := sm.rf.GetState(); !isLeader {
 		reply.Err = ErrWrongLeader
+		reply.WrongLeader = true
 		return
 	}
 	if sm.duplicateCheck(args.Cid, args.Rid) {
 		reply.Err = OK
+		reply.WrongLeader = true
 		return
 	}
 	cmd := Op{Operator: "Join", Servers: args.Servers, Cid: args.Cid, Rid: args.Rid}
 	index, _, isLeader := sm.rf.Start(cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
+		reply.WrongLeader = true
 		return
 	}
 	t := time.Now()
@@ -74,6 +78,7 @@ func (sm *ShardMaster) Join(args *JoinArgs, reply *JoinReply) {
 				return
 			} else {
 				reply.Err = ErrWrongLeader
+				reply.WrongLeader = true
 				return
 			}
 		} else {
@@ -81,6 +86,7 @@ func (sm *ShardMaster) Join(args *JoinArgs, reply *JoinReply) {
 		}
 	}
 	reply.Err = ErrWrongLeader
+	reply.WrongLeader = true
 	return
 
 }
@@ -89,6 +95,7 @@ func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 	// Your code here.
 	if _, isLeader := sm.rf.GetState(); !isLeader {
 		reply.Err = ErrWrongLeader
+		reply.WrongLeader = true
 		return
 	}
 	if sm.duplicateCheck(args.Cid, args.Rid) {
@@ -99,6 +106,7 @@ func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 	index, _, isLeader := sm.rf.Start(cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
+		reply.WrongLeader = true
 		return
 	}
 	t := time.Now()
@@ -112,6 +120,7 @@ func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 				return
 			} else {
 				reply.Err = ErrWrongLeader
+				reply.WrongLeader = true
 				return
 			}
 		} else {
@@ -119,6 +128,7 @@ func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 		}
 	}
 	reply.Err = ErrWrongLeader
+	reply.WrongLeader = true
 	return
 }
 
@@ -126,6 +136,7 @@ func (sm *ShardMaster) Move(args *MoveArgs, reply *MoveReply) {
 	// Your code here.
 	if _, isLeader := sm.rf.GetState(); !isLeader {
 		reply.Err = ErrWrongLeader
+		reply.WrongLeader = true
 		return
 	}
 	if sm.duplicateCheck(args.Cid, args.Rid) {
@@ -136,6 +147,7 @@ func (sm *ShardMaster) Move(args *MoveArgs, reply *MoveReply) {
 	index, _, isLeader := sm.rf.Start(cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
+		reply.WrongLeader = true
 		return
 	}
 	t := time.Now()
@@ -149,6 +161,7 @@ func (sm *ShardMaster) Move(args *MoveArgs, reply *MoveReply) {
 				return
 			} else {
 				reply.Err = ErrWrongLeader
+				reply.WrongLeader = true
 				return
 			}
 		} else {
@@ -156,6 +169,7 @@ func (sm *ShardMaster) Move(args *MoveArgs, reply *MoveReply) {
 		}
 	}
 	reply.Err = ErrWrongLeader
+	reply.WrongLeader = true
 	return
 }
 
@@ -191,17 +205,7 @@ func (sm *ShardMaster) Query(args *QueryArgs, reply *QueryReply) {
 				if args.Num == -1 || args.Num > len(sm.configs)-1 {
 					args.Num = len(sm.configs) - 1
 				}
-				shards := make([]int, NShards)
-				groups := make(map[int][]string)
-				for idx, gid := range sm.configs[args.Num].Shards {
-					shards[idx] = gid
-				}
-				for k, v := range sm.configs[args.Num].Groups {
-					groups[k] = v
-				}
-				reply.Config.Num = args.Num
-				reply.Config.Shards = shards
-				reply.Config.Groups = groups
+				reply.Config = sm.configs[args.Num]
 				sm.configsMu.Unlock()
 				return
 			} else {
@@ -274,18 +278,136 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 					} else {
 						sm.serial[cmd.Cid] = cmd.Rid
 					}
-
+					sm.serialMu.Unlock()
 					if cmd.Operator == "Join" {
+						//log.Printf("join %v", cmd)
 						sm.configsMu.Lock()
+						// copy and update the new Gid->server map
+						newConfig := Config{
+							Num:    sm.configNumber + 1,
+							Groups: make(map[int][]string),
+						}
+						newGids := make([]int, 0)
+						for k, v := range sm.configs[sm.configNumber].Groups {
+							newConfig.Groups[k] = v
+						}
+						for k, v := range cmd.Servers {
+							_, ok := newConfig.Groups[k]
+							if ok {
+								continue
+							}
+							newConfig.Groups[k] = v
+							newGids = append(newGids, k)
+						}
+						eachResponsible := make(map[int]int)
+						var minResponsible int
+						if len(newConfig.Groups) >= NShards {
+							minResponsible = 1
+						} else {
+							minResponsible = NShards / len(newConfig.Groups)
+						}
+						//log.Printf("minres %d", minResponsible)
+						var index int
+						for i, gid := range sm.configs[sm.configNumber].Shards {
+							if gid == 0 || eachResponsible[gid] >= minResponsible {
+								if index >= len(newGids) {
+									newConfig.Shards[i] = gid
+								} else {
+									newConfig.Shards[i] = newGids[index]
+									eachResponsible[newGids[index]]++
+									if eachResponsible[newGids[index]] >= minResponsible {
+										index++
+									}
+								}
+							} else {
+								newConfig.Shards[i] = gid
+								eachResponsible[gid]++
+							}
+						}
 
+						sm.configs = append(sm.configs, newConfig)
+						sm.configNumber = newConfig.Num
+						//log.Printf("join ver %d config %v", sm.configNumber, sm.configs[sm.configNumber])
 						sm.configsMu.Unlock()
 					} else if cmd.Operator == "Leave" {
+						//log.Printf("leave %v", cmd)
 						sm.configsMu.Lock()
+						newConfig := Config{
+							Num:    sm.configNumber + 1,
+							Groups: make(map[int][]string),
+						}
+						leaveGids := make(map[int]struct{})
+						for _, gid := range cmd.GIDs {
+							leaveGids[gid] = struct{}{}
+						}
+						newGids := make([]int, 0)
+						for k, v := range sm.configs[sm.configNumber].Groups {
+							_, ok := leaveGids[k]
+							if ok {
+								continue
+							}
+							newGids = append(newGids, k)
+							newConfig.Groups[k] = v
+						}
+						if len(newGids) == 0 {
+							for i, _ := range newConfig.Shards {
+								newConfig.Shards[i] = 0
+							}
 
+						} else {
+							var index int
+							eachGidResponsible := make(map[int]int)
+							var minResponsible int
+							if len(newGids) >= NShards {
+								minResponsible = 1
+							} else {
+								minResponsible = NShards / len(newGids)
+							}
+							for i, gid := range sm.configs[sm.configNumber].Shards {
+								_, ok := leaveGids[gid]
+								if !ok {
+									newConfig.Shards[i] = gid
+									eachGidResponsible[gid]++
+								}
+							}
+							for i, gid := range sm.configs[sm.configNumber].Shards {
+								_, ok := leaveGids[gid]
+								if ok {
+									for eachGidResponsible[newGids[index]] >= minResponsible && index < len(newGids) {
+										index++
+									}
+									if index >= len(newGids) {
+										break
+									}
+									newConfig.Shards[i] = newGids[index]
+									eachGidResponsible[newGids[index]]++
+								}
+							}
+						}
+						sm.configs = append(sm.configs, newConfig)
+						sm.configNumber = newConfig.Num
+						//log.Printf("leave ver %d config %v", sm.configNumber, sm.configs[sm.configNumber])
 						sm.configsMu.Unlock()
 					} else if cmd.Operator == "Move" {
+						//log.Printf("move %v", cmd)
 						sm.configsMu.Lock()
-
+						newConfig := Config{
+							Num:    sm.configNumber + 1,
+							Groups: make(map[int][]string),
+						}
+						for k, v := range sm.configs[sm.configNumber].Groups {
+							newConfig.Groups[k] = v
+						}
+						for i, gid := range sm.configs[sm.configNumber].Shards {
+							if i != cmd.Shard {
+								newConfig.Shards[i] = gid
+							} else {
+								newConfig.Shards[i] = cmd.GID
+							}
+						}
+						sm.configs = append(sm.configs, newConfig)
+						sm.configNumber = newConfig.Num
+						//log.Printf("move ver %d config %v", sm.configNumber, sm.configs[sm.configNumber])
 						sm.configsMu.Unlock()
 					}
 				}

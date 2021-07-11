@@ -319,5 +319,4 @@ func (kv *KVServer) installSnapshot(snapshot []byte) {
 		kv.serial = serial
 
 	}
-
 }
