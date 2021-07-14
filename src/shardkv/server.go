@@ -55,25 +55,28 @@ type ShardKV struct {
 
 func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 	// Your code here.
+
 	if _, isLeader := kv.rf.GetState(); !isLeader {
 		reply.Err = ErrWrongLeader
 		return
 	}
+
 	kv.configLock.Lock()
 	if _, ok := kv.shards[key2shard(args.Key)]; !ok {
 		reply.Err = ErrWrongGroup
 		kv.configLock.Unlock()
 		return
 	}
-	currentConfig := kv.configNumber
+	cmd := Op{Key: args.Key, Cid: args.Cid, Rid: args.Rid, Operator: "Get", ConfigNumber: kv.configNumber}
 	kv.configLock.Unlock()
-	cmd := Op{Key: args.Key, Cid: args.Cid, Rid: args.Rid, Operator: "Get", ConfigNumber: currentConfig}
+
 	index, _, isLeader := kv.rf.Start(cmd)
 
 	if !isLeader {
 		reply.Err = ErrWrongLeader
 		return
 	}
+
 	t := time.Now()
 	for time.Since(t).Milliseconds() < WaitResult {
 		kv.logMu.Lock()
@@ -81,17 +84,13 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		kv.logMu.Unlock()
 		if ok {
 			if res.Cid == cmd.Cid && res.Rid == cmd.Rid {
-				if currentConfig == res.ConfigNumber {
-					kv.databaseMu.Lock()
-					value, have := kv.database[args.Key]
-					kv.databaseMu.Unlock()
-					if have {
-						reply.Value = value
-						reply.Err = OK
+				if cmd.ConfigNumber == res.ConfigNumber {
+					if len(res.Value) == 0 {
+						reply.Err = ErrNoKey
 						return
 					} else {
-						reply.Err = ErrNoKey
-						log.Printf("gid %d key %s errnokey", kv.gid, args.Key)
+						reply.Err = OK
+						reply.Value = res.Value
 						return
 					}
 				} else {
@@ -134,10 +133,8 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 			return
 		}
 	}
-	currentConfig := kv.configNumber
+	cmd := Op{Operator: args.Op, Key: args.Key, Value: args.Value, Cid: args.Cid, Rid: args.Rid, ConfigNumber: kv.configNumber}
 	kv.configLock.Unlock()
-	cmd := Op{Operator: args.Op, Key: args.Key, Value: args.Value, Cid: args.Cid, Rid: args.Rid, ConfigNumber: currentConfig}
-
 	index, _, isLeader := kv.rf.Start(cmd)
 
 	if !isLeader {
@@ -151,7 +148,7 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		kv.logMu.Unlock()
 		if ok {
 			if res.Cid == cmd.Cid && res.Rid == cmd.Rid {
-				if currentConfig == res.ConfigNumber {
+				if cmd.ConfigNumber == res.ConfigNumber {
 					reply.Err = OK
 					return
 				} else {
@@ -237,42 +234,22 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	kv.installSnapshot(persister.ReadSnapshot())
 
 	kv.smck = shardmaster.MakeClerk(masters)
-	cf := kv.smck.Query(-1)
-	kv.configNumber = cf.Num
-	kv.shardConfig = cf
 	kv.shards = make(map[int]struct{})
-	for shard, gid := range cf.Shards {
-		if gid == kv.gid {
-			kv.shards[shard] = struct{}{}
-		}
-	}
 
-	go func() {
-		for {
-			if _, isLeader := kv.rf.GetState(); isLeader {
-				latestConfig := kv.smck.Query(-1)
-				if latestConfig.Num > kv.configNumber {
-					cmd := Op{Config: latestConfig, Operator: "ConfigChange"}
-					kv.rf.Start(cmd)
-					log.Printf("gid %d get latestConfig %v", kv.gid, latestConfig)
-					time.Sleep(4 * poll)
-				} else {
-					time.Sleep(poll)
-				}
-			}
-		}
-	}()
+	go kv.periodicallyGetLatestConfig()
 
 	go func() {
 		for {
 			applyMsg := <-kv.applyCh
 			if applyMsg.CommandValid {
 				cmd := applyMsg.Command.(Op)
+
 				if cmd.Operator == "Put" || cmd.Operator == "Append" || cmd.Operator == "Get" {
-					log.Printf("gid %d cmd %v shard %d", kv.gid, cmd, key2shard(cmd.Key))
+					log.Printf("gid %d server %d cmd %v shard %d", kv.gid, kv.me, cmd, key2shard(cmd.Key))
 				} else {
-					log.Printf("gid %d cmd %v", kv.gid, cmd)
+					log.Printf("gid %d server %dcmd %v", kv.gid, kv.me, cmd)
 				}
+
 				if cmd.Operator == "Put" || cmd.Operator == "Append" {
 					kv.configLock.Lock()
 					if cmd.ConfigNumber == kv.configNumber {
@@ -302,15 +279,21 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 								kv.database[cmd.Key] = res
 							}
 						}
-
 						kv.lastAppliedIndex = applyMsg.CommandIndex
 						kv.databaseMu.Unlock()
 						kv.serialMu.Unlock()
 					}
 					kv.configLock.Unlock()
+				} else if cmd.Operator == "Get" {
+					kv.databaseMu.Lock()
+					value, have := kv.database[cmd.Key]
+					kv.databaseMu.Unlock()
+					if have {
+						cmd.Value = value
+					}
+
 				} else if cmd.Operator == "ConfigChange" {
 					kv.configLock.Lock()
-					log.Printf("here")
 					if cmd.Config.Num > kv.configNumber {
 						if _, isLeader := kv.rf.GetState(); isLeader {
 							newShards := make(map[int]struct{})
@@ -319,7 +302,6 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 									newShards[shard] = struct{}{}
 								}
 							}
-							log.Printf("newshard %v", newShards)
 							newResponsibleShard := make(map[int]struct{})
 							for k, _ := range newShards {
 								if _, ok := kv.shards[k]; !ok {
@@ -369,8 +351,8 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 						kv.shardConfig = cmd.Config
 						kv.configNumber = cmd.Config.Num
 					}
-					log.Printf("here1")
 					kv.configLock.Unlock()
+
 				} else if cmd.Operator == "ShardMigration" {
 					kv.configLock.Lock()
 					kv.databaseMu.Lock()
@@ -378,14 +360,18 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 						kv.database[k] = v
 					}
 					kv.shards[cmd.Shard] = struct{}{}
-					log.Printf("gid %d server %d Shard %v db %v", kv.gid, kv.me, kv.shards, kv.database)
+
 					kv.databaseMu.Unlock()
 					kv.configLock.Unlock()
 				}
-				//log.Printf("servergroupid %d op: %s key %s value %s db %v", kv.gid, cmd.Operator, cmd.Key, cmd.Value, kv.database)
+
+				kv.configLock.Lock()
+				cmd.ConfigNumber = kv.configNumber
+				kv.configLock.Unlock()
 				kv.logMu.Lock()
 				kv.log[applyMsg.CommandIndex] = cmd
 				kv.logMu.Unlock()
+
 			} else {
 				switch applyMsg.Command.(string) {
 				case "InstallSnapshot":
@@ -455,18 +441,39 @@ func (kv *ShardKV) installSnapshot(snapshot []byte) {
 
 func (kv *ShardKV) ShardMigration(args *shardArgs, reply *shardReply) {
 	kv.configLock.Lock()
-	if _, ok := kv.shards[args.Shard]; !ok {
-		reply.Err = ErrWrongGroup
-		kv.configLock.Unlock()
-		return
-	}
+	kv.databaseMu.Lock()
 	reply.ShardDb = make(map[string]string)
 	for k, v := range kv.database {
 		if key2shard(k) == args.Shard {
 			reply.ShardDb[k] = v
+			delete(kv.database, k)
 		}
 	}
-	reply.Err = OK
+	if len(reply.ShardDb) == 0 {
+		reply.Err = ErrWrongGroup
+	} else {
+		reply.Err = OK
+	}
+	kv.databaseMu.Unlock()
 	kv.configLock.Unlock()
 	return
+}
+
+func (kv *ShardKV) periodicallyGetLatestConfig() {
+	for {
+		if _, isLeader := kv.rf.GetState(); isLeader {
+			latestConfig := kv.smck.Query(-1)
+			kv.configLock.Lock()
+			if latestConfig.Num > kv.configNumber {
+				kv.configLock.Unlock()
+				cmd := Op{Config: latestConfig, Operator: "ConfigChange"}
+				kv.rf.Start(cmd)
+				log.Printf("gid %d server %d get latestConfig %v", kv.gid, kv.me, latestConfig)
+				time.Sleep(4 * poll)
+			} else {
+				kv.configLock.Unlock()
+				time.Sleep(poll)
+			}
+		}
+	}
 }

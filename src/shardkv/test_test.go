@@ -2,6 +2,7 @@ package shardkv
 
 import (
 	"../porcupine"
+	"log"
 )
 import "../models"
 import "testing"
@@ -109,7 +110,7 @@ func TestJoinLeave(t *testing.T) {
 	for i := 0; i < n; i++ {
 		check(t, ck, ka[i], va[i])
 	}
-
+	log.Printf("round2")
 	cfg.join(1)
 
 	for i := 0; i < n; i++ {

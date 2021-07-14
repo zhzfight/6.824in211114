@@ -10,6 +10,7 @@ package shardkv
 
 import (
 	"../labrpc"
+	"log"
 )
 import "crypto/rand"
 import "math/big"
@@ -80,6 +81,7 @@ func (ck *Clerk) Get(key string) string {
 	for {
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
+		log.Printf("client gid %d shard %d config %v", gid, shard, ck.config)
 		if servers, ok := ck.config.Groups[gid]; ok {
 			// try each server for the Shard.
 			for si := 0; si < len(servers); si++ {
