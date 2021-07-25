@@ -74,10 +74,9 @@ func MakeClerk(masters []*labrpc.ClientEnd, make_end func(string) *labrpc.Client
 //
 func (ck *Clerk) Get(key string) string {
 	args := GetArgs{}
-	ck.Rid++
 	args.Key = key
 	args.Cid = ck.Cid
-	args.Rid = ck.Rid
+	args.ConfigNumber = ck.config.Num
 	for {
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
@@ -89,13 +88,16 @@ func (ck *Clerk) Get(key string) string {
 				var reply GetReply
 				ok := srv.Call("ShardKV.Get", &args, &reply)
 				if ok && (reply.Err == OK || reply.Err == ErrNoKey) {
+					log.Printf("client %d ok gid %d server %d shard %d", ck.Cid, gid, si, shard)
 					return reply.Value
 				}
 				if ok && (reply.Err == ErrWrongGroup) {
+					log.Printf("client %d wronggroup", ck.Cid)
 					break
 				}
 				// ... not ok, or ErrWrongLeader
 				if ok && reply.Err == ErrWrongLeader {
+					//log.Printf("client %d wrongleader",ck.Cid)
 					continue
 				}
 			}
@@ -103,6 +105,7 @@ func (ck *Clerk) Get(key string) string {
 		time.Sleep(100 * time.Millisecond)
 		// ask master for the latest configuration.
 		ck.config = ck.sm.Query(-1)
+		args.ConfigNumber = ck.config.Num
 	}
 
 	return ""
@@ -120,10 +123,11 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	args.Op = op
 	args.Cid = ck.Cid
 	args.Rid = ck.Rid
-
+	args.ConfigNumber = ck.config.Num
 	for {
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
+		log.Printf("client %d put gid %d shard %d config %v", ck.Cid, gid, shard, ck.config)
 		if servers, ok := ck.config.Groups[gid]; ok {
 			for si := 0; si < len(servers); si++ {
 				srv := ck.make_end(servers[si])
@@ -133,10 +137,12 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 					return
 				}
 				if ok && reply.Err == ErrWrongGroup {
+					log.Printf("client %d wronggroup", ck.Cid)
 					break
 				}
 				// ... not ok, or ErrWrongLeader
 				if ok && reply.Err == ErrWrongLeader {
+					log.Printf("client %d wrongleader", ck.Cid)
 					continue
 				}
 
@@ -145,6 +151,7 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 		time.Sleep(100 * time.Millisecond)
 		// ask master for the latest configuration.
 		ck.config = ck.sm.Query(-1)
+		args.ConfigNumber = ck.config.Num
 	}
 }
 

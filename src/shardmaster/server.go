@@ -2,6 +2,7 @@ package shardmaster
 
 import (
 	"../raft"
+	"log"
 	"time"
 )
 import "../labrpc"
@@ -26,14 +27,15 @@ type ShardMaster struct {
 
 type Op struct {
 	// Your data here.
-	Operator string
-	Servers  map[int][]string
-	GIDs     []int
-	Shard    int
-	Num      int
-	GID      int
-	Cid      int64
-	Rid      int
+	Operator  string
+	Servers   map[int][]string
+	GIDs      []int
+	Shard     int
+	Num       int
+	GID       int
+	Cid       int64
+	Rid       int
+	NumConfig Config
 }
 
 func (sm *ShardMaster) duplicateCheck(Cid int64, Rid int) bool {
@@ -55,9 +57,10 @@ func (sm *ShardMaster) Join(args *JoinArgs, reply *JoinReply) {
 		reply.WrongLeader = true
 		return
 	}
+	defer log.Printf("join %v reply %v", args, reply)
 	if sm.duplicateCheck(args.Cid, args.Rid) {
 		reply.Err = OK
-		reply.WrongLeader = true
+		reply.WrongLeader = false
 		return
 	}
 	cmd := Op{Operator: "Join", Servers: args.Servers, Cid: args.Cid, Rid: args.Rid}
@@ -82,7 +85,7 @@ func (sm *ShardMaster) Join(args *JoinArgs, reply *JoinReply) {
 				return
 			}
 		} else {
-			time.Sleep(20 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 		}
 	}
 	reply.Err = ErrWrongLeader
@@ -98,8 +101,10 @@ func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 		reply.WrongLeader = true
 		return
 	}
+	defer log.Printf("leave %v reply %v", args, reply)
 	if sm.duplicateCheck(args.Cid, args.Rid) {
 		reply.Err = OK
+		reply.WrongLeader = false
 		return
 	}
 	cmd := Op{Operator: "Leave", GIDs: args.GIDs, Cid: args.Cid, Rid: args.Rid}
@@ -124,7 +129,7 @@ func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 				return
 			}
 		} else {
-			time.Sleep(20 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 		}
 	}
 	reply.Err = ErrWrongLeader
@@ -165,7 +170,7 @@ func (sm *ShardMaster) Move(args *MoveArgs, reply *MoveReply) {
 				return
 			}
 		} else {
-			time.Sleep(20 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 		}
 	}
 	reply.Err = ErrWrongLeader
@@ -180,12 +185,8 @@ func (sm *ShardMaster) Query(args *QueryArgs, reply *QueryReply) {
 		reply.WrongLeader = true
 		return
 	}
-	if sm.duplicateCheck(args.Cid, args.Rid) {
-		reply.Err = OK
-		reply.WrongLeader = false
-		return
-	}
-	cmd := Op{Operator: "Query", Cid: args.Cid, Rid: args.Rid}
+
+	cmd := Op{Operator: "Query", Cid: args.Cid, Num: args.Num}
 	index, _, isLeader := sm.rf.Start(cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
@@ -198,15 +199,10 @@ func (sm *ShardMaster) Query(args *QueryArgs, reply *QueryReply) {
 		res, ok := sm.log[index]
 		sm.logMu.Unlock()
 		if ok {
-			if res.Cid == cmd.Cid && res.Rid == cmd.Rid {
+			if res.Cid == cmd.Cid && res.Operator == "Query" {
 				reply.Err = OK
+				reply.Config = res.NumConfig
 				reply.WrongLeader = false
-				sm.configsMu.Lock()
-				if args.Num == -1 || args.Num > len(sm.configs)-1 {
-					args.Num = len(sm.configs) - 1
-				}
-				reply.Config = sm.configs[args.Num]
-				sm.configsMu.Unlock()
 				return
 			} else {
 				reply.Err = ErrWrongLeader
@@ -214,7 +210,7 @@ func (sm *ShardMaster) Query(args *QueryArgs, reply *QueryReply) {
 				return
 			}
 		} else {
-			time.Sleep(20 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 		}
 	}
 	reply.Err = ErrWrongLeader
@@ -280,13 +276,14 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 					}
 					sm.serialMu.Unlock()
 					if cmd.Operator == "Join" {
-						//log.Printf("join %v", cmd)
+
 						sm.configsMu.Lock()
 						// copy and update the new Gid->server map
 						newConfig := Config{
 							Num:    sm.configNumber + 1,
 							Groups: make(map[int][]string),
 						}
+						log.Printf("newconfig %d join %v", newConfig.Num, cmd)
 						newGids := make([]int, 0)
 						for k, v := range sm.configs[sm.configNumber].Groups {
 							newConfig.Groups[k] = v
@@ -311,7 +308,8 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 						for i, gid := range sm.configs[sm.configNumber].Shards {
 							if gid == 0 || eachResponsible[gid] >= minResponsible {
 								if index >= len(newGids) {
-									newConfig.Shards[i] = gid
+									newConfig.Shards[i] = newGids[index%len(newGids)]
+									index++
 								} else {
 									newConfig.Shards[i] = newGids[index]
 									eachResponsible[newGids[index]]++
@@ -330,12 +328,13 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 						//log.Printf("join ver %d config %v", sm.configNumber, sm.configs[sm.configNumber])
 						sm.configsMu.Unlock()
 					} else if cmd.Operator == "Leave" {
-						//log.Printf("leave %v", cmd)
+
 						sm.configsMu.Lock()
 						newConfig := Config{
 							Num:    sm.configNumber + 1,
 							Groups: make(map[int][]string),
 						}
+						log.Printf("newconfig %d leave %v", newConfig.Num, cmd)
 						leaveGids := make(map[int]struct{})
 						for _, gid := range cmd.GIDs {
 							leaveGids[gid] = struct{}{}
@@ -410,6 +409,14 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 						//log.Printf("move ver %d config %v", sm.configNumber, sm.configs[sm.configNumber])
 						sm.configsMu.Unlock()
 					}
+				} else {
+					sm.configsMu.Lock()
+					if cmd.Num == -1 || cmd.Num > len(sm.configs)-1 {
+						cmd.Num = len(sm.configs) - 1
+					}
+
+					cmd.NumConfig = sm.configs[cmd.Num]
+					sm.configsMu.Unlock()
 				}
 
 				sm.logMu.Lock()

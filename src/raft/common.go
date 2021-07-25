@@ -20,7 +20,7 @@ type ApplyMsg struct {
 	CommandData  []byte
 }
 
-type entry struct {
+type Entry struct {
 	Term    int
 	Command interface{}
 }
@@ -80,7 +80,7 @@ type AppendEntriesArgs struct {
 	PrevLogIndex int
 	PrevLogTerm  int
 	LeaderCommit int
-	Entries      []entry
+	Entries      []Entry
 }
 
 type AppendEntriesReply struct {

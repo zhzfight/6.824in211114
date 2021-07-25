@@ -20,11 +20,11 @@ func (rf *Raft) broadcast() {
 				rf.mu.Unlock()
 				return
 			}
-			var entries []entry
+			var entries []Entry
 			if rf.nextIndex[server] > rf.lastLogIndex {
 				entries = nil
 			} else {
-				entries = make([]entry, len(rf.log[rf.getRelativeLogIndex(preLogIndex+1):]))
+				entries = make([]Entry, len(rf.log[rf.getRelativeLogIndex(preLogIndex+1):]))
 				copy(entries, rf.log[rf.getRelativeLogIndex(preLogIndex+1):])
 			}
 			args := AppendEntriesArgs{

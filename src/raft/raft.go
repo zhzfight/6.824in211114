@@ -49,7 +49,7 @@ type Raft struct {
 	electionTimer  *time.Timer
 	heartbeatTimer *time.Timer
 	appliedTimer   *time.Timer
-	log            []entry
+	log            []Entry
 	commitIndex    int
 	lastLogIndex   int
 	nextIndex      []int
@@ -121,7 +121,7 @@ func (rf *Raft) readPersist(data []byte) {
 	d := labgob.NewDecoder(r)
 	var currentTerm int
 	var votedFor int
-	var log []entry
+	var log []Entry
 	var snapshotLastIncludedIndex int
 	if d.Decode(&currentTerm) != nil ||
 		d.Decode(&votedFor) != nil ||
@@ -160,7 +160,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 		if command == "noop" {
 			rf.noopCount++
 		}
-		item := entry{Term: rf.currentTerm, Command: command}
+		item := Entry{Term: rf.currentTerm, Command: command}
 		// log.Printf("item:%v",item)
 		rf.lastLogIndex++
 		rf.log = append(rf.log, item)
@@ -225,8 +225,8 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.applyCh = applyCh
 	rf.noopCount = 0
 	rf.snapshotLastIncludedIndex = 0
-	rf.log = make([]entry, 0)
-	rf.log = append(rf.log, entry{Term: 0, Command: 0})
+	rf.log = make([]Entry, 0)
+	rf.log = append(rf.log, Entry{Term: 0, Command: 0})
 
 	rf.heartbeatTimer = time.NewTimer(1 * time.Second)
 	rf.heartbeatTimer.Stop()
@@ -272,7 +272,7 @@ func Make(peers []*labrpc.ClientEnd, me int,
 			if rf.lastApplied == rf.commitIndex {
 				rf.mu.Unlock()
 			} else {
-				entriesToApply := append([]entry{}, rf.log[rf.getRelativeLogIndex(rf.lastApplied+1):rf.getRelativeLogIndex(rf.commitIndex+1)]...)
+				entriesToApply := append([]Entry{}, rf.log[rf.getRelativeLogIndex(rf.lastApplied+1):rf.getRelativeLogIndex(rf.commitIndex+1)]...)
 				startIdx := rf.lastApplied + 1
 				rf.lastApplied = rf.commitIndex
 				rf.mu.Unlock()
@@ -403,7 +403,7 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 		rf.log[lastIncludedRelativeIndex].Term == args.LastIncludedTerm {
 		rf.log = rf.log[lastIncludedRelativeIndex:]
 	} else {
-		rf.log = []entry{{Term: args.LastIncludedTerm, Command: nil}}
+		rf.log = []Entry{{Term: args.LastIncludedTerm, Command: nil}}
 		rf.lastLogIndex = args.LastIncludedIndex
 	}
 	rf.snapshotLastIncludedIndex = args.LastIncludedIndex

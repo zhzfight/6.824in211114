@@ -36,10 +36,10 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 func (ck *Clerk) Query(num int) Config {
 	args := &QueryArgs{}
 	// Your code here.
-	ck.Rid++
+
 	args.Num = num
 	args.Cid = ck.Cid
-	args.Rid = ck.Rid
+
 	for {
 		// try each known server.
 		for _, srv := range ck.servers {

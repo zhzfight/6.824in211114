@@ -73,7 +73,6 @@ type MoveReply struct {
 type QueryArgs struct {
 	Num int // desired config number
 	Cid int64
-	Rid int
 }
 
 type QueryReply struct {

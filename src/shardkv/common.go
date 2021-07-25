@@ -29,8 +29,9 @@ type PutAppendArgs struct {
 	// You'll have to add definitions here.
 	// Field names must start with capital letters,
 	// otherwise RPC will break.
-	Cid int64
-	Rid int
+	Cid          int64
+	Rid          int
+	ConfigNumber int
 }
 
 type PutAppendReply struct {
@@ -40,8 +41,9 @@ type PutAppendReply struct {
 type GetArgs struct {
 	Key string
 	// You'll have to add definitions here.
-	Cid int64
-	Rid int
+	Cid          int64
+	Rid          int
+	ConfigNumber int
 }
 
 type GetReply struct {
@@ -50,10 +52,25 @@ type GetReply struct {
 }
 
 type shardArgs struct {
-	Shard int
+	Gid                 int
+	Server              int
+	Shard               int
+	RequestConfigNumber int
+	GroupConfigNumber   int
 }
 
 type shardReply struct {
-	ShardDb map[string]string
-	Err     Err
+	ConfigNumber int
+	ShardDb      map[string]string
+	SerialDb     map[int64]int
+	Err          Err
+}
+
+type deleteArgs struct {
+	Gid                int
+	Shard              int
+	DeleteConfigNumber int
+}
+type deleteReply struct {
+	Err Err
 }
