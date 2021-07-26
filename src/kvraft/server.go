@@ -109,6 +109,7 @@ func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	kv.serialMu.Unlock()
 	if ok {
 		if res >= args.Rid {
+			log.Printf("cid %d PutAppend key %s value %s : serial res %d args.Rid %d", args.Cid, args.Key, args.Value, res, args.Rid)
 			reply.Err = OK
 			return
 		}
@@ -128,6 +129,7 @@ func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		kv.logMu.Unlock()
 		if ok {
 			if res.Tag == cmd.Tag {
+				log.Printf("cid %d PutAppend key %s value %s : update", args.Cid, args.Key, args.Value)
 				reply.Err = OK
 				return
 			} else {
