@@ -122,7 +122,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 				return
 			}
 		} else {
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 
@@ -190,7 +190,7 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 				return
 			}
 		} else {
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 	reply.Err = ErrWrongLeader
@@ -359,8 +359,6 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 								newResponsibleShard[k] = struct{}{}
 							}
 						}
-						log.Printf("gid %d update shard %v", kv.gid, kv.shards)
-						log.Printf("gid %d newresponsible %v in confignumber %d", kv.gid, newResponsibleShard, cmd.Config.Num)
 						if _, isLeader := kv.rf.GetState(); isLeader {
 							if len(newResponsibleShard) > 0 {
 								for shard, _ := range newResponsibleShard {
@@ -370,9 +368,6 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 
 						}
 
-						if _, isLeader := kv.rf.GetState(); isLeader {
-							log.Printf("gid %d shards %v", kv.gid, kv.shards)
-						}
 						kv.shardConfig = append(kv.shardConfig, cmd.Config)
 						kv.configNumber = cmd.Config.Num
 
@@ -391,11 +386,14 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 							cmd.SerialDB[k] = v
 						}
 						if _, isLeader := kv.rf.GetState(); isLeader {
-							log.Printf("gid %d migrate shard %d to gid %d confignumber %d", kv.gid, cmd.Shard, cmd.ToGid, cmd.GroupConfigNumber)
+							log.Printf("success gid %d migrate shard %d to gid %d confignumber %d nowshards %v", kv.gid, cmd.Shard, cmd.ToGid, cmd.RequestConfigNumber, kv.shards)
 						}
 						kv.databaseMu.Unlock()
 						cmd.Err = OK
 					} else {
+						if _, isLeader := kv.rf.GetState(); isLeader {
+							log.Printf("fail gid %d migrate shard %d to gid %d request %d shardconf %d nowshards %v", kv.gid, cmd.Shard, cmd.ToGid, cmd.RequestConfigNumber, kv.shards[cmd.Shard], kv.shards)
+						}
 						cmd.Err = ErrWrongGroup
 					}
 
@@ -494,7 +492,7 @@ func (kv *ShardKV) takeSnapshot(persister *raft.Persister) {
 			kv.rf.TrimmingLogWithSnapshot(lastAppliedIndex, data)
 
 			// wait for start(cmd) timeout
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(2000 * time.Millisecond)
 
 			// clean up the kv.log
 			kv.logMu.Lock()
@@ -527,22 +525,19 @@ func (kv *ShardKV) installSnapshot(snapshot []byte) {
 		d.Decode(&configs) != nil {
 		panic("fail to decode snapshot")
 	} else {
-		kv.mu.Lock()
-		kv.databaseMu.Lock()
+
 		kv.database = database
 		kv.serial = serial
 		kv.shards = shards
 		log.Printf("gid %d installsnapshotshard shard %v db %v serial %v", kv.gid, shards, kv.database, kv.serial)
 		kv.shardConfig = configs
-		kv.databaseMu.Unlock()
-		kv.mu.Unlock()
+
 		log.Printf("gid %d server %d install snapshot %v", kv.gid, kv.me, kv.shardConfig)
 	}
 }
 
 func (kv *ShardKV) ShardMigration(args *shardArgs, reply *shardReply) {
 
-	defer log.Printf("gid %d shardmigrate shard %d to gid %d Err %v", kv.gid, args.Shard, args.Gid, reply)
 	if _, isLeader := kv.rf.GetState(); !isLeader {
 		reply.Err = ErrWrongLeader
 		return
@@ -582,15 +577,15 @@ func (kv *ShardKV) ShardMigration(args *shardArgs, reply *shardReply) {
 				} else {
 					reply.Err = res.Err
 				}
-				log.Printf("gid %d from gid %d successfully get shardmigration %d", cmd.ToGid, kv.gid, args.Shard)
+
 				return
 			} else {
-				log.Printf("gid %d from gid %d failly get shardmigration %d because res.shard %d cmd.shard %d res.gid %d cmd.gid %d", cmd.ToGid, kv.gid, args.Shard, res.Shard, cmd.Shard, res.ToGid, cmd.ToGid)
+				log.Printf("gid %d from gid %d failly get shardmigration %d because errorwrongleader,res:%v,cmd:%v", cmd.ToGid, kv.gid, args.Shard, res, cmd)
 				reply.Err = ErrWrongLeader
 				return
 			}
 		} else {
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 
@@ -713,7 +708,7 @@ func (kv *ShardKV) ShardDeletion(args *deleteArgs, reply *deleteReply) {
 				return
 			}
 		} else {
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 
@@ -737,7 +732,7 @@ func (kv *ShardKV) deleteShard(shard int, deleteConfigNumber int, gid int, serve
 				continue
 			}
 		}
-		time.Sleep(200 * time.Millisecond)
+		time.Sleep(300 * time.Millisecond)
 	}
 }
 
@@ -778,6 +773,7 @@ func (kv *ShardKV) requestShard1(shard int, currentConfigNumber int) {
 	args.Shard = shard
 	args.RequestConfigNumber = i
 	args.GroupConfigNumber = currentConfigNumber
+	args.Gid = kv.gid
 	for {
 		for si := 0; si < len(servers); si++ {
 			srv := kv.make_end(servers[si])
@@ -815,7 +811,7 @@ func (kv *ShardKV) requestShard1(shard int, currentConfigNumber int) {
 		}
 
 		kv.mu.Unlock()
-		time.Sleep(200 * time.Millisecond)
+		time.Sleep(300 * time.Millisecond)
 
 	}
 }

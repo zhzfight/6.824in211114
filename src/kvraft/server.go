@@ -6,6 +6,7 @@ import (
 	"../raft"
 	"bytes"
 	"log"
+	"math/rand"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -29,6 +30,8 @@ type Op struct {
 	Value    string
 	Cid      int64
 	Rid      int
+	Tag      int32
+	Err      Err
 }
 
 type KVServer struct {
@@ -60,7 +63,7 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 		return
 	}
 
-	cmd := Op{Operator: "Get", Key: args.Key, Cid: args.Cid}
+	cmd := Op{Operator: "Get", Key: args.Key, Cid: args.Cid, Tag: rand.Int31()}
 	index, _, isLeader := kv.rf.Start(cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
@@ -73,18 +76,14 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 		res, ok := kv.log[index]
 		kv.logMu.Unlock()
 		if ok {
-			if res == cmd {
-				kv.databaseMu.Lock()
-				value, have := kv.database[args.Key]
-				kv.databaseMu.Unlock()
-				if have {
-					reply.Value = value
+			if res.Tag == cmd.Tag {
+				if res.Err == OK {
 					reply.Err = OK
-					return
+					reply.Value = res.Value
 				} else {
 					reply.Err = ErrNoKey
-					return
 				}
+				return
 			} else {
 				reply.Err = ErrWrongLeader
 				return
@@ -115,7 +114,7 @@ func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		}
 	}
 
-	cmd := Op{Operator: args.Op, Key: args.Key, Value: args.Value, Cid: args.Cid, Rid: args.Rid}
+	cmd := Op{Operator: args.Op, Key: args.Key, Value: args.Value, Cid: args.Cid, Rid: args.Rid, Tag: rand.Int31()}
 
 	index, _, isLeader := kv.rf.Start(cmd)
 	if !isLeader {
@@ -128,7 +127,7 @@ func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		res, ok := kv.log[index]
 		kv.logMu.Unlock()
 		if ok {
-			if res == cmd {
+			if res.Tag == cmd.Tag {
 				reply.Err = OK
 				return
 			} else {
@@ -184,6 +183,7 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	// Go's RPC library to marshall/unmarshall.
 	labgob.Register(Op{})
 	//log.Printf("kvserver start")
+	rand.Seed(time.Now().UnixNano())
 	kv := new(KVServer)
 	kv.me = me
 	kv.maxraftstate = maxraftstate
@@ -245,6 +245,16 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 					kv.lastAppliedIndex = applyMsg.CommandIndex
 					kv.databaseMu.Unlock()
 					kv.serialMu.Unlock()
+				} else {
+					kv.databaseMu.Lock()
+					value, have := kv.database[cmd.Key]
+					kv.databaseMu.Unlock()
+					if have {
+						cmd.Value = value
+						cmd.Err = OK
+					} else {
+						cmd.Err = ErrNoKey
+					}
 				}
 
 				kv.logMu.Lock()
