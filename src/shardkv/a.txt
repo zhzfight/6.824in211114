@@ -1,0 +1,1312 @@
+Test: unreliable 2...
+2021/07/27 22:47:04 newconfig 1 join {Join map[100:[server-100-0 server-100-1 server-100-2]] [] 0 0 0 1975056326973349738 1 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:04 newconfig 1 join {Join map[100:[server-100-0 server-100-1 server-100-2]] [] 0 0 0 1975056326973349738 1 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:04 newconfig 1 join {Join map[100:[server-100-0 server-100-1 server-100-2]] [] 0 0 0 1975056326973349738 1 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:04 join &{map[100:[server-100-0 server-100-1 server-100-2]] 1975056326973349738 1} reply &{false OK}
+2021/07/27 22:47:04 gid 101 query 1 and get latestConfig {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} nowshard [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:04 confchange gid 101 start in index 1 server 1 cmd:{0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:04 gid 102 query 1 and get latestConfig {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} nowshard [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:04 confchange gid 102 start in index 1 server 2 cmd:{0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:04 gid 102 index 1 server 2 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 0 shardnum 0
+2021/07/27 22:47:04 gid 102 newshards map[]
+2021/07/27 22:47:04 gid 101 index 1 server 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 0 shardnum 0
+2021/07/27 22:47:04 gid 101 newshards map[]
+2021/07/27 22:47:04 gid 101 oldshards [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:04 gid 102 oldshards [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:04 join &{map[100:[server-100-0 server-100-1 server-100-2]] 1975056326973349738 1} reply &{false OK}
+2021/07/27 22:47:04 client 3471951732451641011 put gid 0 shard 8 config {0 [0 0 0 0 0 0 0 0 0 0] map[]}
+2021/07/27 22:47:04 client 3471951732451641011 put gid 100 shard 8 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:04 client 3471951732451641011 wrongleader
+2021/07/27 22:47:04 client 3471951732451641011 wrongleader
+2021/07/27 22:47:04 gid 100 query 1 and get latestConfig {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} nowshard [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:04 confchange gid 100 start in index 1 server 2 cmd:{0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:04 gid 100 index 1 server 2 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 0 shardnum 0
+2021/07/27 22:47:04 gid 100 newshards map[0:{} 1:{} 2:{} 3:{} 4:{} 5:{} 6:{} 7:{} 8:{} 9:{}]
+2021/07/27 22:47:04 gid 100 oldshards [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:04 installmigration gid 100 start in index 2 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 3 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 4 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 5 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 6 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 7 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 8 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 9 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 10 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 installmigration gid 100 start in index 11 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:04 gid 100 index 2 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 0
+2021/07/27 22:47:04 gid 100 install shard 4:in config 1 now shards [0 0 0 0 1 0 0 0 0 0] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 3 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 0
+2021/07/27 22:47:04 gid 100 install shard 6:in config 1 now shards [0 0 0 0 1 0 1 0 0 0] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 4 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 0
+2021/07/27 22:47:04 gid 100 install shard 9:in config 1 now shards [0 0 0 0 1 0 1 0 0 1] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 5 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 0
+2021/07/27 22:47:04 gid 100 install shard 0:in config 1 now shards [1 0 0 0 1 0 1 0 0 1] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 6 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:04 gid 100 install shard 2:in config 1 now shards [1 0 1 0 1 0 1 0 0 1] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 7 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:04 gid 100 install shard 3:in config 1 now shards [1 0 1 1 1 0 1 0 0 1] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 8 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:04 gid 100 install shard 8:in config 1 now shards [1 0 1 1 1 0 1 0 1 1] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 9 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:04 gid 100 install shard 1:in config 1 now shards [1 1 1 1 1 0 1 0 1 1] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 10 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:04 gid 100 install shard 5:in config 1 now shards [1 1 1 1 1 1 1 0 1 1] serial map[] db map[]
+2021/07/27 22:47:04 gid 100 index 11 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:04 gid 100 install shard 7:in config 1 now shards [1 1 1 1 1 1 1 1 1 1] serial map[] db map[]
+2021/07/27 22:47:05 takesnapshot gid 100 server 0: preindex 0 lastindex 11
+2021/07/27 22:47:05 takesnapshot gid 100 server 1: preindex 0 lastindex 11
+2021/07/27 22:47:05 takesnapshot gid 100 server 2: preindex 0 lastindex 11
+2021/07/27 22:47:05 client 3471951732451641011 put gid 100 shard 8 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:05 client 3471951732451641011 wrongleader
+2021/07/27 22:47:05 client 3471951732451641011 wrongleader
+2021/07/27 22:47:05 gid 100 index 12 server 2 cmd {3471951732451641011 1 Put 0 A5WGj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 2087254063} shard 8 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:05 client 3471951732451641011 put gid 100 shard 9 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:05 client 3471951732451641011 wrongleader
+2021/07/27 22:47:05 client 3471951732451641011 wrongleader
+2021/07/27 22:47:05 gid 100 index 13 server 2 cmd {3471951732451641011 2 Put 1 C87ST {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 2025467181} shard 9 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:05 client 3471951732451641011 put gid 100 shard 0 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:05 client 3471951732451641011 wrongleader
+2021/07/27 22:47:05 client 3471951732451641011 wrongleader
+2021/07/27 22:47:05 gid 100 index 14 server 2 cmd {3471951732451641011 3 Put 2 mGWEf {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 1117827261} shard 0 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:06 client 3471951732451641011 put gid 100 shard 0 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:06 client 3471951732451641011 wrongleader
+2021/07/27 22:47:06 client 3471951732451641011 wrongleader
+2021/07/27 22:47:06 client 3471951732451641011 put gid 100 shard 1 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:06 client 3471951732451641011 wrongleader
+2021/07/27 22:47:06 gid 100 index 15 server 2 cmd {3471951732451641011 4 Put 3 EySlO {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 65268854} shard 1 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:07 client 3471951732451641011 put gid 100 shard 1 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:07 client 3471951732451641011 wrongleader
+2021/07/27 22:47:07 client 3471951732451641011 wrongleader
+2021/07/27 22:47:07 client 3471951732451641011 put gid 100 shard 2 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:07 client 3471951732451641011 wrongleader
+2021/07/27 22:47:07 gid 100 index 16 server 2 cmd {3471951732451641011 5 Put 4 Eyq6t {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 321532479} shard 2 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:07 client 3471951732451641011 put gid 100 shard 3 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:07 client 3471951732451641011 wrongleader
+2021/07/27 22:47:07 gid 100 index 17 server 2 cmd {3471951732451641011 6 Put 5 NQdJj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 1774391908} shard 3 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:07 client 3471951732451641011 put gid 100 shard 4 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:07 client 3471951732451641011 wrongleader
+2021/07/27 22:47:08 gid 100 index 18 server 2 cmd {3471951732451641011 7 Put 6 wekPE {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 1276679211} shard 4 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:08 client 3471951732451641011 put gid 100 shard 5 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:08 client 3471951732451641011 wrongleader
+2021/07/27 22:47:08 gid 100 index 19 server 2 cmd {3471951732451641011 8 Put 7 u2_zq {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 1372447541} shard 5 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:08 client 3471951732451641011 put gid 100 shard 5 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:08 client 3471951732451641011 wrongleader
+2021/07/27 22:47:08 client 3471951732451641011 wrongleader
+2021/07/27 22:47:09 gid 100 server 1 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 3 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 3 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 4 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 5 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 6 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 4 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 3 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 4 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 5 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 5 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 6 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 6 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 7 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 8 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 9 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 7 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 8 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 9 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 10 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 0 index 11 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 7 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 8 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 10 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 9 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 1 index 11 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 10 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 gid 100 server 2 index 11 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:09 takesnapshot gid 100 server 0: preindex 11 lastindex 19
+2021/07/27 22:47:09 takesnapshot gid 100 server 1: preindex 11 lastindex 19
+2021/07/27 22:47:09 client 3471951732451641011 put gid 100 shard 5 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:09 takesnapshot gid 100 server 2: preindex 11 lastindex 19
+2021/07/27 22:47:09 client 3471951732451641011 wrongleader
+2021/07/27 22:47:09 client 3471951732451641011 wrongleader
+2021/07/27 22:47:09 client 3471951732451641011 put gid 100 shard 6 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:09 client 3471951732451641011 wrongleader
+2021/07/27 22:47:09 client 3471951732451641011 wrongleader
+2021/07/27 22:47:09 gid 100 index 20 server 2 cmd {3471951732451641011 9 Put 8 0rixx {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 1688807775} shard 6 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:09 client 3471951732451641011 put gid 100 shard 7 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:09 client 3471951732451641011 wrongleader
+2021/07/27 22:47:09 client 3471951732451641011 wrongleader
+2021/07/27 22:47:10 gid 100 index 21 server 2 cmd {3471951732451641011 10 Put 9 yB2Fp {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 1559006738} shard 7 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:10 newconfig 2 join {Join map[101:[server-101-0 server-101-1 server-101-2]] [] 0 0 0 1975056326973349738 2 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:10 client 2354462680233207383 put gid 100 shard 7 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:10 client 2354462680233207383 wrongleader
+2021/07/27 22:47:10 newconfig 2 join {Join map[101:[server-101-0 server-101-1 server-101-2]] [] 0 0 0 1975056326973349738 2 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:10 newconfig 2 join {Join map[101:[server-101-0 server-101-1 server-101-2]] [] 0 0 0 1975056326973349738 2 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:10 client 2354462680233207383 wrongleader
+2021/07/27 22:47:10 gid 100 index 22 server 2 cmd {2354462680233207383 1 Append 9 OMpJX {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 1629393170} shard 7 cmd.num 1 kv.num 1 shardnum 1
+2021/07/27 22:47:10 join &{map[101:[server-101-0 server-101-1 server-101-2]] 1975056326973349738 2} reply &{false OK}
+2021/07/27 22:47:10 client 2354462680233207383 put gid 100 shard 7 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:10 client 2354462680233207383 wrongleader
+2021/07/27 22:47:10 client 2354462680233207383 wrongleader
+2021/07/27 22:47:10 client 2795736610985435684 put gid 100 shard 2 config {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]}
+2021/07/27 22:47:10 client 2795736610985435684 wrongleader
+2021/07/27 22:47:11 gid 100 query 2 and get latestConfig {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} nowshard [1 1 1 1 1 1 1 1 1 1]
+2021/07/27 22:47:11 confchange gid 100 start in index 23 server 2 cmd:{0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:11 gid 101 query 2 and get latestConfig {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} nowshard [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:11 confchange gid 101 start in index 2 server 1 cmd:{0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:11 gid 101 index 2 server 1 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 1 shardnum 0
+2021/07/27 22:47:11 gid 101 newshards map[5:{} 6:{} 7:{} 8:{} 9:{}]
+2021/07/27 22:47:11 gid 101 oldshards [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:11 gid 101 start request shard 6 from gid 100 requestconf 1 currconf 2
+2021/07/27 22:47:11 gid 100 index 23 server 2 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 1 shardnum 1
+2021/07/27 22:47:11 gid 100 newshards map[0:{} 1:{} 2:{} 3:{} 4:{}]
+2021/07/27 22:47:11 gid 100 oldshards [1 1 1 1 1 1 1 1 1 1]
+2021/07/27 22:47:11 gid 101 start request shard 8 from gid 100 requestconf 1 currconf 2
+2021/07/27 22:47:11 gid 101 start request shard 9 from gid 100 requestconf 1 currconf 2
+2021/07/27 22:47:11 gid 101 start request shard 5 from gid 100 requestconf 1 currconf 2
+2021/07/27 22:47:11 gid 101 start request shard 7 from gid 100 requestconf 1 currconf 2
+2021/07/27 22:47:11 installmigration gid 100 start in index 25 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:11 installmigration gid 100 start in index 26 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:11 installmigration gid 100 start in index 27 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:11 installmigration gid 100 start in index 28 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:11 installmigration gid 100 start in index 29 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:11 gid 100 index 24 server 2 cmd {2354462680233207383 2 Append 9 6R87w {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[]  0 0 481784935} shard 7 cmd.num 1 kv.num 2 shardnum 1
+2021/07/27 22:47:11 cid 2354462680233207383 put shard 0 groupconf 1 kvconf 2 shardconf 1
+2021/07/27 22:47:11 takesnapshot gid 101 server 0: preindex 0 lastindex 1
+2021/07/27 22:47:11 takesnapshot gid 101 server 1: preindex 0 lastindex 2
+2021/07/27 22:47:11 takesnapshot gid 101 server 2: preindex 0 lastindex 1
+2021/07/27 22:47:11 cid 2354462680233207383 put shard 0 groupconf 1 kvconf 2 shardconf 1
+2021/07/27 22:47:11 gid 100 index 25 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 2 0 0 map[]  100 0 0} cmd.num 2 kv.num 2 shardnum 1
+2021/07/27 22:47:11 cid 2354462680233207383 put shard 0 groupconf 1 kvconf 2 shardconf 1
+2021/07/27 22:47:11 gid 100 install shard 2:in config 2 now shards [1 1 2 1 1 1 1 1 1 1] serial map[2354462680233207383:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST 2:mGWEf 3:EySlO 4:Eyq6t 5:NQdJj 6:wekPE 7:u2_zq 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 gid 100 index 26 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 2 0 0 map[]  100 0 0} cmd.num 2 kv.num 2 shardnum 1
+2021/07/27 22:47:11 gid 100 install shard 3:in config 2 now shards [1 1 2 2 1 1 1 1 1 1] serial map[2354462680233207383:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST 2:mGWEf 3:EySlO 4:Eyq6t 5:NQdJj 6:wekPE 7:u2_zq 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 gid 100 index 27 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0} cmd.num 2 kv.num 2 shardnum 1
+2021/07/27 22:47:11 gid 100 install shard 4:in config 2 now shards [1 1 2 2 2 1 1 1 1 1] serial map[2354462680233207383:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST 2:mGWEf 3:EySlO 4:Eyq6t 5:NQdJj 6:wekPE 7:u2_zq 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 gid 100 index 28 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  100 0 0} cmd.num 2 kv.num 2 shardnum 1
+2021/07/27 22:47:11 gid 100 install shard 0:in config 2 now shards [2 1 2 2 2 1 1 1 1 1] serial map[2354462680233207383:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST 2:mGWEf 3:EySlO 4:Eyq6t 5:NQdJj 6:wekPE 7:u2_zq 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 gid 100 index 29 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 2 0 0 map[]  100 0 0} cmd.num 2 kv.num 2 shardnum 2
+2021/07/27 22:47:11 gid 100 install shard 1:in config 2 now shards [2 2 2 2 2 1 1 1 1 1] serial map[2354462680233207383:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST 2:mGWEf 3:EySlO 4:Eyq6t 5:NQdJj 6:wekPE 7:u2_zq 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 gid 100 index 30 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 1 0 map[]  0 101 898331241} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 success gid 100 migrate shard 9 to gid 101 confignumber 1 nowshards [2 2 2 2 2 1 1 1 1 1]
+2021/07/27 22:47:11 gid 100 index 31 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 1 0 map[]  0 101 1422720170} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 success gid 100 migrate shard 5 to gid 101 confignumber 1 nowshards [2 2 2 2 2 1 1 1 1 1]
+2021/07/27 22:47:11 gid 100 index 32 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 1 0 map[]  0 101 564319069} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 success gid 100 migrate shard 6 to gid 101 confignumber 1 nowshards [2 2 2 2 2 1 1 1 1 1]
+2021/07/27 22:47:11 client 2354462680233207383 wronggroup
+2021/07/27 22:47:11 gid 102 query 2 and get latestConfig {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} nowshard [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:11 confchange gid 102 start in index 2 server 2 cmd:{0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:11 gid 102 index 2 server 2 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 1 shardnum 0
+2021/07/27 22:47:11 gid 102 newshards map[]
+2021/07/27 22:47:11 gid 102 oldshards [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:11 gid 100 index 33 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 1 0 map[]  0 101 1192234526} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 success gid 100 migrate shard 8 to gid 101 confignumber 1 nowshards [2 2 2 2 2 1 1 1 1 1]
+2021/07/27 22:47:11 client 4359339292447366452 put gid 101 shard 8 config {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]}
+2021/07/27 22:47:11 cid 4359339292447366452 put shard 8 in gid 101 args.conf 2 shardconf 0 kv.conf 2 and request
+2021/07/27 22:47:11 client 4359339292447366452 wronggroup
+2021/07/27 22:47:11 gid 101 start request shard 8 from gid 100 requestconf 1 currconf 2
+2021/07/27 22:47:11 gid 101 index 3 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[1:C87ST] 9 2 1 0 map[2354462680233207383:1 3471951732451641011:10]  100 0 0} cmd.num 2 kv.num 2 shardnum 0
+2021/07/27 22:47:11 gid 101 install shard 9:in config 2 now shards [0 0 0 0 0 0 0 0 0 2] serial map[2354462680233207383:1 3471951732451641011:10] db map[1:C87ST]
+2021/07/27 22:47:11 gid 101 start delete gid 100 shard 9 in conf 1 nowshard [0 0 0 0 0 0 0 0 0 2]
+2021/07/27 22:47:11 gid 101 index 4 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[7:u2_zq] 5 2 1 0 map[2354462680233207383:1 3471951732451641011:10]  100 0 0} cmd.num 2 kv.num 2 shardnum 0
+2021/07/27 22:47:11 gid 101 install shard 5:in config 2 now shards [0 0 0 0 0 2 0 0 0 2] serial map[2354462680233207383:1 3471951732451641011:10] db map[1:C87ST 7:u2_zq]
+2021/07/27 22:47:11 gid 101 start delete gid 100 shard 5 in conf 1 nowshard [0 0 0 0 0 2 0 0 0 2]
+2021/07/27 22:47:11 gid 101 index 5 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGj] 8 2 1 0 map[2354462680233207383:1 3471951732451641011:10]  100 0 0} cmd.num 2 kv.num 2 shardnum 0
+2021/07/27 22:47:11 gid 101 install shard 8:in config 2 now shards [0 0 0 0 0 2 0 0 2 2] serial map[2354462680233207383:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST 7:u2_zq]
+2021/07/27 22:47:11 gid 101 start delete gid 100 shard 8 in conf 1 nowshard [0 0 0 0 0 2 0 0 2 2]
+2021/07/27 22:47:11 deletion gid 100 start in index 34 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 1 map[]  0 0 374573475}
+2021/07/27 22:47:11 gid 100 index 34 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 1 map[]  0 0 374573475} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 success delete gid 100 shard 8 nowshards [2 2 2 2 2 1 1 1 0 1]
+2021/07/27 22:47:11 deletion gid 100 start in index 35 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 1 map[]  0 0 1844290658}
+2021/07/27 22:47:11 deletion gid 100 start in index 36 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 1 map[]  0 0 1170772099}
+2021/07/27 22:47:11 takesnapshot gid 102 server 1: preindex 0 lastindex 1
+2021/07/27 22:47:11 takesnapshot gid 102 server 2: preindex 0 lastindex 2
+2021/07/27 22:47:11 takesnapshot gid 102 server 0: preindex 0 lastindex 2
+2021/07/27 22:47:11 client 2795736610985435684 put gid 100 shard 2 config {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]}
+2021/07/27 22:47:11 client 2795736610985435684 wrongleader
+2021/07/27 22:47:11 success delete gid 100 shard 8 nowshards [2 2 2 2 2 1 1 1 0 1]
+2021/07/27 22:47:11 success delete gid 100 shard 8 nowshards [2 2 2 2 2 1 1 1 0 1]
+2021/07/27 22:47:11 gid 100 index 35 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 1 map[]  0 0 1844290658} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 success delete gid 100 shard 5 nowshards [2 2 2 2 2 0 1 1 0 1]
+2021/07/27 22:47:11 gid 100 index 36 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 1 map[]  0 0 1170772099} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 success delete gid 100 shard 9 nowshards [2 2 2 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 client 2795736610985435684 wrongleader
+2021/07/27 22:47:11 success delete gid 100 shard 5 nowshards [2 2 2 2 2 0 1 1 0 1]
+2021/07/27 22:47:11 success delete gid 100 shard 9 nowshards [2 2 2 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 success delete gid 100 shard 5 nowshards [2 2 2 2 2 0 1 1 0 1]
+2021/07/27 22:47:11 success delete gid 100 shard 9 nowshards [2 2 2 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 gid 100 index 37 server 2 cmd {2795736610985435684 1 Append 4 KMpav {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  0 0 1875274582} shard 2 cmd.num 2 kv.num 2 shardnum 2
+2021/07/27 22:47:11 client 1581742052444406247 put gid 101 shard 9 config {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]}
+2021/07/27 22:47:11 client 1581742052444406247 wrongleader
+2021/07/27 22:47:11 client 2795736610985435684 put gid 100 shard 2 config {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]}
+2021/07/27 22:47:11 client 2354462680233207383 put gid 101 shard 7 config {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]}
+2021/07/27 22:47:11 client 2795736610985435684 wrongleader
+2021/07/27 22:47:11 client 2354462680233207383 wrongleader
+2021/07/27 22:47:11 client 2795736610985435684 wrongleader
+2021/07/27 22:47:11 newconfig 3 join {Join map[102:[server-102-0 server-102-1 server-102-2]] [] 0 0 0 1975056326973349738 3 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:11 newconfig 3 join {Join map[102:[server-102-0 server-102-1 server-102-2]] [] 0 0 0 1975056326973349738 3 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:11 newconfig 3 join {Join map[102:[server-102-0 server-102-1 server-102-2]] [] 0 0 0 1975056326973349738 3 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:11 client 4359339292447366452 put gid 101 shard 8 config {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]}
+2021/07/27 22:47:11 client 4359339292447366452 wrongleader
+2021/07/27 22:47:11 join &{map[102:[server-102-0 server-102-1 server-102-2]] 1975056326973349738 3} reply &{false OK}
+2021/07/27 22:47:11 gid 100 query 3 and get latestConfig {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [2 2 2 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 confchange gid 100 start in index 39 server 2 cmd:{0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:11 gid 100 index 38 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 1 0 map[]  0 101 1884337003} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 success gid 100 migrate shard 7 to gid 101 confignumber 1 nowshards [2 2 2 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 gid 100 index 39 server 2 cmd {0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 2 shardnum 2
+2021/07/27 22:47:11 gid 100 newshards map[0:{} 1:{} 2:{}]
+2021/07/27 22:47:11 gid 100 oldshards [2 2 2 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 installmigration gid 100 start in index 42 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:11 installmigration gid 100 start in index 43 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:11 installmigration gid 100 start in index 44 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:11 gid 100 index 40 server 2 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  0 0 819084221} shard 2 cmd.num 2 kv.num 3 shardnum 2
+2021/07/27 22:47:11 cid 2795736610985435684 put shard 0 groupconf 2 kvconf 3 shardconf 2
+2021/07/27 22:47:11 gid 100 index 41 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 1 0 map[]  0 101 1753479965} cmd.num 0 kv.num 3 shardnum 2
+2021/07/27 22:47:11 success gid 100 migrate shard 6 to gid 101 confignumber 1 nowshards [2 2 2 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 gid 101 query 3 and get latestConfig {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [0 0 0 0 0 2 0 0 2 2]
+2021/07/27 22:47:11 confchange gid 101 start in index 7 server 1 cmd:{0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:11 gid 101 index 6 server 1 cmd {1581742052444406247 1 Append 1 _eGIV {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  0 0 105291228} shard 9 cmd.num 2 kv.num 2 shardnum 2
+2021/07/27 22:47:11 cid 2354462680233207383 put shard 7 in gid 101 args.conf 2 shardconf 0 kv.conf 2 and request
+2021/07/27 22:47:11 gid 101 start request shard 7 from gid 100 requestconf 1 currconf 2
+2021/07/27 22:47:11 client 2354462680233207383 wronggroup
+2021/07/27 22:47:11 client 1581742052444406247 put gid 101 shard 9 config {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]}
+2021/07/27 22:47:11 gid 100 index 42 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  100 0 0} cmd.num 3 kv.num 3 shardnum 2
+2021/07/27 22:47:11 cid 2795736610985435684 put shard 0 groupconf 2 kvconf 3 shardconf 2
+2021/07/27 22:47:11 gid 100 install shard 0:in config 3 now shards [3 2 2 2 2 0 1 1 0 0] serial map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[2:mGWEf 3:EySlO 4:Eyq6tKMpav 5:NQdJj 6:wekPE 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 cid 2795736610985435684 put shard 0 groupconf 2 kvconf 3 shardconf 2
+2021/07/27 22:47:11 gid 100 index 43 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 3 0 0 map[]  100 0 0} cmd.num 3 kv.num 3 shardnum 3
+2021/07/27 22:47:11 gid 101 index 7 server 1 cmd {0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 2 shardnum 0
+2021/07/27 22:47:11 gid 100 install shard 1:in config 3 now shards [3 3 2 2 2 0 1 1 0 0] serial map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[2:mGWEf 3:EySlO 4:Eyq6tKMpav 5:NQdJj 6:wekPE 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 gid 101 newshards map[5:{} 6:{} 7:{}]
+2021/07/27 22:47:11 gid 100 index 44 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 3 0 0 map[]  100 0 0} cmd.num 3 kv.num 3 shardnum 3
+2021/07/27 22:47:11 gid 101 oldshards [0 0 0 0 0 2 0 0 2 2]
+2021/07/27 22:47:11 gid 100 install shard 2:in config 3 now shards [3 3 3 2 2 0 1 1 0 0] serial map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[2:mGWEf 3:EySlO 4:Eyq6tKMpav 5:NQdJj 6:wekPE 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 installmigration gid 101 start in index 9 server 1 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 3 0 0 map[]  101 0 0}
+2021/07/27 22:47:11 gid 101 index 8 server 1 cmd {4359339292447366452 1 Append 0 YUWRe {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  0 0 1683346017} shard 8 cmd.num 2 kv.num 3 shardnum 2
+2021/07/27 22:47:11 cid 4359339292447366452 put shard 0 groupconf 2 kvconf 3 shardconf 2
+2021/07/27 22:47:11 gid 101 start request shard 6 from gid 100 requestconf 1 currconf 3
+2021/07/27 22:47:11 gid 101 start request shard 7 from gid 100 requestconf 1 currconf 3
+2021/07/27 22:47:11 client 1581742052444406247 wrongleader
+2021/07/27 22:47:11 cid 1581742052444406247 put shard 9 in gid 101 args.conf 2 shardconf 2 kv.conf 3
+2021/07/27 22:47:11 client 1581742052444406247 wronggroup
+2021/07/27 22:47:11 client 2795736610985435684 wronggroup
+2021/07/27 22:47:11 gid 102 query 3 and get latestConfig {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:11 confchange gid 102 start in index 3 server 2 cmd:{0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:11 cid 4359339292447366452 put shard 0 groupconf 2 kvconf 3 shardconf 2
+2021/07/27 22:47:11 cid 4359339292447366452 put shard 0 groupconf 2 kvconf 3 shardconf 2
+2021/07/27 22:47:11 gid 102 index 3 server 2 cmd {0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 2 shardnum 0
+2021/07/27 22:47:11 gid 101 index 9 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 3 0 0 map[]  101 0 0} cmd.num 3 kv.num 3 shardnum 0
+2021/07/27 22:47:11 gid 102 newshards map[3:{} 4:{} 8:{} 9:{}]
+2021/07/27 22:47:11 gid 102 oldshards [0 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:11 gid 101 install shard 5:in config 3 now shards [0 0 0 0 0 3 0 0 2 2] serial map[1581742052444406247:1 2354462680233207383:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST_eGIV 7:u2_zq]
+2021/07/27 22:47:11 gid 102 start request shard 9 from gid 101 requestconf 2 currconf 3
+2021/07/27 22:47:11 gid 102 start request shard 3 from gid 100 requestconf 2 currconf 3
+2021/07/27 22:47:11 gid 102 start request shard 8 from gid 101 requestconf 2 currconf 3
+2021/07/27 22:47:11 gid 102 start request shard 4 from gid 100 requestconf 2 currconf 3
+2021/07/27 22:47:11 client 4359339292447366452 wronggroup
+2021/07/27 22:47:11 gid 101 index 10 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 2 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 2 kv.num 3 shardnum 0
+2021/07/27 22:47:11 gid 100 index 45 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 1 0 map[]  0 101 150536965} cmd.num 0 kv.num 3 shardnum 3
+2021/07/27 22:47:11 gid 101 install shard 6:in config 2 now shards [0 0 0 0 0 3 2 0 2 2] serial map[1581742052444406247:1 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST_eGIV 7:u2_zq 8:0rixx]
+2021/07/27 22:47:11 success gid 100 migrate shard 6 to gid 101 confignumber 1 nowshards [3 3 3 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 gid 101 start delete gid 100 shard 6 in conf 1 nowshard [0 0 0 0 0 3 2 0 2 2]
+2021/07/27 22:47:11 gid 100 index 46 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 1 0 map[]  0 101 717365835} cmd.num 0 kv.num 3 shardnum 3
+2021/07/27 22:47:11 gid 101 index 11 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 2 0 map[]  0 102 1418853856} cmd.num 0 kv.num 3 shardnum 0
+2021/07/27 22:47:11 success gid 101 migrate shard 9 to gid 102 confignumber 2 nowshards [0 0 0 0 0 3 2 0 2 2]
+2021/07/27 22:47:11 success gid 100 migrate shard 7 to gid 101 confignumber 1 nowshards [3 3 3 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 gid 101 index 12 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 2 0 map[]  0 102 1550384298} cmd.num 0 kv.num 3 shardnum 0
+2021/07/27 22:47:11 success gid 101 migrate shard 8 to gid 102 confignumber 2 nowshards [0 0 0 0 0 3 2 0 2 2]
+2021/07/27 22:47:11 deletion gid 100 start in index 49 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 1 map[]  0 0 1599368418}
+2021/07/27 22:47:11 gid 100 index 47 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 2 0 map[]  0 102 287047291} cmd.num 0 kv.num 3 shardnum 3
+2021/07/27 22:47:11 success gid 100 migrate shard 4 to gid 102 confignumber 2 nowshards [3 3 3 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 gid 100 index 48 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 2 0 map[]  0 102 622916007} cmd.num 0 kv.num 3 shardnum 3
+2021/07/27 22:47:11 success gid 100 migrate shard 3 to gid 102 confignumber 2 nowshards [3 3 3 2 2 0 1 1 0 0]
+2021/07/27 22:47:11 gid 102 index 4 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[1:C87ST_eGIV] 9 3 2 0 map[1581742052444406247:1 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  101 0 0} cmd.num 3 kv.num 3 shardnum 0
+2021/07/27 22:47:11 gid 102 install shard 9:in config 3 now shards [0 0 0 0 0 0 0 0 0 3] serial map[1581742052444406247:1 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[1:C87ST_eGIV]
+2021/07/27 22:47:11 gid 101 index 13 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 3 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 3 kv.num 3 shardnum 0
+2021/07/27 22:47:11 gid 102 start delete gid 101 shard 9 in conf 2 nowshard [0 0 0 0 0 0 0 0 0 3]
+2021/07/27 22:47:11 gid 101 install shard 6:in config 3 now shards [0 0 0 0 0 3 3 0 2 2] serial map[1581742052444406247:1 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST_eGIV 7:u2_zq 8:0rixx]
+2021/07/27 22:47:11 gid 100 index 49 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 1 map[]  0 0 1599368418} cmd.num 0 kv.num 3 shardnum 3
+2021/07/27 22:47:11 gid 101 start delete gid 100 shard 6 in conf 1 nowshard [0 0 0 0 0 3 3 0 2 2]
+2021/07/27 22:47:11 success delete gid 100 shard 6 nowshards [3 3 3 2 2 0 0 1 0 0]
+2021/07/27 22:47:11 gid 101 index 14 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX] 7 3 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 3 kv.num 3 shardnum 0
+2021/07/27 22:47:11 gid 101 install shard 7:in config 3 now shards [0 0 0 0 0 3 3 3 2 2] serial map[1581742052444406247:1 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST_eGIV 7:u2_zq 8:0rixx 9:yB2FpOMpJX]
+2021/07/27 22:47:11 gid 101 start delete gid 100 shard 7 in conf 1 nowshard [0 0 0 0 0 3 3 3 2 2]
+2021/07/27 22:47:11 deletion gid 101 start in index 15 server 1 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 2 map[]  0 0 332357108}
+2021/07/27 22:47:11 deletion gid 100 start in index 50 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 1 map[]  0 0 915079948}
+2021/07/27 22:47:11 success delete gid 100 shard 6 nowshards [3 3 3 2 2 0 0 1 0 0]
+2021/07/27 22:47:11 gid 100 index 50 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 1 map[]  0 0 915079948} cmd.num 0 kv.num 3 shardnum 3
+2021/07/27 22:47:11 success delete gid 100 shard 7 nowshards [3 3 3 2 2 0 0 0 0 0]
+2021/07/27 22:47:11 gid 102 index 5 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[5:NQdJj] 3 3 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 3 kv.num 3 shardnum 0
+2021/07/27 22:47:11 gid 102 install shard 3:in config 3 now shards [0 0 0 3 0 0 0 0 0 3] serial map[1581742052444406247:1 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[1:C87ST_eGIV 5:NQdJj]
+2021/07/27 22:47:11 gid 102 start delete gid 100 shard 3 in conf 2 nowshard [0 0 0 3 0 0 0 0 0 3]
+2021/07/27 22:47:11 success delete gid 100 shard 6 nowshards [3 3 3 2 2 0 0 1 0 0]
+2021/07/27 22:47:11 success delete gid 100 shard 7 nowshards [3 3 3 2 2 0 0 0 0 0]
+2021/07/27 22:47:11 gid 101 index 15 server 1 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 2 map[]  0 0 332357108} cmd.num 0 kv.num 3 shardnum 0
+2021/07/27 22:47:11 success delete gid 101 shard 9 nowshards [0 0 0 0 0 3 3 3 2 0]
+2021/07/27 22:47:11 deletion gid 100 start in index 51 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 0 2 map[]  0 0 611997528}
+2021/07/27 22:47:11 client 2354462680233207383 put gid 101 shard 7 config {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:11 client 2354462680233207383 wrongleader
+2021/07/27 22:47:12 success delete gid 100 shard 7 nowshards [3 3 3 2 2 0 0 0 0 0]
+2021/07/27 22:47:12 client 1581742052444406247 put gid 102 shard 9 config {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 success delete gid 101 shard 9 nowshards [0 0 0 0 0 3 3 3 2 0]
+2021/07/27 22:47:12 success delete gid 101 shard 9 nowshards [0 0 0 0 0 3 3 3 2 0]
+2021/07/27 22:47:12 gid 101 index 16 server 1 cmd {2354462680233207383 2 Append 9 6R87w {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  0 0 457787109} shard 7 cmd.num 3 kv.num 3 shardnum 3
+2021/07/27 22:47:12 client 1581742052444406247 wrongleader
+2021/07/27 22:47:12 client 2795736610985435684 put gid 100 shard 2 config {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 client 2795736610985435684 wrongleader
+2021/07/27 22:47:12 client 4359339292447366452 put gid 102 shard 8 config {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 success delete gid 100 shard 3 nowshards [3 3 3 0 2 0 0 0 0 0]
+2021/07/27 22:47:12 success delete gid 100 shard 3 nowshards [3 3 3 0 2 0 0 0 0 0]
+2021/07/27 22:47:12 client 2795736610985435684 wrongleader
+2021/07/27 22:47:12 client 4359339292447366452 wrongleader
+2021/07/27 22:47:12 client 2354462680233207383 put gid 101 shard 7 config {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 client 4359339292447366452 wrongleader
+2021/07/27 22:47:12 cid 4359339292447366452 put shard 8 in gid 102 args.conf 3 shardconf 0 kv.conf 3 and request
+2021/07/27 22:47:12 gid 102 start request shard 8 from gid 101 requestconf 2 currconf 3
+2021/07/27 22:47:12 client 4359339292447366452 wronggroup
+2021/07/27 22:47:12 newconfig 4 leave {Leave map[] [100] 0 0 0 1975056326973349738 4 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:12 newconfig 4 leave {Leave map[] [100] 0 0 0 1975056326973349738 4 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:12 newconfig 4 leave {Leave map[] [100] 0 0 0 1975056326973349738 4 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:12 leave &{[100] 1975056326973349738 4} reply &{false OK}
+2021/07/27 22:47:12 gid 102 query 4 and get latestConfig {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [0 0 0 3 0 0 0 0 0 3]
+2021/07/27 22:47:12 confchange gid 102 start in index 7 server 2 cmd:{0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:12 gid 102 index 6 server 2 cmd {1581742052444406247 2 Append 1 XU_9j {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  0 0 1194998307} shard 9 cmd.num 3 kv.num 3 shardnum 3
+2021/07/27 22:47:12 gid 102 index 7 server 2 cmd {0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 3 shardnum 0
+2021/07/27 22:47:12 gid 102 newshards map[2:{} 3:{} 4:{} 8:{} 9:{}]
+2021/07/27 22:47:12 gid 101 index 17 server 1 cmd {2354462680233207383 3 Append 9 A3GOo {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  0 0 1066916805} shard 7 cmd.num 3 kv.num 3 shardnum 3
+2021/07/27 22:47:12 gid 102 oldshards [0 0 0 3 0 0 0 0 0 3]
+2021/07/27 22:47:12 installmigration gid 102 start in index 8 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 4 0 0 map[]  102 0 0}
+2021/07/27 22:47:12 installmigration gid 102 start in index 9 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 4 0 0 map[]  102 0 0}
+2021/07/27 22:47:12 gid 102 start request shard 2 from gid 100 requestconf 3 currconf 4
+2021/07/27 22:47:12 gid 102 start request shard 4 from gid 100 requestconf 2 currconf 4
+2021/07/27 22:47:12 gid 102 start request shard 8 from gid 101 requestconf 2 currconf 4
+2021/07/27 22:47:12 client 1581742052444406247 put gid 102 shard 9 config {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 client 2354462680233207383 put gid 101 shard 7 config {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 client 1581742052444406247 wrongleader
+2021/07/27 22:47:12 gid 102 index 8 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 4 0 0 map[]  102 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 gid 102 install shard 3:in config 4 now shards [0 0 0 4 0 0 0 0 0 3] serial map[1581742052444406247:2 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[1:C87ST_eGIVXU_9j 5:NQdJj]
+2021/07/27 22:47:12 gid 102 index 9 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 4 0 0 map[]  102 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 gid 102 install shard 9:in config 4 now shards [0 0 0 4 0 0 0 0 0 4] serial map[1581742052444406247:2 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[1:C87ST_eGIVXU_9j 5:NQdJj]
+2021/07/27 22:47:12 gid 100 query 4 and get latestConfig {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [3 3 3 2 2 0 0 0 0 0]
+2021/07/27 22:47:12 confchange gid 100 start in index 52 server 2 cmd:{0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:12 gid 100 index 51 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 0 2 map[]  0 0 611997528} cmd.num 0 kv.num 3 shardnum 3
+2021/07/27 22:47:12 success delete gid 100 shard 3 nowshards [3 3 3 0 2 0 0 0 0 0]
+2021/07/27 22:47:12 client 1581742052444406247 wrongleader
+2021/07/27 22:47:12 cid 1581742052444406247 put shard 9 in gid 102 args.conf 3 shardconf 4 kv.conf 4
+2021/07/27 22:47:12 client 1581742052444406247 wronggroup
+2021/07/27 22:47:12 cid 2795736610985435684 put shard 0 groupconf 3 kvconf 4 shardconf 3
+2021/07/27 22:47:12 gid 100 index 52 server 2 cmd {0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 3 shardnum 3
+2021/07/27 22:47:12 gid 100 newshards map[]
+2021/07/27 22:47:12 gid 100 oldshards [3 3 3 0 2 0 0 0 0 0]
+2021/07/27 22:47:12 gid 100 index 53 server 2 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  0 0 1477744834} shard 2 cmd.num 3 kv.num 4 shardnum 3
+2021/07/27 22:47:12 cid 2795736610985435684 put shard 0 groupconf 3 kvconf 4 shardconf 3
+2021/07/27 22:47:12 gid 100 index 54 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 2 0 map[]  0 102 304239626} cmd.num 0 kv.num 4 shardnum 3
+2021/07/27 22:47:12 success gid 100 migrate shard 4 to gid 102 confignumber 2 nowshards [3 3 3 0 2 0 0 0 0 0]
+2021/07/27 22:47:12 client 4359339292447366452 put gid 102 shard 8 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 client 4359339292447366452 wrongleader
+2021/07/27 22:47:12 cid 4359339292447366452 put shard 8 in gid 102 args.conf 4 shardconf 0 kv.conf 4 and request
+2021/07/27 22:47:12 gid 102 start request shard 8 from gid 101 requestconf 2 currconf 4
+2021/07/27 22:47:12 client 4359339292447366452 wronggroup
+2021/07/27 22:47:12 cid 2795736610985435684 put shard 0 groupconf 3 kvconf 4 shardconf 3
+2021/07/27 22:47:12 client 2795736610985435684 wronggroup
+2021/07/27 22:47:12 gid 102 index 10 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[6:wekPE] 4 3 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 3 kv.num 4 shardnum 0
+2021/07/27 22:47:12 client 4503515352232265288 put gid 101 shard 0 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 gid 102 install shard 4:in config 3 now shards [0 0 0 4 3 0 0 0 0 4] serial map[1581742052444406247:2 2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[1:C87ST_eGIVXU_9j 5:NQdJj 6:wekPE]
+2021/07/27 22:47:12 gid 102 start delete gid 100 shard 4 in conf 2 nowshard [0 0 0 4 3 0 0 0 0 4]
+2021/07/27 22:47:12 client 4503515352232265288 wrongleader
+2021/07/27 22:47:12 deletion gid 100 start in index 55 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 0 2 map[]  0 0 787584125}
+2021/07/27 22:47:12 gid 101 query 4 and get latestConfig {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [0 0 0 0 0 3 3 3 2 0]
+2021/07/27 22:47:12 confchange gid 101 start in index 19 server 1 cmd:{0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:12 gid 101 index 18 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 2 0 map[]  0 102 1743938802} cmd.num 0 kv.num 3 shardnum 0
+2021/07/27 22:47:12 success gid 101 migrate shard 8 to gid 102 confignumber 2 nowshards [0 0 0 0 0 3 3 3 2 0]
+2021/07/27 22:47:12 cid 4503515352232265288 put shard 0 in gid 101 args.conf 4 shardconf 0 kv.conf 3
+2021/07/27 22:47:12 client 4503515352232265288 wronggroup
+2021/07/27 22:47:12 gid 101 index 19 server 1 cmd {0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 3 shardnum 0
+2021/07/27 22:47:12 gid 101 newshards map[0:{} 1:{} 5:{} 6:{} 7:{}]
+2021/07/27 22:47:12 gid 101 oldshards [0 0 0 0 0 3 3 3 2 0]
+2021/07/27 22:47:12 success delete gid 100 shard 4 nowshards [3 3 3 0 0 0 0 0 0 0]
+2021/07/27 22:47:12 gid 100 index 55 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 0 2 map[]  0 0 787584125} cmd.num 0 kv.num 4 shardnum 3
+2021/07/27 22:47:12 success delete gid 100 shard 4 nowshards [3 3 3 0 0 0 0 0 0 0]
+2021/07/27 22:47:12 installmigration gid 101 start in index 22 server 1 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 4 0 0 map[]  101 0 0}
+2021/07/27 22:47:12 installmigration gid 101 start in index 23 server 1 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 4 0 0 map[]  101 0 0}
+2021/07/27 22:47:12 installmigration gid 101 start in index 24 server 1 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 4 0 0 map[]  101 0 0}
+2021/07/27 22:47:12 gid 101 index 20 server 1 cmd {2354462680233207383 4 Append 9 2DT3W {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  0 0 93183091} shard 7 cmd.num 3 kv.num 4 shardnum 3
+2021/07/27 22:47:12 cid 2354462680233207383 put shard 0 groupconf 3 kvconf 4 shardconf 3
+2021/07/27 22:47:12 gid 101 start request shard 0 from gid 100 requestconf 3 currconf 4
+2021/07/27 22:47:12 gid 101 start request shard 1 from gid 100 requestconf 3 currconf 4
+2021/07/27 22:47:12 success delete gid 100 shard 4 nowshards [3 3 3 0 0 0 0 0 0 0]
+2021/07/27 22:47:12 gid 101 index 21 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 2 0 map[]  0 102 1012238466} cmd.num 0 kv.num 4 shardnum 0
+2021/07/27 22:47:12 gid 100 index 56 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 3 0 map[]  0 101 552148406} cmd.num 0 kv.num 4 shardnum 3
+2021/07/27 22:47:12 cid 2354462680233207383 put shard 0 groupconf 3 kvconf 4 shardconf 3
+2021/07/27 22:47:12 gid 102 index 11 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGj] 8 4 2 0 map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10]  101 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 success gid 101 migrate shard 8 to gid 102 confignumber 2 nowshards [0 0 0 0 0 3 3 3 2 0]
+2021/07/27 22:47:12 gid 102 install shard 8:in config 4 now shards [0 0 0 4 3 0 0 0 4 4] serial map[1581742052444406247:2 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST_eGIVXU_9j 5:NQdJj 6:wekPE]
+2021/07/27 22:47:12 cid 2354462680233207383 put shard 0 groupconf 3 kvconf 4 shardconf 3
+2021/07/27 22:47:12 gid 101 index 22 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 4 0 0 map[]  101 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 success gid 100 migrate shard 1 to gid 101 confignumber 3 nowshards [3 3 3 0 0 0 0 0 0 0]
+2021/07/27 22:47:12 gid 102 start delete gid 101 shard 8 in conf 2 nowshard [0 0 0 4 3 0 0 0 4 4]
+2021/07/27 22:47:12 gid 101 install shard 5:in config 4 now shards [0 0 0 0 0 4 3 3 2 0] serial map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 7:u2_zq 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:12 gid 101 index 23 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 4 0 0 map[]  101 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 gid 101 install shard 6:in config 4 now shards [0 0 0 0 0 4 4 3 2 0] serial map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 7:u2_zq 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:12 gid 101 index 24 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 4 0 0 map[]  101 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 gid 101 install shard 7:in config 4 now shards [0 0 0 0 0 4 4 4 2 0] serial map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 7:u2_zq 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:12 gid 101 index 25 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 2 0 map[]  0 102 637058714} cmd.num 0 kv.num 4 shardnum 0
+2021/07/27 22:47:12 success gid 101 migrate shard 8 to gid 102 confignumber 2 nowshards [0 0 0 0 0 4 4 4 2 0]
+2021/07/27 22:47:12 client 2354462680233207383 wronggroup
+2021/07/27 22:47:12 gid 102 request shard 4 in gid 100 reqestshardconf 2 kvshardconf 0 and request
+2021/07/27 22:47:12 installmigration gid 100 start in index 59 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:12 deletion gid 101 start in index 26 server 1 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 2 map[]  0 0 941301714}
+2021/07/27 22:47:12 client 1581742052444406247 put gid 102 shard 9 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 gid 101 index 26 server 1 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 2 map[]  0 0 941301714} cmd.num 0 kv.num 4 shardnum 0
+2021/07/27 22:47:12 success delete gid 101 shard 8 nowshards [0 0 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:12 gid 100 index 57 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 0 3 0 map[]  0 101 695966479} cmd.num 0 kv.num 4 shardnum 3
+2021/07/27 22:47:12 success gid 100 migrate shard 0 to gid 101 confignumber 3 nowshards [3 3 3 0 0 0 0 0 0 0]
+2021/07/27 22:47:12 gid 100 index 58 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 0 3 0 map[]  0 102 1741048099} cmd.num 0 kv.num 4 shardnum 3
+2021/07/27 22:47:12 success gid 100 migrate shard 2 to gid 102 confignumber 3 nowshards [3 3 3 0 0 0 0 0 0 0]
+2021/07/27 22:47:12 gid 100 index 59 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0} cmd.num 2 kv.num 4 shardnum 3
+2021/07/27 22:47:12 gid 100 install shard 4:in config 2 now shards [3 3 3 0 2 0 0 0 0 0] serial map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[2:mGWEf 3:EySlO 4:Eyq6tKMpav]
+2021/07/27 22:47:12 client 1581742052444406247 wrongleader
+2021/07/27 22:47:12 client 1328003168528670393 put gid 101 shard 1 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 client 4359339292447366452 put gid 102 shard 8 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 success delete gid 101 shard 8 nowshards [0 0 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:12 success delete gid 101 shard 8 nowshards [0 0 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:12 client 1328003168528670393 wrongleader
+2021/07/27 22:47:12 cid 1328003168528670393 put shard 1 in gid 101 args.conf 4 shardconf 0 kv.conf 4 and request
+2021/07/27 22:47:12 gid 101 start request shard 1 from gid 100 requestconf 3 currconf 4
+2021/07/27 22:47:12 client 2795736610985435684 put gid 102 shard 2 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 client 1328003168528670393 wrongleader
+2021/07/27 22:47:12 gid 102 request shard 8 in gid 101 reqestshardconf 2 kvshardconf 0 and request
+2021/07/27 22:47:12 gid 101 start request shard 8 from gid 100 requestconf 1 currconf 2
+2021/07/27 22:47:12 gid 101 index 27 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 4 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 gid 101 install shard 1:in config 4 now shards [0 4 0 0 0 4 4 4 0 0] serial map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10] db map[3:EySlO 7:u2_zq 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:12 gid 101 start delete gid 100 shard 1 in conf 3 nowshard [0 4 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:12 gid 101 index 28 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[2:mGWEf] 0 4 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 gid 101 install shard 0:in config 4 now shards [4 4 0 0 0 4 4 4 0 0] serial map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10] db map[2:mGWEf 3:EySlO 7:u2_zq 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:12 gid 101 start delete gid 100 shard 0 in conf 3 nowshard [4 4 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:12 client 2795736610985435684 wrongleader
+2021/07/27 22:47:12 newconfig 5 leave {Leave map[] [101] 0 0 0 1975056326973349738 5 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:12 client 4503515352232265288 put gid 101 shard 0 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:12 gid 102 index 12 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 4 0 0 map[]  102 0 0} cmd.num 4 kv.num 4 shardnum 0
+2021/07/27 22:47:12 gid 102 install shard 0:in config 4 now shards [4 0 0 4 3 0 0 0 4 4] serial map[1581742052444406247:2 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST_eGIVXU_9j 5:NQdJj 6:wekPE]
+2021/07/27 22:47:12 gid 102 index 13 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGj] 8 3 2 0 map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10]  101 0 0} cmd.num 3 kv.num 4 shardnum 4
+2021/07/27 22:47:12 gid 102 index 14 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGj] 8 3 2 0 map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10]  101 0 0} cmd.num 3 kv.num 4 shardnum 4
+2021/07/27 22:47:12 cid 2795736610985435684 put shard 2 in gid 102 args.conf 4 shardconf 0 kv.conf 4 and request
+2021/07/27 22:47:12 gid 102 start request shard 2 from gid 100 requestconf 3 currconf 4
+2021/07/27 22:47:13 newconfig 5 leave {Leave map[] [101] 0 0 0 1975056326973349738 5 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:13 gid 101 index 29 server 1 cmd {4503515352232265288 1 Append 2 XWLRj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 4 0 0 map[]  0 0 1005525478} shard 0 cmd.num 4 kv.num 4 shardnum 4
+2021/07/27 22:47:13 gid 102 index 15 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[4:Eyq6tKMpav] 2 4 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 4 kv.num 4 shardnum 4
+2021/07/27 22:47:13 gid 102 install shard 2:in config 4 now shards [4 0 4 4 3 0 0 0 4 4] serial map[1581742052444406247:2 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10] db map[0:A5WGj 1:C87ST_eGIVXU_9j 4:Eyq6tKMpav 5:NQdJj 6:wekPE]
+2021/07/27 22:47:13 gid 102 start delete gid 100 shard 2 in conf 3 nowshard [4 0 4 4 3 0 0 0 4 4]
+2021/07/27 22:47:13 gid 102 index 16 server 2 cmd {1581742052444406247 3 Append 1 MXFl- {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 4 0 0 map[]  0 0 1171812579} shard 9 cmd.num 4 kv.num 4 shardnum 4
+2021/07/27 22:47:13 gid 102 index 17 server 2 cmd {4359339292447366452 1 Append 0 YUWRe {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 4 0 0 map[]  0 0 2034349440} shard 8 cmd.num 4 kv.num 4 shardnum 4
+2021/07/27 22:47:13 gid 101 request shard 8 in gid 100 reqestshardconf 1 kvshardconf 0 and request
+2021/07/27 22:47:13 installmigration gid 100 start in index 61 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:13 deletion gid 100 start in index 62 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 0 3 map[]  0 0 1003962325}
+2021/07/27 22:47:13 deletion gid 100 start in index 63 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 0 0 3 map[]  0 0 1965390746}
+2021/07/27 22:47:13 client 4196432079698485957 put gid 102 shard 4 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 4196432079698485957 wrongleader
+2021/07/27 22:47:13 client 2354462680233207383 put gid 101 shard 7 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 cid 4196432079698485957 put shard 4 in gid 102 args.conf 4 shardconf 3 kv.conf 4 and request
+2021/07/27 22:47:13 client 2354462680233207383 wrongleader
+2021/07/27 22:47:13 client 4196432079698485957 wronggroup
+2021/07/27 22:47:13 installmigration gid 102 start in index 18 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 4 0 0 map[]  102 0 0}
+2021/07/27 22:47:13 leave &{[101] 1975056326973349738 5} reply &{false OK}
+2021/07/27 22:47:13 client 4503515352232265288 put gid 101 shard 0 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 success delete gid 100 shard 1 nowshards [3 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 gid 100 index 60 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 3 0 map[]  0 101 1691839628} cmd.num 0 kv.num 4 shardnum 3
+2021/07/27 22:47:13 success gid 100 migrate shard 1 to gid 101 confignumber 3 nowshards [3 3 3 0 2 0 0 0 0 0]
+2021/07/27 22:47:13 gid 100 index 61 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0} cmd.num 1 kv.num 4 shardnum 3
+2021/07/27 22:47:13 newconfig 5 leave {Leave map[] [101] 0 0 0 1975056326973349738 5 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:13 success delete gid 100 shard 0 nowshards [0 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 gid 100 install shard 8:in config 1 now shards [3 3 3 0 2 0 0 0 1 0] serial map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] db map[2:mGWEf 3:EySlO 4:Eyq6tKMpav]
+2021/07/27 22:47:13 gid 100 index 62 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 0 3 map[]  0 0 1003962325} cmd.num 0 kv.num 4 shardnum 3
+2021/07/27 22:47:13 success delete gid 100 shard 1 nowshards [3 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 gid 100 index 63 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 0 0 3 map[]  0 0 1965390746} cmd.num 0 kv.num 4 shardnum 3
+2021/07/27 22:47:13 success delete gid 100 shard 0 nowshards [0 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 gid 100 index 64 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 0 3 0 map[]  0 102 1807272997} cmd.num 0 kv.num 4 shardnum 0
+2021/07/27 22:47:13 success gid 100 migrate shard 2 to gid 102 confignumber 3 nowshards [0 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 client 4359339292447366452 put gid 102 shard 8 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1581742052444406247 put gid 102 shard 9 config {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1581742052444406247 wrongleader
+2021/07/27 22:47:13 client 4359339292447366452 wrongleader
+2021/07/27 22:47:13 client 4359339292447366452 wrongleader
+2021/07/27 22:47:13 client 4503515352232265288 wrongleader
+2021/07/27 22:47:13 success delete gid 100 shard 1 nowshards [3 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 success delete gid 100 shard 0 nowshards [0 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 client 1328003168528670393 put gid 102 shard 1 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1328003168528670393 wrongleader
+2021/07/27 22:47:13 client 1328003168528670393 wrongleader
+2021/07/27 22:47:13 gid 100 server 0 index 12 cmd {3471951732451641011 1 Put 0 A5WGj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 2087254063}
+2021/07/27 22:47:13 gid 100 server 0 index 13 cmd {3471951732451641011 2 Put 1 C87ST {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 2025467181}
+2021/07/27 22:47:13 gid 100 server 0 index 14 cmd {3471951732451641011 3 Put 2 mGWEf {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1117827261}
+2021/07/27 22:47:13 gid 100 server 0 index 15 cmd {3471951732451641011 4 Put 3 EySlO {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 65268854}
+2021/07/27 22:47:13 gid 100 server 0 index 16 cmd {3471951732451641011 5 Put 4 Eyq6t {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 321532479}
+2021/07/27 22:47:13 gid 100 server 0 index 17 cmd {3471951732451641011 6 Put 5 NQdJj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1774391908}
+2021/07/27 22:47:13 gid 100 server 0 index 18 cmd {3471951732451641011 7 Put 6 wekPE {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1276679211}
+2021/07/27 22:47:13 gid 100 server 0 index 19 cmd {3471951732451641011 8 Put 7 u2_zq {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1372447541}
+2021/07/27 22:47:13 gid 100 server 1 index 12 cmd {3471951732451641011 1 Put 0 A5WGj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 2087254063}
+2021/07/27 22:47:13 gid 100 server 1 index 13 cmd {3471951732451641011 2 Put 1 C87ST {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 2025467181}
+2021/07/27 22:47:13 gid 100 server 1 index 14 cmd {3471951732451641011 3 Put 2 mGWEf {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1117827261}
+2021/07/27 22:47:13 gid 100 server 1 index 15 cmd {3471951732451641011 4 Put 3 EySlO {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 65268854}
+2021/07/27 22:47:13 gid 100 server 1 index 16 cmd {3471951732451641011 5 Put 4 Eyq6t {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 321532479}
+2021/07/27 22:47:13 gid 100 server 1 index 17 cmd {3471951732451641011 6 Put 5 NQdJj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1774391908}
+2021/07/27 22:47:13 gid 100 server 1 index 18 cmd {3471951732451641011 7 Put 6 wekPE {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1276679211}
+2021/07/27 22:47:13 gid 100 server 1 index 19 cmd {3471951732451641011 8 Put 7 u2_zq {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1372447541}
+2021/07/27 22:47:13 gid 101 query 5 and get latestConfig {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} nowshard [4 4 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:13 client 2153397100127015459 put gid 102 shard 5 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 confchange gid 101 start in index 31 server 1 cmd:{0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:13 gid 101 index 30 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 4 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 4 kv.num 4 shardnum 4
+2021/07/27 22:47:13 client 2153397100127015459 wrongleader
+2021/07/27 22:47:13 gid 101 index 31 server 1 cmd {0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 4 shardnum 4
+2021/07/27 22:47:13 gid 101 newshards map[]
+2021/07/27 22:47:13 gid 101 oldshards [4 4 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:13 gid 101 index 32 server 1 cmd {2354462680233207383 4 Append 9 2DT3W {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 4 0 0 map[]  0 0 1300506399} shard 7 cmd.num 4 kv.num 5 shardnum 4
+2021/07/27 22:47:13 cid 2354462680233207383 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 gid 101 index 33 server 1 cmd {4503515352232265288 2 Append 2 bpYZe {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 4 0 0 map[]  0 0 132261889} shard 0 cmd.num 4 kv.num 5 shardnum 4
+2021/07/27 22:47:13 cid 4503515352232265288 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 client 2153397100127015459 wrongleader
+2021/07/27 22:47:13 gid 102 query 5 and get latestConfig {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} nowshard [4 0 4 4 3 0 0 0 4 4]
+2021/07/27 22:47:13 confchange gid 102 start in index 20 server 2 cmd:{0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:13 gid 102 index 18 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 4 0 0 map[]  102 0 0} cmd.num 4 kv.num 4 shardnum 4
+2021/07/27 22:47:13 gid 102 install shard 4:in config 4 now shards [4 0 4 4 4 0 0 0 4 4] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4359339292447366452:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 4:Eyq6tKMpav 5:NQdJj 6:wekPE]
+2021/07/27 22:47:13 gid 102 index 19 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[4:Eyq6tKMpav] 2 4 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10]  100 0 0} cmd.num 4 kv.num 4 shardnum 4
+2021/07/27 22:47:13 cid 1328003168528670393 put shard 1 in gid 102 args.conf 5 shardconf 0 kv.conf 4
+2021/07/27 22:47:13 client 1328003168528670393 wronggroup
+2021/07/27 22:47:13 client 2795736610985435684 put gid 102 shard 2 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 2795736610985435684 wrongleader
+2021/07/27 22:47:13 cid 2354462680233207383 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 cid 4503515352232265288 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 cid 2354462680233207383 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 cid 4503515352232265288 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 gid 102 index 20 server 2 cmd {0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 4 shardnum 4
+2021/07/27 22:47:13 gid 102 newshards map[0:{} 1:{} 2:{} 3:{} 4:{} 5:{} 6:{} 7:{} 8:{} 9:{}]
+2021/07/27 22:47:13 gid 102 oldshards [4 0 4 4 4 0 0 0 4 4]
+2021/07/27 22:47:13 client 2795736610985435684 wrongleader
+2021/07/27 22:47:13 installmigration gid 102 start in index 23 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 5 0 0 map[]  102 0 0}
+2021/07/27 22:47:13 installmigration gid 102 start in index 24 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  102 0 0}
+2021/07/27 22:47:13 installmigration gid 102 start in index 25 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 5 0 0 map[]  102 0 0}
+2021/07/27 22:47:13 installmigration gid 102 start in index 26 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 5 0 0 map[]  102 0 0}
+2021/07/27 22:47:13 installmigration gid 102 start in index 27 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 5 0 0 map[]  102 0 0}
+2021/07/27 22:47:13 installmigration gid 102 start in index 28 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 5 0 0 map[]  102 0 0}
+2021/07/27 22:47:13 gid 102 index 21 server 2 cmd {4359339292447366452 2 Append 0 _i6Ib {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 4 0 0 map[]  0 0 296768027} shard 8 cmd.num 4 kv.num 5 shardnum 4
+2021/07/27 22:47:13 cid 4359339292447366452 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 gid 102 start request shard 1 from gid 101 requestconf 4 currconf 5
+2021/07/27 22:47:13 gid 102 index 22 server 2 cmd {1581742052444406247 4 Append 1 -owaz {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 4 0 0 map[]  0 0 264234632} shard 9 cmd.num 4 kv.num 5 shardnum 4
+2021/07/27 22:47:13 cid 1581742052444406247 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 gid 102 start request shard 6 from gid 101 requestconf 4 currconf 5
+2021/07/27 22:47:13 gid 102 start request shard 5 from gid 101 requestconf 4 currconf 5
+2021/07/27 22:47:13 gid 102 start request shard 7 from gid 101 requestconf 4 currconf 5
+2021/07/27 22:47:13 cid 2795736610985435684 put shard 2 in gid 102 args.conf 5 shardconf 4 kv.conf 5 and request
+2021/07/27 22:47:13 client 2795736610985435684 wronggroup
+2021/07/27 22:47:13 installmigration gid 102 start in index 29 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 5 0 0 map[]  102 0 0}
+2021/07/27 22:47:13 client 2354462680233207383 wronggroup
+2021/07/27 22:47:13 client 4503515352232265288 wronggroup
+2021/07/27 22:47:13 gid 100 server 2 index 12 cmd {3471951732451641011 1 Put 0 A5WGj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 2087254063}
+2021/07/27 22:47:13 gid 100 server 2 index 13 cmd {3471951732451641011 2 Put 1 C87ST {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 2025467181}
+2021/07/27 22:47:13 gid 100 server 2 index 14 cmd {3471951732451641011 3 Put 2 mGWEf {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1117827261}
+2021/07/27 22:47:13 gid 100 server 2 index 15 cmd {3471951732451641011 4 Put 3 EySlO {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 65268854}
+2021/07/27 22:47:13 gid 100 server 2 index 16 cmd {3471951732451641011 5 Put 4 Eyq6t {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 321532479}
+2021/07/27 22:47:13 gid 100 server 2 index 17 cmd {3471951732451641011 6 Put 5 NQdJj {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1774391908}
+2021/07/27 22:47:13 gid 100 server 2 index 18 cmd {3471951732451641011 7 Put 6 wekPE {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1276679211}
+2021/07/27 22:47:13 gid 100 server 2 index 19 cmd {3471951732451641011 8 Put 7 u2_zq {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1372447541}
+2021/07/27 22:47:13 gid 100 query 5 and get latestConfig {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} nowshard [0 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 confchange gid 100 start in index 65 server 2 cmd:{0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:13 gid 101 index 34 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 4 0 map[]  0 102 290298776} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:13 gid 100 index 65 server 2 cmd {0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 4 shardnum 0
+2021/07/27 22:47:13 gid 100 newshards map[]
+2021/07/27 22:47:13 gid 100 oldshards [0 0 3 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 cid 4359339292447366452 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 cid 1581742052444406247 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 cid 4359339292447366452 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 cid 1581742052444406247 put shard 0 groupconf 4 kvconf 5 shardconf 4
+2021/07/27 22:47:13 success gid 101 migrate shard 6 to gid 102 confignumber 4 nowshards [4 4 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:13 gid 101 index 35 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 4 0 map[]  0 102 1532064580} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:13 success gid 101 migrate shard 1 to gid 102 confignumber 4 nowshards [4 4 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:13 gid 101 index 36 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 4 0 map[]  0 102 500979296} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:13 success gid 101 migrate shard 5 to gid 102 confignumber 4 nowshards [4 4 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:13 client 4359339292447366452 wronggroup
+2021/07/27 22:47:13 client 1581742052444406247 wronggroup
+2021/07/27 22:47:13 gid 102 index 23 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 5 0 0 map[]  102 0 0} cmd.num 5 kv.num 5 shardnum 4
+2021/07/27 22:47:13 gid 102 install shard 8:in config 5 now shards [4 0 4 4 4 0 0 0 5 4] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4359339292447366452:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 4:Eyq6tKMpav 5:NQdJj 6:wekPE]
+2021/07/27 22:47:13 gid 102 index 24 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  102 0 0} cmd.num 5 kv.num 5 shardnum 4
+2021/07/27 22:47:13 gid 102 install shard 0:in config 5 now shards [5 0 4 4 4 0 0 0 5 4] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4359339292447366452:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 4:Eyq6tKMpav 5:NQdJj 6:wekPE]
+2021/07/27 22:47:13 gid 102 index 25 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 5 0 0 map[]  102 0 0} cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 install shard 3:in config 5 now shards [5 0 4 5 4 0 0 0 5 4] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4359339292447366452:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 4:Eyq6tKMpav 5:NQdJj 6:wekPE]
+2021/07/27 22:47:13 gid 102 index 26 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 5 0 0 map[]  102 0 0} cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 install shard 9:in config 5 now shards [5 0 4 5 4 0 0 0 5 5] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4359339292447366452:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 4:Eyq6tKMpav 5:NQdJj 6:wekPE]
+2021/07/27 22:47:13 gid 102 index 27 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 5 0 0 map[]  102 0 0} cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 install shard 2:in config 5 now shards [5 0 5 5 4 0 0 0 5 5] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4359339292447366452:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 4:Eyq6tKMpav 5:NQdJj 6:wekPE]
+2021/07/27 22:47:13 gid 102 index 28 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 5 0 0 map[]  102 0 0} cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 install shard 4:in config 5 now shards [5 0 5 5 5 0 0 0 5 5] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4359339292447366452:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 4:Eyq6tKMpav 5:NQdJj 6:wekPE]
+2021/07/27 22:47:13 gid 102 index 29 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 5 0 0 map[]  102 0 0} cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 client 4196432079698485957 put gid 102 shard 4 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 deletion gid 100 start in index 66 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 0 0 3 map[]  0 0 1205241489}
+2021/07/27 22:47:13 client 4196432079698485957 wrongleader
+2021/07/27 22:47:13 client 4196432079698485957 wrongleader
+2021/07/27 22:47:13 gid 101 index 37 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 4 0 map[]  0 102 1340292847} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:13 gid 100 index 66 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 0 0 3 map[]  0 0 1205241489} cmd.num 0 kv.num 5 shardnum 0
+2021/07/27 22:47:13 success delete gid 100 shard 2 nowshards [0 0 0 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 success gid 101 migrate shard 7 to gid 102 confignumber 4 nowshards [4 4 0 0 0 4 4 4 0 0]
+2021/07/27 22:47:13 takesnapshot gid 100 server 0: preindex 19 lastindex 65
+2021/07/27 22:47:13 takesnapshot gid 100 server 1: preindex 19 lastindex 65
+2021/07/27 22:47:13 success delete gid 100 shard 2 nowshards [0 0 0 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 success delete gid 100 shard 2 nowshards [0 0 0 0 2 0 0 0 1 0]
+2021/07/27 22:47:13 gid 102 index 30 server 2 cmd {4196432079698485957 1 Append 6 0Rpl_ {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 673874014} shard 4 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 index 31 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 5 4 0 map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4503515352232265288:1]  101 0 0} cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 install shard 1:in config 5 now shards [5 5 5 5 5 0 0 0 5 5] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:1 4359339292447366452:1 4503515352232265288:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 3:EySlO 4:Eyq6tKMpav 5:NQdJj 6:wekPE0Rpl_]
+2021/07/27 22:47:13 gid 102 start delete gid 101 shard 1 in conf 4 nowshard [5 5 5 5 5 0 0 0 5 5]
+2021/07/27 22:47:13 gid 102 index 32 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[7:u2_zq] 5 5 4 0 map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4503515352232265288:1]  101 0 0} cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 install shard 5:in config 5 now shards [5 5 5 5 5 5 0 0 5 5] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:1 4359339292447366452:1 4503515352232265288:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 3:EySlO 4:Eyq6tKMpav 5:NQdJj 6:wekPE0Rpl_ 7:u2_zq]
+2021/07/27 22:47:13 gid 102 start delete gid 101 shard 5 in conf 4 nowshard [5 5 5 5 5 5 0 0 5 5]
+2021/07/27 22:47:13 gid 102 index 33 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX6R87wA3GOo] 7 5 4 0 map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4503515352232265288:1]  101 0 0} cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 install shard 7:in config 5 now shards [5 5 5 5 5 5 0 5 5 5] serial map[1581742052444406247:3 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:1 4359339292447366452:1 4503515352232265288:1] db map[0:A5WGjYUWRe 1:C87ST_eGIVXU_9jMXFl- 3:EySlO 4:Eyq6tKMpav 5:NQdJj 6:wekPE0Rpl_ 7:u2_zq 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:13 gid 102 start delete gid 101 shard 7 in conf 4 nowshard [5 5 5 5 5 5 0 5 5 5]
+2021/07/27 22:47:13 client 1557785388940885270 put gid 102 shard 3 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1557785388940885270 wrongleader
+2021/07/27 22:47:13 deletion gid 101 start in index 38 server 1 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 4 map[]  0 0 1209175824}
+2021/07/27 22:47:13 deletion gid 101 start in index 39 server 1 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 0 4 map[]  0 0 895897378}
+2021/07/27 22:47:13 deletion gid 101 start in index 40 server 1 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 4 map[]  0 0 1847063357}
+2021/07/27 22:47:13 gid 101 index 38 server 1 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 4 map[]  0 0 1209175824} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:13 success delete gid 101 shard 5 nowshards [4 4 0 0 0 0 4 4 0 0]
+2021/07/27 22:47:13 client 1557785388940885270 wrongleader
+2021/07/27 22:47:13 client 4196432079698485957 put gid 102 shard 4 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 4196432079698485957 wrongleader
+2021/07/27 22:47:13 client 4196432079698485957 wrongleader
+2021/07/27 22:47:13 takesnapshot gid 100 server 2: preindex 19 lastindex 66
+2021/07/27 22:47:13 gid 101 index 39 server 1 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 0 4 map[]  0 0 895897378} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:13 success delete gid 101 shard 1 nowshards [4 0 0 0 0 0 4 4 0 0]
+2021/07/27 22:47:13 success delete gid 101 shard 5 nowshards [4 4 0 0 0 0 4 4 0 0]
+2021/07/27 22:47:13 success delete gid 101 shard 5 nowshards [4 4 0 0 0 0 4 4 0 0]
+2021/07/27 22:47:13 gid 101 index 40 server 1 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 4 map[]  0 0 1847063357} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:13 success delete gid 101 shard 7 nowshards [4 0 0 0 0 0 4 0 0 0]
+2021/07/27 22:47:13 gid 102 index 34 server 2 cmd {1557785388940885270 1 Append 5 OOIHB {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 1685399001} shard 3 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 client 2153397100127015459 put gid 102 shard 5 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1328003168528670393 put gid 102 shard 1 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 success delete gid 101 shard 1 nowshards [4 0 0 0 0 0 4 4 0 0]
+2021/07/27 22:47:13 success delete gid 101 shard 7 nowshards [4 0 0 0 0 0 4 0 0 0]
+2021/07/27 22:47:13 success delete gid 101 shard 1 nowshards [4 0 0 0 0 0 4 4 0 0]
+2021/07/27 22:47:13 success delete gid 101 shard 7 nowshards [4 0 0 0 0 0 4 0 0 0]
+2021/07/27 22:47:13 client 1328003168528670393 wrongleader
+2021/07/27 22:47:13 gid 102 index 35 server 2 cmd {4196432079698485957 2 Append 6 bRj5r {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 1774199648} shard 4 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 client 1557785388940885270 put gid 102 shard 3 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1328003168528670393 wrongleader
+2021/07/27 22:47:13 client 2153397100127015459 wrongleader
+2021/07/27 22:47:13 client 1557785388940885270 wrongleader
+2021/07/27 22:47:13 client 1557785388940885270 wrongleader
+2021/07/27 22:47:13 client 2153397100127015459 wrongleader
+2021/07/27 22:47:13 client 4503515352232265288 put gid 102 shard 0 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 4196432079698485957 put gid 102 shard 4 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 2795736610985435684 put gid 102 shard 2 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 4503515352232265288 wrongleader
+2021/07/27 22:47:13 client 4503515352232265288 wrongleader
+2021/07/27 22:47:13 client 1581742052444406247 put gid 102 shard 9 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1581742052444406247 wrongleader
+2021/07/27 22:47:13 client 4196432079698485957 wrongleader
+2021/07/27 22:47:13 client 2795736610985435684 wrongleader
+2021/07/27 22:47:13 client 2138454683750259100 put gid 102 shard 6 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1581742052444406247 wrongleader
+2021/07/27 22:47:13 client 2795736610985435684 wrongleader
+2021/07/27 22:47:13 client 4196432079698485957 wrongleader
+2021/07/27 22:47:13 newconfig 6 join {Join map[101:[server-101-0 server-101-1 server-101-2]] [] 0 0 0 1975056326973349738 6 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:13 client 2138454683750259100 wrongleader
+2021/07/27 22:47:13 newconfig 6 join {Join map[101:[server-101-0 server-101-1 server-101-2]] [] 0 0 0 1975056326973349738 6 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:13 newconfig 6 join {Join map[101:[server-101-0 server-101-1 server-101-2]] [] 0 0 0 1975056326973349738 6 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:13 client 4359339292447366452 put gid 102 shard 8 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 4359339292447366452 wrongleader
+2021/07/27 22:47:13 client 4359339292447366452 wrongleader
+2021/07/27 22:47:13 gid 102 index 36 server 2 cmd {1328003168528670393 1 Append 3 8xFt4 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 1077419391} shard 1 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 index 37 server 2 cmd {1557785388940885270 2 Append 5 sRDzf {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 808063426} shard 3 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 cid 2138454683750259100 put shard 6 in gid 102 args.conf 5 shardconf 0 kv.conf 5 and request
+2021/07/27 22:47:13 gid 102 start request shard 6 from gid 101 requestconf 4 currconf 5
+2021/07/27 22:47:13 client 2138454683750259100 wronggroup
+2021/07/27 22:47:13 join &{map[101:[server-101-0 server-101-1 server-101-2]] 1975056326973349738 6} reply &{false OK}
+2021/07/27 22:47:13 here123
+2021/07/27 22:47:13 client 1328003168528670393 put gid 102 shard 1 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1557785388940885270 put gid 102 shard 3 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 gid 102 index 38 server 2 cmd {2153397100127015459 1 Append 7 aCU7f {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 1682349534} shard 5 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 index 39 server 2 cmd {4503515352232265288 2 Append 2 bpYZe {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 457996155} shard 0 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 index 40 server 2 cmd {1581742052444406247 4 Append 1 -owaz {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 384125285} shard 9 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 index 41 server 2 cmd {4196432079698485957 3 Append 6 zN_6d {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 1807204292} shard 4 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 gid 102 index 42 server 2 cmd {4359339292447366452 2 Append 0 _i6Ib {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 341183698} shard 8 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:13 client 2153397100127015459 put gid 102 shard 5 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:13 client 1557785388940885270 wrongleader
+2021/07/27 22:47:13 client 1328003168528670393 wrongleader
+2021/07/27 22:47:14 client 1557785388940885270 wrongleader
+2021/07/27 22:47:14 client 2153397100127015459 wrongleader
+2021/07/27 22:47:14 gid 100 query 6 and get latestConfig {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [0 0 0 0 2 0 0 0 1 0]
+2021/07/27 22:47:14 confchange gid 100 start in index 67 server 2 cmd:{0 0 ConfigChange   {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:14 client 2153397100127015459 wrongleader
+2021/07/27 22:47:14 client 4359339292447366452 put gid 102 shard 8 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 4196432079698485957 put gid 102 shard 4 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 1581742052444406247 put gid 102 shard 9 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 2354462680233207383 put gid 101 shard 7 config {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 newconfig 7 join {Join map[100:[server-100-0 server-100-1 server-100-2]] [] 0 0 0 1975056326973349738 7 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:14 newconfig 7 join {Join map[100:[server-100-0 server-100-1 server-100-2]] [] 0 0 0 1975056326973349738 7 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:14 gid 100 index 67 server 2 cmd {0 0 ConfigChange   {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 5 shardnum 0
+2021/07/27 22:47:14 gid 100 newshards map[]
+2021/07/27 22:47:14 gid 100 oldshards [0 0 0 0 2 0 0 0 1 0]
+2021/07/27 22:47:14 newconfig 7 join {Join map[100:[server-100-0 server-100-1 server-100-2]] [] 0 0 0 1975056326973349738 7 {0 [0 0 0 0 0 0 0 0 0 0] map[]}}
+2021/07/27 22:47:14 client 2795736610985435684 put gid 102 shard 2 config {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 2795736610985435684 wrongleader
+2021/07/27 22:47:14 client 2795736610985435684 wrongleader
+2021/07/27 22:47:14 join &{map[100:[server-100-0 server-100-1 server-100-2]] 1975056326973349738 7} reply &{false OK}
+2021/07/27 22:47:14 here456
+2021/07/27 22:47:14 gid 101 query 6 and get latestConfig {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [4 0 0 0 0 0 4 0 0 0]
+2021/07/27 22:47:14 confchange gid 101 start in index 42 server 1 cmd:{0 0 ConfigChange   {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:14 gid 101 index 41 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 4 0 map[]  0 102 123649468} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:14 success gid 101 migrate shard 6 to gid 102 confignumber 4 nowshards [4 0 0 0 0 0 4 0 0 0]
+2021/07/27 22:47:14 cid 2354462680233207383 put shard 7 in gid 101 args.conf 6 shardconf 0 kv.conf 5
+2021/07/27 22:47:14 client 2354462680233207383 wronggroup
+2021/07/27 22:47:14 gid 102 query 6 and get latestConfig {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [5 5 5 5 5 5 0 5 5 5]
+2021/07/27 22:47:14 confchange gid 102 start in index 45 server 2 cmd:{0 0 ConfigChange   {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:14 gid 102 index 43 server 2 cmd {1557785388940885270 3 Append 5 J37PA {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 1750861114} shard 3 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:14 gid 102 index 44 server 2 cmd {1328003168528670393 2 Append 3 lR8Xf {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 870514515} shard 1 cmd.num 5 kv.num 5 shardnum 5
+2021/07/27 22:47:14 cid 2795736610985435684 put shard 2 in gid 102 args.conf 6 shardconf 5 kv.conf 5
+2021/07/27 22:47:14 client 2795736610985435684 wronggroup
+2021/07/27 22:47:14 client 2138454683750259100 put gid 101 shard 6 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 gid 102 index 45 server 2 cmd {0 0 ConfigChange   {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 5 shardnum 5
+2021/07/27 22:47:14 gid 102 newshards map[0:{} 1:{} 2:{} 3:{} 4:{}]
+2021/07/27 22:47:14 gid 102 oldshards [5 5 5 5 5 5 0 5 5 5]
+2021/07/27 22:47:14 installmigration gid 102 start in index 49 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 6 0 0 map[]  102 0 0}
+2021/07/27 22:47:14 installmigration gid 102 start in index 50 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 6 0 0 map[]  102 0 0}
+2021/07/27 22:47:14 installmigration gid 102 start in index 51 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 6 0 0 map[]  102 0 0}
+2021/07/27 22:47:14 installmigration gid 102 start in index 52 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 6 0 0 map[]  102 0 0}
+2021/07/27 22:47:14 installmigration gid 102 start in index 53 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 6 0 0 map[]  102 0 0}
+2021/07/27 22:47:14 gid 102 index 46 server 2 cmd {2153397100127015459 2 Append 7 ymuS0 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 95066714} shard 5 cmd.num 5 kv.num 6 shardnum 5
+2021/07/27 22:47:14 cid 2153397100127015459 put shard 0 groupconf 5 kvconf 6 shardconf 5
+2021/07/27 22:47:14 gid 102 index 47 server 2 cmd {4359339292447366452 3 Append 0 WcZVJ {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 5 0 0 map[]  0 0 1948724773} shard 8 cmd.num 5 kv.num 6 shardnum 5
+2021/07/27 22:47:14 cid 4359339292447366452 put shard 0 groupconf 5 kvconf 6 shardconf 5
+2021/07/27 22:47:14 gid 102 index 48 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 5 4 0 map[1581742052444406247:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4503515352232265288:1]  101 0 0} cmd.num 5 kv.num 6 shardnum 5
+2021/07/27 22:47:14 gid 102 install shard 6:in config 5 now shards [5 5 5 5 5 5 5 5 5 5] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 102 start delete gid 101 shard 6 in conf 4 nowshard [5 5 5 5 5 5 5 5 5 5]
+2021/07/27 22:47:14 cid 2153397100127015459 put shard 0 groupconf 5 kvconf 6 shardconf 5
+2021/07/27 22:47:14 gid 101 index 42 server 1 cmd {0 0 ConfigChange   {6 [102 102 102 102 102 101 101 101 101 101] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 5 shardnum 4
+2021/07/27 22:47:14 gid 101 newshards map[5:{} 6:{} 7:{} 8:{} 9:{}]
+2021/07/27 22:47:14 gid 101 oldshards [4 0 0 0 0 0 4 0 0 0]
+2021/07/27 22:47:14 cid 2153397100127015459 put shard 0 groupconf 5 kvconf 6 shardconf 5
+2021/07/27 22:47:14 gid 101 start request shard 8 from gid 102 requestconf 5 currconf 6
+2021/07/27 22:47:14 gid 101 start request shard 9 from gid 102 requestconf 5 currconf 6
+2021/07/27 22:47:14 cid 4359339292447366452 put shard 0 groupconf 5 kvconf 6 shardconf 5
+2021/07/27 22:47:14 gid 101 start request shard 5 from gid 102 requestconf 5 currconf 6
+2021/07/27 22:47:14 gid 101 start request shard 6 from gid 102 requestconf 5 currconf 6
+2021/07/27 22:47:14 gid 101 start request shard 7 from gid 102 requestconf 5 currconf 6
+2021/07/27 22:47:14 cid 4359339292447366452 put shard 0 groupconf 5 kvconf 6 shardconf 5
+2021/07/27 22:47:14 cid 2138454683750259100 put shard 6 in gid 101 args.conf 7 shardconf 4 kv.conf 6
+2021/07/27 22:47:14 client 2138454683750259100 wronggroup
+2021/07/27 22:47:14 client 1557785388940885270 put gid 102 shard 3 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 1328003168528670393 put gid 102 shard 1 config {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 deletion gid 101 start in index 43 server 1 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 4 map[]  0 0 1290844003}
+2021/07/27 22:47:14 client 2153397100127015459 wronggroup
+2021/07/27 22:47:14 client 4359339292447366452 wronggroup
+2021/07/27 22:47:14 gid 102 index 49 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 6 0 0 map[]  102 0 0} cmd.num 6 kv.num 6 shardnum 5
+2021/07/27 22:47:14 gid 102 install shard 0:in config 6 now shards [6 5 5 5 5 5 5 5 5 5] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 102 index 50 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 6 0 0 map[]  102 0 0} cmd.num 6 kv.num 6 shardnum 6
+2021/07/27 22:47:14 gid 102 install shard 1:in config 6 now shards [6 6 5 5 5 5 5 5 5 5] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 102 index 51 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 6 0 0 map[]  102 0 0} cmd.num 6 kv.num 6 shardnum 6
+2021/07/27 22:47:14 gid 102 install shard 2:in config 6 now shards [6 6 6 5 5 5 5 5 5 5] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 102 index 52 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 6 0 0 map[]  102 0 0} cmd.num 6 kv.num 6 shardnum 6
+2021/07/27 22:47:14 gid 102 install shard 3:in config 6 now shards [6 6 6 6 5 5 5 5 5 5] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 102 index 53 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 6 0 0 map[]  102 0 0} cmd.num 6 kv.num 6 shardnum 6
+2021/07/27 22:47:14 gid 102 install shard 4:in config 6 now shards [6 6 6 6 6 5 5 5 5 5] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 102 index 54 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 5 0 map[]  0 101 761882469} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 5 to gid 101 confignumber 5 nowshards [6 6 6 6 6 5 5 5 5 5]
+2021/07/27 22:47:14 gid 102 index 55 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 5 0 map[]  0 101 1090552749} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 7 to gid 101 confignumber 5 nowshards [6 6 6 6 6 5 5 5 5 5]
+2021/07/27 22:47:14 gid 102 index 56 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 5 0 map[]  0 101 1042549891} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 6 to gid 101 confignumber 5 nowshards [6 6 6 6 6 5 5 5 5 5]
+2021/07/27 22:47:14 client 1557785388940885270 wrongleader
+2021/07/27 22:47:14 gid 101 index 43 server 1 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 4 map[]  0 0 1290844003} cmd.num 0 kv.num 6 shardnum 4
+2021/07/27 22:47:14 success delete gid 101 shard 6 nowshards [4 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:14 client 4503515352232265288 put gid 102 shard 0 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 1557785388940885270 wrongleader
+2021/07/27 22:47:14 client 1328003168528670393 wrongleader
+2021/07/27 22:47:14 cid 1328003168528670393 put shard 1 in gid 102 args.conf 5 shardconf 6 kv.conf 6
+2021/07/27 22:47:14 client 1328003168528670393 wronggroup
+2021/07/27 22:47:14 cid 1557785388940885270 put shard 3 in gid 102 args.conf 5 shardconf 6 kv.conf 6
+2021/07/27 22:47:14 client 1557785388940885270 wronggroup
+2021/07/27 22:47:14 cid 4503515352232265288 put shard 0 in gid 102 args.conf 7 shardconf 6 kv.conf 6
+2021/07/27 22:47:14 client 1581742052444406247 put gid 100 shard 9 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 4503515352232265288 wronggroup
+2021/07/27 22:47:14 gid 102 index 57 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 5 0 map[]  0 101 2016751081} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 9 to gid 101 confignumber 5 nowshards [6 6 6 6 6 5 5 5 5 5]
+2021/07/27 22:47:14 gid 102 index 58 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 5 0 map[]  0 101 1180610732} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 8 to gid 101 confignumber 5 nowshards [6 6 6 6 6 5 5 5 5 5]
+2021/07/27 22:47:14 client 1581742052444406247 wrongleader
+2021/07/27 22:47:14 client 1581742052444406247 wrongleader
+2021/07/27 22:47:14 client 4196432079698485957 put gid 100 shard 4 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 4196432079698485957 wrongleader
+2021/07/27 22:47:14 client 4196432079698485957 wrongleader
+2021/07/27 22:47:14 success delete gid 101 shard 6 nowshards [4 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:14 gid 101 index 44 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX6R87wA3GOo] 7 6 5 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  102 0 0} cmd.num 6 kv.num 6 shardnum 4
+2021/07/27 22:47:14 success delete gid 101 shard 6 nowshards [4 0 0 0 0 0 0 0 0 0]
+2021/07/27 22:47:14 gid 101 install shard 7:in config 6 now shards [4 0 0 0 0 0 0 6 0 0] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[2:mGWEfXWLRj 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 101 start delete gid 102 shard 7 in conf 5 nowshard [4 0 0 0 0 0 0 6 0 0]
+2021/07/27 22:47:14 gid 101 index 45 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 6 5 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  102 0 0} cmd.num 6 kv.num 6 shardnum 4
+2021/07/27 22:47:14 gid 101 install shard 6:in config 6 now shards [4 0 0 0 0 0 6 6 0 0] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[2:mGWEfXWLRj 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 101 start delete gid 102 shard 6 in conf 5 nowshard [4 0 0 0 0 0 6 6 0 0]
+2021/07/27 22:47:14 deletion gid 102 start in index 59 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 5 map[]  0 0 1247103868}
+2021/07/27 22:47:14 gid 102 index 59 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 5 map[]  0 0 1247103868} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 success delete gid 102 shard 7 nowshards [6 6 6 6 6 5 5 0 5 5]
+2021/07/27 22:47:14 deletion gid 102 start in index 60 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 5 map[]  0 0 1542056773}
+2021/07/27 22:47:14 gid 101 index 46 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[1:C87ST_eGIVXU_9jMXFl--owaz] 9 6 5 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  102 0 0} cmd.num 6 kv.num 6 shardnum 4
+2021/07/27 22:47:14 gid 101 install shard 9:in config 6 now shards [4 0 0 0 0 0 6 6 0 6] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[1:C87ST_eGIVXU_9jMXFl--owaz 2:mGWEfXWLRj 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 101 start delete gid 102 shard 9 in conf 5 nowshard [4 0 0 0 0 0 6 6 0 6]
+2021/07/27 22:47:14 gid 101 index 47 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGjYUWRe_i6Ib] 8 6 5 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  102 0 0} cmd.num 6 kv.num 6 shardnum 4
+2021/07/27 22:47:14 gid 101 install shard 8:in config 6 now shards [4 0 0 0 0 0 6 6 6 6] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2:mGWEfXWLRj 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 101 start delete gid 102 shard 8 in conf 5 nowshard [4 0 0 0 0 0 6 6 6 6]
+2021/07/27 22:47:14 deletion gid 102 start in index 61 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 5 map[]  0 0 1031928100}
+2021/07/27 22:47:14 gid 102 index 60 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 5 map[]  0 0 1542056773} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 success delete gid 102 shard 6 nowshards [6 6 6 6 6 5 0 0 5 5]
+2021/07/27 22:47:14 success delete gid 102 shard 7 nowshards [6 6 6 6 6 5 5 0 5 5]
+2021/07/27 22:47:14 success delete gid 102 shard 7 nowshards [6 6 6 6 6 5 5 0 5 5]
+2021/07/27 22:47:14 success delete gid 102 shard 6 nowshards [6 6 6 6 6 5 0 0 5 5]
+2021/07/27 22:47:14 client 2795736610985435684 put gid 102 shard 2 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 gid 102 index 61 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 5 map[]  0 0 1031928100} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 success delete gid 102 shard 8 nowshards [6 6 6 6 6 5 0 0 0 5]
+2021/07/27 22:47:14 success delete gid 102 shard 6 nowshards [6 6 6 6 6 5 0 0 5 5]
+2021/07/27 22:47:14 success delete gid 102 shard 8 nowshards [6 6 6 6 6 5 0 0 0 5]
+2021/07/27 22:47:14 success delete gid 102 shard 8 nowshards [6 6 6 6 6 5 0 0 0 5]
+2021/07/27 22:47:14 cid 2795736610985435684 put shard 2 in gid 102 args.conf 7 shardconf 6 kv.conf 6
+2021/07/27 22:47:14 client 2795736610985435684 wronggroup
+2021/07/27 22:47:14 client 2138454683750259100 put gid 101 shard 6 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 2138454683750259100 wrongleader
+2021/07/27 22:47:14 gid 100 query 7 and get latestConfig {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [0 0 0 0 2 0 0 0 1 0]
+2021/07/27 22:47:14 cid 1581742052444406247 put shard 9 in gid 100 args.conf 7 shardconf 0 kv.conf 6
+2021/07/27 22:47:14 confchange gid 100 start in index 68 server 2 cmd:{0 0 ConfigChange   {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:14 client 1581742052444406247 wronggroup
+2021/07/27 22:47:14 gid 100 index 68 server 2 cmd {0 0 ConfigChange   {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 6 shardnum 0
+2021/07/27 22:47:14 gid 100 newshards map[3:{} 4:{} 8:{} 9:{}]
+2021/07/27 22:47:14 gid 100 oldshards [0 0 0 0 2 0 0 0 1 0]
+2021/07/27 22:47:14 gid 100 start request shard 3 from gid 102 requestconf 6 currconf 7
+2021/07/27 22:47:14 gid 100 start request shard 8 from gid 101 requestconf 6 currconf 7
+2021/07/27 22:47:14 gid 100 start request shard 9 from gid 101 requestconf 6 currconf 7
+2021/07/27 22:47:14 gid 100 start request shard 4 from gid 102 requestconf 6 currconf 7
+2021/07/27 22:47:14 client 2153397100127015459 put gid 101 shard 5 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 2153397100127015459 wrongleader
+2021/07/27 22:47:14 client 4359339292447366452 put gid 100 shard 8 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 4359339292447366452 wrongleader
+2021/07/27 22:47:14 client 4359339292447366452 wrongleader
+2021/07/27 22:47:14 cid 4359339292447366452 put shard 8 in gid 100 args.conf 7 shardconf 1 kv.conf 7 and request
+2021/07/27 22:47:14 gid 100 start request shard 8 from gid 101 requestconf 6 currconf 7
+2021/07/27 22:47:14 client 4359339292447366452 wronggroup
+2021/07/27 22:47:14 client 1328003168528670393 put gid 102 shard 1 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 1328003168528670393 wrongleader
+2021/07/27 22:47:14 client 1328003168528670393 wrongleader
+2021/07/27 22:47:14 client 4503515352232265288 put gid 102 shard 0 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 4503515352232265288 wrongleader
+2021/07/27 22:47:14 client 4503515352232265288 wrongleader
+2021/07/27 22:47:14 client 4196432079698485957 put gid 100 shard 4 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 client 4196432079698485957 wrongleader
+2021/07/27 22:47:14 client 4196432079698485957 wrongleader
+2021/07/27 22:47:14 cid 4196432079698485957 put shard 4 in gid 100 args.conf 7 shardconf 2 kv.conf 7 and request
+2021/07/27 22:47:14 gid 100 start request shard 4 from gid 102 requestconf 6 currconf 7
+2021/07/27 22:47:14 client 4196432079698485957 wronggroup
+2021/07/27 22:47:14 gid 101 query 7 and get latestConfig {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [4 0 0 0 0 0 6 6 6 6]
+2021/07/27 22:47:14 cid 2138454683750259100 put shard 6 in gid 101 args.conf 7 shardconf 6 kv.conf 6
+2021/07/27 22:47:14 cid 2153397100127015459 put shard 5 in gid 101 args.conf 7 shardconf 0 kv.conf 6
+2021/07/27 22:47:14 client 2138454683750259100 wronggroup
+2021/07/27 22:47:14 client 2153397100127015459 wronggroup
+2021/07/27 22:47:14 confchange gid 101 start in index 48 server 1 cmd:{0 0 ConfigChange   {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:14 gid 102 query 7 and get latestConfig {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} nowshard [6 6 6 6 6 5 0 0 0 5]
+2021/07/27 22:47:14 cid 1328003168528670393 put shard 1 in gid 102 args.conf 7 shardconf 6 kv.conf 6
+2021/07/27 22:47:14 confchange gid 102 start in index 62 server 2 cmd:{0 0 ConfigChange   {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:14 client 1328003168528670393 wronggroup
+2021/07/27 22:47:14 cid 4503515352232265288 put shard 0 in gid 102 args.conf 7 shardconf 6 kv.conf 6
+2021/07/27 22:47:14 client 4503515352232265288 wronggroup
+2021/07/27 22:47:14 deletion gid 102 start in index 66 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 5 map[]  0 0 1273628816}
+2021/07/27 22:47:14 gid 102 index 62 server 2 cmd {0 0 ConfigChange   {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 6 shardnum 6
+2021/07/27 22:47:14 gid 102 newshards map[0:{} 1:{} 2:{}]
+2021/07/27 22:47:14 gid 102 oldshards [6 6 6 6 6 5 0 0 0 5]
+2021/07/27 22:47:14 installmigration gid 102 start in index 68 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  102 0 0}
+2021/07/27 22:47:14 installmigration gid 102 start in index 69 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 7 0 0 map[]  102 0 0}
+2021/07/27 22:47:14 installmigration gid 102 start in index 70 server 2 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 7 0 0 map[]  102 0 0}
+2021/07/27 22:47:14 gid 102 index 63 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 6 0 map[]  0 100 509460809} cmd.num 0 kv.num 7 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 3 to gid 100 confignumber 6 nowshards [6 6 6 6 6 5 0 0 0 5]
+2021/07/27 22:47:14 gid 102 index 64 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 6 0 map[]  0 100 2112713672} cmd.num 0 kv.num 7 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 4 to gid 100 confignumber 6 nowshards [6 6 6 6 6 5 0 0 0 5]
+2021/07/27 22:47:14 gid 102 index 65 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 5 0 map[]  0 101 2025601250} cmd.num 0 kv.num 7 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 5 to gid 101 confignumber 5 nowshards [6 6 6 6 6 5 0 0 0 5]
+2021/07/27 22:47:14 gid 102 index 66 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 5 map[]  0 0 1273628816} cmd.num 0 kv.num 7 shardnum 6
+2021/07/27 22:47:14 success delete gid 102 shard 9 nowshards [6 6 6 6 6 5 0 0 0 0]
+2021/07/27 22:47:14 gid 102 index 67 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 6 0 map[]  0 100 352226359} cmd.num 0 kv.num 7 shardnum 6
+2021/07/27 22:47:14 success gid 102 migrate shard 4 to gid 100 confignumber 6 nowshards [6 6 6 6 6 5 0 0 0 0]
+2021/07/27 22:47:14 success delete gid 102 shard 9 nowshards [6 6 6 6 6 5 0 0 0 0]
+2021/07/27 22:47:14 success delete gid 102 shard 9 nowshards [6 6 6 6 6 5 0 0 0 0]
+2021/07/27 22:47:14 gid 101 index 48 server 1 cmd {0 0 ConfigChange   {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0} cmd.num 0 kv.num 6 shardnum 4
+2021/07/27 22:47:14 gid 101 newshards map[5:{} 6:{} 7:{}]
+2021/07/27 22:47:14 gid 101 oldshards [4 0 0 0 0 0 6 6 6 6]
+2021/07/27 22:47:14 installmigration gid 101 start in index 51 server 1 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 7 0 0 map[]  101 0 0}
+2021/07/27 22:47:14 installmigration gid 101 start in index 52 server 1 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 7 0 0 map[]  101 0 0}
+2021/07/27 22:47:14 gid 101 index 49 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 6 0 map[]  0 100 287805322} cmd.num 0 kv.num 7 shardnum 4
+2021/07/27 22:47:14 success gid 101 migrate shard 9 to gid 100 confignumber 6 nowshards [4 0 0 0 0 0 6 6 6 6]
+2021/07/27 22:47:14 gid 101 index 50 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 6 0 map[]  0 100 913755563} cmd.num 0 kv.num 7 shardnum 4
+2021/07/27 22:47:14 success gid 101 migrate shard 8 to gid 100 confignumber 6 nowshards [4 0 0 0 0 0 6 6 6 6]
+2021/07/27 22:47:14 gid 101 start request shard 5 from gid 102 requestconf 5 currconf 7
+2021/07/27 22:47:14 client 1581742052444406247 put gid 100 shard 9 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:14 gid 102 index 68 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  102 0 0} cmd.num 7 kv.num 7 shardnum 6
+2021/07/27 22:47:14 gid 102 install shard 0:in config 7 now shards [7 6 6 6 6 5 0 0 0 0] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f]
+2021/07/27 22:47:14 gid 102 index 69 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 7 0 0 map[]  102 0 0} cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:14 gid 102 install shard 1:in config 7 now shards [7 7 6 6 6 5 0 0 0 0] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f]
+2021/07/27 22:47:14 gid 102 index 70 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 7 0 0 map[]  102 0 0} cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:14 gid 102 install shard 2:in config 7 now shards [7 7 7 6 6 5 0 0 0 0] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[2: 3:EySlO8xFt4lR8Xf 4:Eyq6tKMpav 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d 7:u2_zqaCU7f]
+2021/07/27 22:47:14 gid 102 index 71 server 2 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 5 0 map[]  0 101 1839971294} cmd.num 0 kv.num 7 shardnum 7
+2021/07/27 22:47:14 success gid 102 migrate shard 5 to gid 101 confignumber 5 nowshards [7 7 7 6 6 5 0 0 0 0]
+2021/07/27 22:47:14 gid 101 index 51 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 7 0 0 map[]  101 0 0} cmd.num 7 kv.num 7 shardnum 4
+2021/07/27 22:47:14 gid 101 install shard 6:in config 7 now shards [4 0 0 0 0 0 7 6 6 6] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2:mGWEfXWLRj 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 gid 101 index 52 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 7 0 0 map[]  101 0 0} cmd.num 7 kv.num 7 shardnum 4
+2021/07/27 22:47:14 gid 101 install shard 7:in config 7 now shards [4 0 0 0 0 0 7 7 6 6] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2:mGWEfXWLRj 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:14 client 1581742052444406247 wrongleader
+2021/07/27 22:47:14 cid 1581742052444406247 put shard 9 in gid 100 args.conf 7 shardconf 0 kv.conf 7 and request
+2021/07/27 22:47:14 gid 100 start request shard 9 from gid 101 requestconf 6 currconf 7
+2021/07/27 22:47:14 client 1581742052444406247 wronggroup
+2021/07/27 22:47:15 gid 100 index 69 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[1:C87ST_eGIVXU_9jMXFl--owaz] 9 7 6 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  101 0 0} cmd.num 7 kv.num 7 shardnum 0
+2021/07/27 22:47:15 gid 101 index 53 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[7:u2_zqaCU7f] 5 6 5 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  102 0 0} cmd.num 6 kv.num 7 shardnum 4
+2021/07/27 22:47:15 gid 100 install shard 9:in config 7 now shards [0 0 0 0 2 0 0 0 1 7] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[1:C87ST_eGIVXU_9jMXFl--owaz]
+2021/07/27 22:47:15 gid 100 start delete gid 101 shard 9 in conf 6 nowshard [0 0 0 0 2 0 0 0 1 7]
+2021/07/27 22:47:15 gid 101 install shard 5:in config 6 now shards [4 0 0 0 0 6 7 7 6 6] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 2:mGWEfXWLRj 7:u2_zqaCU7f 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:15 gid 101 start delete gid 102 shard 5 in conf 5 nowshard [4 0 0 0 0 6 7 7 6 6]
+2021/07/27 22:47:15 gid 100 index 70 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGjYUWRe_i6Ib] 8 7 6 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  101 0 0} cmd.num 7 kv.num 7 shardnum 0
+2021/07/27 22:47:15 gid 100 install shard 8:in config 7 now shards [0 0 0 0 2 0 0 0 7 7] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz]
+2021/07/27 22:47:15 gid 100 start delete gid 101 shard 8 in conf 6 nowshard [0 0 0 0 2 0 0 0 7 7]
+2021/07/27 22:47:15 gid 100 index 71 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[5:NQdJjOOIHBsRDzfJ37PA] 3 7 6 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  102 0 0} cmd.num 7 kv.num 7 shardnum 0
+2021/07/27 22:47:15 gid 100 install shard 3:in config 7 now shards [0 0 0 7 2 0 0 0 7 7] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 5:NQdJjOOIHBsRDzfJ37PA]
+2021/07/27 22:47:15 gid 100 start delete gid 102 shard 3 in conf 6 nowshard [0 0 0 7 2 0 0 0 7 7]
+2021/07/27 22:47:15 gid 100 index 72 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[6:wekPE0Rpl_bRj5rzN_6d] 4 7 6 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  102 0 0} cmd.num 7 kv.num 7 shardnum 0
+2021/07/27 22:47:15 gid 100 install shard 4:in config 7 now shards [0 0 0 7 7 0 0 0 7 7] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[0:A5WGjYUWRe_i6Ib 1:C87ST_eGIVXU_9jMXFl--owaz 5:NQdJjOOIHBsRDzfJ37PA 6:wekPE0Rpl_bRj5rzN_6d]
+2021/07/27 22:47:15 gid 100 start delete gid 102 shard 4 in conf 6 nowshard [0 0 0 7 7 0 0 0 7 7]
+2021/07/27 22:47:15 deletion gid 101 start in index 56 server 1 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 6 map[]  0 0 599446846}
+2021/07/27 22:47:15 deletion gid 101 start in index 57 server 1 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 6 map[]  0 0 478514025}
+2021/07/27 22:47:15 deletion gid 102 start in index 72 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 0 6 map[]  0 0 153797236}
+2021/07/27 22:47:15 deletion gid 102 start in index 73 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 5 map[]  0 0 1707040934}
+2021/07/27 22:47:15 success delete gid 101 shard 8 nowshards [4 0 0 0 0 6 7 7 0 6]
+2021/07/27 22:47:15 gid 101 index 54 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 6 0 map[]  0 100 759491347} cmd.num 0 kv.num 7 shardnum 4
+2021/07/27 22:47:15 success gid 101 migrate shard 9 to gid 100 confignumber 6 nowshards [4 0 0 0 0 6 7 7 6 6]
+2021/07/27 22:47:15 gid 101 index 55 server 1 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 6 0 map[]  0 100 1966324335} cmd.num 0 kv.num 7 shardnum 4
+2021/07/27 22:47:15 success gid 101 migrate shard 8 to gid 100 confignumber 6 nowshards [4 0 0 0 0 6 7 7 6 6]
+2021/07/27 22:47:15 gid 101 index 56 server 1 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 6 map[]  0 0 599446846} cmd.num 0 kv.num 7 shardnum 4
+2021/07/27 22:47:15 success delete gid 101 shard 8 nowshards [4 0 0 0 0 6 7 7 0 6]
+2021/07/27 22:47:15 gid 101 index 57 server 1 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 6 map[]  0 0 478514025} cmd.num 0 kv.num 7 shardnum 4
+2021/07/27 22:47:15 success delete gid 101 shard 9 nowshards [4 0 0 0 0 6 7 7 0 0]
+2021/07/27 22:47:15 gid 101 index 58 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  101 0 0} cmd.num 7 kv.num 7 shardnum 4
+2021/07/27 22:47:15 gid 101 install shard 0:in config 7 now shards [7 0 0 0 0 6 7 7 0 0] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[2:mGWEfXWLRj 7:u2_zqaCU7f 8:0rixx 9:yB2FpOMpJX6R87wA3GOo]
+2021/07/27 22:47:15 gid 101 server 2 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 gid 101 server 1 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 gid 101 server 0 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 gid 101 server 1 index 2 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 deletion gid 102 start in index 74 server 2 cmd:{0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 0 6 map[]  0 0 193902980}
+2021/07/27 22:47:15 client 2795736610985435684 put gid 102 shard 2 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 2354462680233207383 put gid 101 shard 7 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 2354462680233207383 wrongleader
+2021/07/27 22:47:15 client 2795736610985435684 wrongleader
+2021/07/27 22:47:15 gid 102 index 72 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 0 6 map[]  0 0 153797236} cmd.num 0 kv.num 7 shardnum 7
+2021/07/27 22:47:15 success delete gid 102 shard 3 nowshards [7 7 7 0 6 5 0 0 0 0]
+2021/07/27 22:47:15 gid 102 index 73 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 5 map[]  0 0 1707040934} cmd.num 0 kv.num 7 shardnum 7
+2021/07/27 22:47:15 success delete gid 102 shard 5 nowshards [7 7 7 0 6 0 0 0 0 0]
+2021/07/27 22:47:15 gid 102 index 74 server 2 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 0 6 map[]  0 0 193902980} cmd.num 0 kv.num 7 shardnum 7
+2021/07/27 22:47:15 success delete gid 102 shard 4 nowshards [7 7 7 0 0 0 0 0 0 0]
+2021/07/27 22:47:15 success delete gid 101 shard 9 nowshards [4 0 0 0 0 6 7 7 0 0]
+2021/07/27 22:47:15 success delete gid 102 shard 3 nowshards [7 7 7 0 6 5 0 0 0 0]
+2021/07/27 22:47:15 success delete gid 102 shard 3 nowshards [7 7 7 0 6 5 0 0 0 0]
+2021/07/27 22:47:15 gid 101 index 59 server 1 cmd {2354462680233207383 4 Append 9 2DT3W {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1405886116} shard 7 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 success delete gid 101 shard 8 nowshards [4 0 0 0 0 6 7 7 0 6]
+2021/07/27 22:47:15 gid 102 index 75 server 2 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1980667947} shard 2 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 success delete gid 102 shard 5 nowshards [7 7 7 0 6 0 0 0 0 0]
+2021/07/27 22:47:15 success delete gid 102 shard 4 nowshards [7 7 7 0 0 0 0 0 0 0]
+2021/07/27 22:47:15 success delete gid 101 shard 9 nowshards [4 0 0 0 0 6 7 7 0 0]
+2021/07/27 22:47:15 success delete gid 102 shard 5 nowshards [7 7 7 0 6 0 0 0 0 0]
+2021/07/27 22:47:15 success delete gid 102 shard 4 nowshards [7 7 7 0 0 0 0 0 0 0]
+2021/07/27 22:47:15 client 4196432079698485957 put gid 100 shard 4 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 2354462680233207383 put gid 101 shard 7 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 1557785388940885270 put gid 100 shard 3 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 1557785388940885270 wrongleader
+2021/07/27 22:47:15 client 2354462680233207383 wrongleader
+2021/07/27 22:47:15 client 1328003168528670393 put gid 102 shard 1 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 1328003168528670393 wrongleader
+2021/07/27 22:47:15 client 1328003168528670393 wrongleader
+2021/07/27 22:47:15 client 2795736610985435684 put gid 102 shard 2 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 gid 102 index 76 server 2 cmd {1328003168528670393 3 Append 3 RgTMf {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 736386134} shard 1 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 client 2795736610985435684 wrongleader
+2021/07/27 22:47:15 gid 101 index 60 server 1 cmd {2354462680233207383 5 Append 9 CVnxd {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 389840585} shard 7 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 takesnapshot gid 101 server 1: preindex 2 lastindex 60
+2021/07/27 22:47:15 takesnapshot gid 101 server 2: preindex 1 lastindex 59
+2021/07/27 22:47:15 takesnapshot gid 101 server 0: preindex 1 lastindex 59
+2021/07/27 22:47:15 gid 102 server 2 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 gid 102 server 1 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 gid 102 server 2 index 2 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 gid 102 server 0 index 1 cmd {0 0 ConfigChange   {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 gid 102 server 0 index 2 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:15 gid 100 index 73 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[1:C87ST_eGIVXU_9jMXFl--owaz] 9 7 6 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  101 0 0} cmd.num 7 kv.num 7 shardnum 0
+2021/07/27 22:47:15 gid 100 index 74 server 2 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGjYUWRe_i6Ib] 8 7 6 0 map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2153397100127015459:1 2354462680233207383:3 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2]  101 0 0} cmd.num 7 kv.num 7 shardnum 0
+2021/07/27 22:47:15 client 2354462680233207383 put gid 101 shard 7 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 1328003168528670393 put gid 102 shard 1 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 1328003168528670393 wrongleader
+2021/07/27 22:47:15 client 1581742052444406247 put gid 100 shard 9 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 gid 100 index 75 server 2 cmd {4196432079698485957 4 Append 6 qnT2t {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1182100537} shard 4 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 100 index 76 server 2 cmd {1557785388940885270 4 Append 5 y5YF1 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 133598385} shard 3 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 client 2354462680233207383 wrongleader
+2021/07/27 22:47:15 client 1581742052444406247 wrongleader
+2021/07/27 22:47:15 client 1328003168528670393 wrongleader
+2021/07/27 22:47:15 client 4196432079698485957 put gid 100 shard 4 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 1557785388940885270 put gid 100 shard 3 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 4196432079698485957 wrongleader
+2021/07/27 22:47:15 client 1557785388940885270 wrongleader
+2021/07/27 22:47:15 client 4196432079698485957 wrongleader
+2021/07/27 22:47:15 client 1557785388940885270 wrongleader
+2021/07/27 22:47:15 takesnapshot gid 102 server 0: preindex 2 lastindex 77
+2021/07/27 22:47:15 takesnapshot gid 102 server 1: preindex 1 lastindex 76
+2021/07/27 22:47:15 gid 102 index 77 server 2 cmd {2795736610985435684 3 Append 4 _RMVQ {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 875392071} shard 2 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 100 request shard 4 in gid 102 reqestshardconf 6 kvshardconf 0 and request
+2021/07/27 22:47:15 gid 102 start request shard 4 from gid 100 requestconf 2 currconf 6
+2021/07/27 22:47:15 takesnapshot gid 102 server 2: preindex 2 lastindex 77
+2021/07/27 22:47:15 gid 101 index 61 server 1 cmd {2354462680233207383 6 Append 9 XuG75 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1177490181} shard 7 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 client 4503515352232265288 put gid 102 shard 0 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 2138454683750259100 put gid 101 shard 6 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 4503515352232265288 wrongleader
+2021/07/27 22:47:15 client 4503515352232265288 wrongleader
+2021/07/27 22:47:15 gid 102 index 78 server 2 cmd {1328003168528670393 4 Append 3 iDOMh {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1666546225} shard 1 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 client 2138454683750259100 wrongleader
+2021/07/27 22:47:15 client 4503515352232265288 put gid 102 shard 0 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 2795736610985435684 put gid 102 shard 2 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 4503515352232265288 wrongleader
+2021/07/27 22:47:15 client 2795736610985435684 wrongleader
+2021/07/27 22:47:15 client 1328003168528670393 put gid 102 shard 1 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 1328003168528670393 wrongleader
+2021/07/27 22:47:15 gid 100 index 77 server 2 cmd {1581742052444406247 5 Append 1 6L7hm {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1216293590} shard 9 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 client 2795736610985435684 wrongleader
+2021/07/27 22:47:15 client 1328003168528670393 wrongleader
+2021/07/27 22:47:15 client 4359339292447366452 put gid 100 shard 8 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 gid 100 index 78 server 2 cmd {4196432079698485957 5 Append 6 I0YbA {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1629388459} shard 4 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 100 index 79 server 2 cmd {1557785388940885270 5 Append 5 UdSz- {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1706391245} shard 3 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 client 4359339292447366452 wrongleader
+2021/07/27 22:47:15 client 1581742052444406247 put gid 100 shard 9 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 gid 100 index 80 server 2 cmd {4359339292447366452 3 Append 0 WcZVJ {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1939929729} shard 8 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 client 1557785388940885270 put gid 100 shard 3 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 4196432079698485957 put gid 100 shard 4 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 1557785388940885270 wrongleader
+2021/07/27 22:47:15 client 4196432079698485957 wrongleader
+2021/07/27 22:47:15 client 1557785388940885270 wrongleader
+2021/07/27 22:47:15 client 4359339292447366452 put gid 100 shard 8 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 4359339292447366452 wrongleader
+2021/07/27 22:47:15 client 4359339292447366452 wrongleader
+2021/07/27 22:47:15 gid 102 index 79 server 2 cmd {4503515352232265288 3 Append 2 7Jhpu {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1488991653} shard 0 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 101 index 62 server 1 cmd {2138454683750259100 1 Append 8 aAa_z {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1749551642} shard 6 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 102 index 80 server 2 cmd {1328003168528670393 5 Append 3 xU3fx {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 190936069} shard 1 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 102 index 81 server 2 cmd {2795736610985435684 4 Append 4 bvNVy {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1031019336} shard 2 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 client 2138454683750259100 put gid 101 shard 6 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 2138454683750259100 wrongleader
+2021/07/27 22:47:15 client 1328003168528670393 put gid 102 shard 1 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 2795736610985435684 put gid 102 shard 2 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:15 client 2795736610985435684 wrongleader
+2021/07/27 22:47:15 client 2138454683750259100 wrongleader
+2021/07/27 22:47:15 client 1328003168528670393 wrongleader
+2021/07/27 22:47:15 client 1328003168528670393 wrongleader
+2021/07/27 22:47:15 gid 100 index 81 server 2 cmd {1581742052444406247 6 Append 1 VqZPA {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 602976474} shard 9 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 100 index 82 server 2 cmd {1557785388940885270 6 Append 5 DWtez {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 309022197} shard 3 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 100 index 83 server 2 cmd {4196432079698485957 6 Append 6 oRFra {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1372547119} shard 4 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:15 gid 100 index 84 server 2 cmd {4359339292447366452 4 Append 0 jTgcK {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1934778737} shard 8 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 client 1581742052444406247 put gid 100 shard 9 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 4359339292447366452 put gid 100 shard 8 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 1557785388940885270 put gid 100 shard 3 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 1581742052444406247 wrongleader
+2021/07/27 22:47:16 client 1557785388940885270 wrongleader
+2021/07/27 22:47:16 client 1557785388940885270 wrongleader
+2021/07/27 22:47:16 client 1581742052444406247 wrongleader
+2021/07/27 22:47:16 client 4503515352232265288 put gid 102 shard 0 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 4503515352232265288 wrongleader
+2021/07/27 22:47:16 client 4503515352232265288 wrongleader
+2021/07/27 22:47:16 client 2138454683750259100 put gid 101 shard 6 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 2138454683750259100 wrongleader
+2021/07/27 22:47:16 gid 102 index 82 server 2 cmd {2795736610985435684 5 Append 4 0lGYY {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 716825799} shard 2 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 gid 102 index 83 server 2 cmd {1328003168528670393 6 Append 3 2Fjg- {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1292882523} shard 1 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 gid 100 index 85 server 2 cmd {4359339292447366452 5 Append 0 -__XH {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 32545518} shard 8 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 gid 100 index 86 server 2 cmd {1557785388940885270 7 Append 5 1vtza {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 116921627} shard 3 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 client 2153397100127015459 put gid 101 shard 5 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 2153397100127015459 wrongleader
+2021/07/27 22:47:16 client 4196432079698485957 put gid 100 shard 4 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 4196432079698485957 wrongleader
+2021/07/27 22:47:16 client 4196432079698485957 wrongleader
+2021/07/27 22:47:16 client 2354462680233207383 put gid 101 shard 7 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 2354462680233207383 wrongleader
+2021/07/27 22:47:16 client 1581742052444406247 put gid 100 shard 9 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 1581742052444406247 wrongleader
+2021/07/27 22:47:16 client 1581742052444406247 wrongleader
+2021/07/27 22:47:16 cid 2153397100127015459 put shard 5 in gid 101 args.conf 7 shardconf 6 kv.conf 7 and request
+2021/07/27 22:47:16 client 2153397100127015459 wronggroup
+2021/07/27 22:47:16 installmigration gid 101 start in index 64 server 1 cmd:{0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 7 0 0 map[]  101 0 0}
+2021/07/27 22:47:16 gid 101 index 63 server 1 cmd {2138454683750259100 2 Append 8 id1VY {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 747147201} shard 6 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 gid 101 index 64 server 1 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 7 0 0 map[]  101 0 0} cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 gid 101 install shard 5:in config 7 now shards [7 0 0 0 0 7 7 7 0 0] serial map[1328003168528670393:2 1557785388940885270:3 1581742052444406247:4 2138454683750259100:2 2153397100127015459:1 2354462680233207383:6 2795736610985435684:1 3471951732451641011:10 4196432079698485957:3 4359339292447366452:2 4503515352232265288:2] db map[2:mGWEfXWLRj 7:u2_zqaCU7f 8:0rixxaAa_zid1VY 9:yB2FpOMpJX6R87wA3GOo2DT3WCVnxdXuG75]
+2021/07/27 22:47:16 gid 100 index 87 server 2 cmd {1581742052444406247 7 Append 1 jGXU3 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1293851834} shard 9 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 client 1328003168528670393 put gid 102 shard 1 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 1328003168528670393 wrongleader
+2021/07/27 22:47:16 client 1328003168528670393 wrongleader
+2021/07/27 22:47:16 client 1557785388940885270 put gid 100 shard 3 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 1557785388940885270 wrongleader
+2021/07/27 22:47:16 client 1557785388940885270 wrongleader
+2021/07/27 22:47:16 client 2153397100127015459 put gid 101 shard 5 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:16 client 2153397100127015459 wrongleader
+2021/07/27 22:47:16 gid 101 index 65 server 1 cmd {2153397100127015459 2 Append 7 ymuS0 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1028344326} shard 5 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:16 client gid 100 shard 8 config {1 [100 100 100 100 100 100 100 100 100 100] map[100:[server-100-0 server-100-1 server-100-2]]}
+2021/07/27 22:47:16 cid 3471951732451641011 get shard 8 in gid 100 args.conf 1 shardconf 7 kv.conf 7 and request
+2021/07/27 22:47:16 client 3471951732451641011 wronggroup
+2021/07/27 22:47:17 client gid 100 shard 8 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:17 gid 100 index 88 server 2 cmd {3471951732451641011 0 Get 0  {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1860657785} shard 8 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:17 client 3471951732451641011 ok gid 100 server 2 shard 8
+2021/07/27 22:47:17 client gid 100 shard 9 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:17 gid 100 server 1 index 20 cmd {3471951732451641011 9 Put 8 0rixx {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1688807775}
+2021/07/27 22:47:17 gid 100 server 1 index 21 cmd {3471951732451641011 10 Put 9 yB2Fp {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1559006738}
+2021/07/27 22:47:17 gid 100 server 0 index 20 cmd {3471951732451641011 9 Put 8 0rixx {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1688807775}
+2021/07/27 22:47:17 gid 100 server 1 index 22 cmd {2354462680233207383 1 Append 9 OMpJX {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1629393170}
+2021/07/27 22:47:17 gid 100 server 0 index 21 cmd {3471951732451641011 10 Put 9 yB2Fp {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1559006738}
+2021/07/27 22:47:17 gid 100 server 1 index 23 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 22 cmd {2354462680233207383 1 Append 9 OMpJX {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1629393170}
+2021/07/27 22:47:17 gid 100 server 1 index 24 cmd {2354462680233207383 2 Append 9 6R87w {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] ErrWrongGroup 0 0 481784935}
+2021/07/27 22:47:17 gid 100 server 0 index 23 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 25 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 24 cmd {2354462680233207383 2 Append 9 6R87w {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] ErrWrongGroup 0 0 481784935}
+2021/07/27 22:47:17 gid 100 server 1 index 26 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 25 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 27 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 26 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 28 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 27 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 29 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 28 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 29 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 30 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[1:C87ST] 9 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 898331241}
+2021/07/27 22:47:17 gid 100 server 0 index 30 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[1:C87ST] 9 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 898331241}
+2021/07/27 22:47:17 gid 100 server 1 index 31 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[7:u2_zq] 5 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 1422720170}
+2021/07/27 22:47:17 gid 100 server 0 index 31 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[7:u2_zq] 5 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 1422720170}
+2021/07/27 22:47:17 gid 100 server 1 index 32 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 564319069}
+2021/07/27 22:47:17 gid 100 server 0 index 32 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 564319069}
+2021/07/27 22:47:17 gid 100 server 1 index 33 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGj] 8 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 1192234526}
+2021/07/27 22:47:17 gid 100 server 0 index 33 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGj] 8 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 1192234526}
+2021/07/27 22:47:17 gid 100 server 1 index 34 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 1 map[] OK 0 0 374573475}
+2021/07/27 22:47:17 gid 100 server 0 index 34 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 1 map[] OK 0 0 374573475}
+2021/07/27 22:47:17 gid 100 server 1 index 35 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 1 map[] OK 0 0 1844290658}
+2021/07/27 22:47:17 gid 100 server 0 index 35 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 1 map[] OK 0 0 1844290658}
+2021/07/27 22:47:17 gid 100 server 1 index 36 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 1 map[] OK 0 0 1170772099}
+2021/07/27 22:47:17 gid 100 server 0 index 36 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 1 map[] OK 0 0 1170772099}
+2021/07/27 22:47:17 gid 100 server 1 index 37 cmd {2795736610985435684 1 Append 4 KMpav {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[] OK 0 0 1875274582}
+2021/07/27 22:47:17 gid 100 server 0 index 37 cmd {2795736610985435684 1 Append 4 KMpav {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[] OK 0 0 1875274582}
+2021/07/27 22:47:17 gid 100 server 1 index 38 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX] 7 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1884337003}
+2021/07/27 22:47:17 gid 100 server 0 index 38 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX] 7 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1884337003}
+2021/07/27 22:47:17 gid 100 server 1 index 39 cmd {0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 39 cmd {0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 40 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[] ErrWrongGroup 0 0 819084221}
+2021/07/27 22:47:17 gid 100 server 0 index 41 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1753479965}
+2021/07/27 22:47:17 gid 100 server 1 index 40 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[] ErrWrongGroup 0 0 819084221}
+2021/07/27 22:47:17 gid 100 server 0 index 42 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 41 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1753479965}
+2021/07/27 22:47:17 gid 100 server 0 index 43 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 42 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 44 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 43 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 45 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 150536965}
+2021/07/27 22:47:17 gid 100 server 1 index 44 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 46 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX] 7 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 717365835}
+2021/07/27 22:47:17 gid 100 server 1 index 45 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 150536965}
+2021/07/27 22:47:17 gid 100 server 0 index 47 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[6:wekPE] 4 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 287047291}
+2021/07/27 22:47:17 gid 100 server 1 index 46 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX] 7 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 717365835}
+2021/07/27 22:47:17 gid 100 server 0 index 48 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[5:NQdJj] 3 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 622916007}
+2021/07/27 22:47:17 gid 100 server 1 index 47 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[6:wekPE] 4 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 287047291}
+2021/07/27 22:47:17 gid 100 server 0 index 49 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 1 map[] OK 0 0 1599368418}
+2021/07/27 22:47:17 gid 100 server 1 index 48 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[5:NQdJj] 3 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 622916007}
+2021/07/27 22:47:17 gid 100 server 0 index 50 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 1 map[] OK 0 0 915079948}
+2021/07/27 22:47:17 gid 100 server 1 index 49 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 1 map[] OK 0 0 1599368418}
+2021/07/27 22:47:17 gid 100 server 0 index 51 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 0 2 map[] OK 0 0 611997528}
+2021/07/27 22:47:17 gid 100 server 1 index 50 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 1 map[] OK 0 0 915079948}
+2021/07/27 22:47:17 gid 100 server 0 index 52 cmd {0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 51 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 0 2 map[] OK 0 0 611997528}
+2021/07/27 22:47:17 gid 100 server 0 index 53 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[] ErrWrongGroup 0 0 1477744834}
+2021/07/27 22:47:17 gid 100 server 1 index 52 cmd {0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 54 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[6:wekPE] 4 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 304239626}
+2021/07/27 22:47:17 gid 100 server 1 index 53 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[] ErrWrongGroup 0 0 1477744834}
+2021/07/27 22:47:17 gid 100 server 0 index 55 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 0 2 map[] OK 0 0 787584125}
+2021/07/27 22:47:17 gid 100 server 1 index 54 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[6:wekPE] 4 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 304239626}
+2021/07/27 22:47:17 gid 100 server 0 index 56 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 552148406}
+2021/07/27 22:47:17 gid 100 server 1 index 55 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 0 2 map[] OK 0 0 787584125}
+2021/07/27 22:47:17 gid 100 server 0 index 57 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[2:mGWEf] 0 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 695966479}
+2021/07/27 22:47:17 gid 100 server 1 index 56 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 552148406}
+2021/07/27 22:47:17 gid 100 server 0 index 58 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[4:Eyq6tKMpav] 2 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 1741048099}
+2021/07/27 22:47:17 gid 100 server 1 index 57 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[2:mGWEf] 0 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 695966479}
+2021/07/27 22:47:17 gid 100 server 0 index 59 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 58 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[4:Eyq6tKMpav] 2 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 1741048099}
+2021/07/27 22:47:17 gid 100 server 0 index 60 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1691839628}
+2021/07/27 22:47:17 gid 100 server 1 index 59 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 61 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 60 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1691839628}
+2021/07/27 22:47:17 gid 100 server 0 index 62 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 0 3 map[] OK 0 0 1003962325}
+2021/07/27 22:47:17 gid 100 server 1 index 61 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 0 index 63 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 0 0 3 map[] OK 0 0 1965390746}
+2021/07/27 22:47:17 gid 100 server 1 index 62 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 0 3 map[] OK 0 0 1003962325}
+2021/07/27 22:47:17 gid 100 server 0 index 64 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[4:Eyq6tKMpav] 2 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 1807272997}
+2021/07/27 22:47:17 gid 100 server 1 index 63 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 0 0 3 map[] OK 0 0 1965390746}
+2021/07/27 22:47:17 gid 100 server 0 index 65 cmd {0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 1 index 64 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[4:Eyq6tKMpav] 2 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 1807272997}
+2021/07/27 22:47:17 gid 100 server 1 index 65 cmd {0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 index 89 server 2 cmd {3471951732451641011 0 Get 1  {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 1639511183} shard 9 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:17 client 3471951732451641011 ok gid 100 server 2 shard 9
+2021/07/27 22:47:17 client gid 102 shard 0 config {7 [102 102 102 100 100 101 101 101 100 100] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]}
+2021/07/27 22:47:17 gid 100 server 2 index 20 cmd {3471951732451641011 9 Put 8 0rixx {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1688807775}
+2021/07/27 22:47:17 gid 100 server 2 index 21 cmd {3471951732451641011 10 Put 9 yB2Fp {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1559006738}
+2021/07/27 22:47:17 gid 100 server 2 index 22 cmd {2354462680233207383 1 Append 9 OMpJX {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] OK 0 0 1629393170}
+2021/07/27 22:47:17 gid 100 server 2 index 23 cmd {0 0 ConfigChange   {2 [100 100 100 100 100 101 101 101 101 101] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 24 cmd {2354462680233207383 2 Append 9 6R87w {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 1 0 0 map[] ErrWrongGroup 0 0 481784935}
+2021/07/27 22:47:17 gid 100 server 2 index 25 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 26 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 27 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 28 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 29 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 30 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[1:C87ST] 9 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 898331241}
+2021/07/27 22:47:17 gid 100 server 2 index 31 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[7:u2_zq] 5 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 1422720170}
+2021/07/27 22:47:17 gid 100 server 2 index 32 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 564319069}
+2021/07/27 22:47:17 gid 100 server 2 index 33 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[0:A5WGj] 8 0 1 0 map[2354462680233207383:1 3471951732451641011:10] OK 0 101 1192234526}
+2021/07/27 22:47:17 gid 100 server 2 index 34 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 0 0 1 map[] OK 0 0 374573475}
+2021/07/27 22:47:17 gid 100 server 2 index 35 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 5 0 0 1 map[] OK 0 0 1844290658}
+2021/07/27 22:47:17 gid 100 server 2 index 36 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 9 0 0 1 map[] OK 0 0 1170772099}
+2021/07/27 22:47:17 gid 100 server 2 index 37 cmd {2795736610985435684 1 Append 4 KMpav {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[] OK 0 0 1875274582}
+2021/07/27 22:47:17 gid 100 server 2 index 38 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX] 7 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1884337003}
+2021/07/27 22:47:17 gid 100 server 2 index 39 cmd {0 0 ConfigChange   {3 [100 100 100 102 102 101 101 101 102 102] map[100:[server-100-0 server-100-1 server-100-2] 101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 40 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 2 0 0 map[] ErrWrongGroup 0 0 819084221}
+2021/07/27 22:47:17 gid 100 server 2 index 41 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1753479965}
+2021/07/27 22:47:17 gid 100 server 2 index 42 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 43 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 44 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 3 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 45 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[8:0rixx] 6 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 150536965}
+2021/07/27 22:47:17 gid 100 server 2 index 46 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[9:yB2FpOMpJX] 7 0 1 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 717365835}
+2021/07/27 22:47:17 gid 100 server 2 index 47 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[6:wekPE] 4 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 287047291}
+2021/07/27 22:47:17 gid 100 server 2 index 48 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[5:NQdJj] 3 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 622916007}
+2021/07/27 22:47:17 gid 100 server 2 index 49 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 6 0 0 1 map[] OK 0 0 1599368418}
+2021/07/27 22:47:17 gid 100 server 2 index 50 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 7 0 0 1 map[] OK 0 0 915079948}
+2021/07/27 22:47:17 gid 100 server 2 index 51 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 3 0 0 2 map[] OK 0 0 611997528}
+2021/07/27 22:47:17 gid 100 server 2 index 52 cmd {0 0 ConfigChange   {4 [101 101 102 102 102 101 101 101 102 102] map[101:[server-101-0 server-101-1 server-101-2] 102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 53 cmd {2795736610985435684 2 Append 4 x4cW2 {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 3 0 0 map[] ErrWrongGroup 0 0 1477744834}
+2021/07/27 22:47:17 gid 100 server 2 index 54 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[6:wekPE] 4 0 2 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 304239626}
+2021/07/27 22:47:17 gid 100 server 2 index 55 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 0 0 2 map[] OK 0 0 787584125}
+2021/07/27 22:47:17 gid 100 server 2 index 56 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 552148406}
+2021/07/27 22:47:17 gid 100 server 2 index 57 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[2:mGWEf] 0 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 695966479}
+2021/07/27 22:47:17 gid 100 server 2 index 58 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[4:Eyq6tKMpav] 2 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 1741048099}
+2021/07/27 22:47:17 gid 100 server 2 index 59 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 4 2 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 60 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[3:EySlO] 1 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 101 1691839628}
+2021/07/27 22:47:17 gid 100 server 2 index 61 cmd {0 0 InstallShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 8 1 0 0 map[]  100 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 62 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 1 0 0 3 map[] OK 0 0 1003962325}
+2021/07/27 22:47:17 gid 100 server 2 index 63 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 0 0 3 map[] OK 0 0 1965390746}
+2021/07/27 22:47:17 gid 100 server 2 index 64 cmd {0 0 ShardMigration   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[4:Eyq6tKMpav] 2 0 3 0 map[2354462680233207383:1 2795736610985435684:1 3471951732451641011:10] OK 0 102 1807272997}
+2021/07/27 22:47:17 gid 100 server 2 index 65 cmd {0 0 ConfigChange   {5 [102 102 102 102 102 102 102 102 102 102] map[102:[server-102-0 server-102-1 server-102-2]]} map[] 0 0 0 0 map[]  0 0 0}
+2021/07/27 22:47:17 gid 100 server 2 index 66 cmd {0 0 DeleteShard   {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 2 0 0 3 map[] OK 0 0 1205241489}
+2021/07/27 22:47:17 takesnapshot gid 100 server 0: preindex 65 lastindex 89
+2021/07/27 22:47:17 takesnapshot gid 100 server 1: preindex 65 lastindex 89
+2021/07/27 22:47:17 takesnapshot gid 100 server 2: preindex 66 lastindex 89
+2021/07/27 22:47:17 gid 102 index 84 server 2 cmd {3471951732451641011 0 Get 2  {0 [0 0 0 0 0 0 0 0 0 0] map[]} map[] 0 7 0 0 map[]  0 0 806967069} shard 0 cmd.num 7 kv.num 7 shardnum 7
+2021/07/27 22:47:17 client 3471951732451641011 ok gid 102 server 2 shard 0
+--- FAIL: TestUnreliable2 (14.61s)
+    test_test.go:26: Get(2): expected:
+        mGWEfXWLRjbpYZe7Jhpu
+        received:
+        7Jhpu
+FAIL
+exit status 1
+FAIL	_/D_/6824deletion/src/shardkv	14.997s

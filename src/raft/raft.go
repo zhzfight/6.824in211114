@@ -60,6 +60,7 @@ type Raft struct {
 
 	// snapshot
 	snapshotLastIncludedIndex int
+	snapshotNoopCount         int
 }
 
 //
@@ -104,6 +105,7 @@ func (rf *Raft) persist() {
 	e.Encode(rf.votedFor)
 	e.Encode(rf.log)
 	e.Encode(rf.snapshotLastIncludedIndex)
+	e.Encode(rf.snapshotNoopCount)
 	data := w.Bytes()
 	rf.persister.SaveRaftState(data)
 }
@@ -123,16 +125,19 @@ func (rf *Raft) readPersist(data []byte) {
 	var votedFor int
 	var log []Entry
 	var snapshotLastIncludedIndex int
+	var snapshotNoopCount int
 	if d.Decode(&currentTerm) != nil ||
 		d.Decode(&votedFor) != nil ||
 		d.Decode(&log) != nil ||
-		d.Decode(&snapshotLastIncludedIndex) != nil {
+		d.Decode(&snapshotLastIncludedIndex) != nil ||
+		d.Decode(&snapshotNoopCount) != nil {
 		panic("fail to decode state")
 	} else {
 		rf.currentTerm = currentTerm
 		rf.votedFor = votedFor
 		rf.log = log
 		rf.snapshotLastIncludedIndex = snapshotLastIncludedIndex
+		rf.snapshotNoopCount = snapshotNoopCount
 	}
 }
 
@@ -155,24 +160,23 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	// Your code here (2B).
 	// log.Printf("raft%d commitIndex%d start cmd:%v,now the rf.log:%v",rf.me,rf.commitIndex,command,rf.log)
 	rf.mu.Lock()
-	defer rf.mu.Unlock()
+
 	if rf.state == LEADER {
 		if command == "noop" {
 			rf.noopCount++
 		}
 		item := Entry{Term: rf.currentTerm, Command: command}
-		// log.Printf("item:%v",item)
 		rf.lastLogIndex++
 		rf.log = append(rf.log, item)
 		rf.persist()
 		rf.matchIndex[rf.me] = rf.lastLogIndex
 		rf.broadcast()
-		//log.Printf("leader%d start item%v in index%d,its real index is %d", rf.me, item,rf.lastLogIndex,rf.lastLogIndex-rf.noopCount)
+		//log.Printf("leader %d start in index %d start cmd %v,noopcount %d", rf.me, rf.lastLogIndex-rf.noopCount,item,rf.noopCount)
 	}
 	index := rf.lastLogIndex - rf.noopCount
 	term := rf.currentTerm
 	isLeader := rf.state == LEADER
-
+	rf.mu.Unlock()
 	return index, term, isLeader
 }
 
@@ -265,7 +269,9 @@ func Make(peers []*labrpc.ClientEnd, me int,
 		}
 	}()
 	go func() {
-		noopCount := 0
+		rf.mu.Lock()
+		noopCount := rf.snapshotNoopCount
+		rf.mu.Unlock()
 		for {
 			//log.Printf("server%d state%d term%d commitIndex%d lastlogIndex%d the entry in commitIndex is %v,log%v", rf.me, rf.state, rf.currentTerm, rf.commitIndex,rf.lastLogIndex,rf.log[rf.commitIndex] ,rf.log)
 			rf.mu.Lock()
@@ -281,11 +287,9 @@ func Make(peers []*labrpc.ClientEnd, me int,
 						noopCount++
 						continue
 					}
-					// log.Printf("server%d apply {cmd:%v,cmdIndex:%d}",rf.me,entry.Command,startIdx+idx-noopCount)
+					//log.Printf("server %d apply {cmd: %v,cmdIndex: %d},noopcount %d",rf.me,entry.Command,startIdx+idx-noopCount,noopCount)
 					applyMsg := ApplyMsg{Command: entry.Command, CommandIndex: startIdx + idx - noopCount, CommandValid: true}
-					//log.Printf("rf%d commit%d log%v apply %v",rf.me,rf.commitIndex,rf.log,applyMsg)
 					rf.applyCh <- applyMsg
-
 				}
 			}
 
@@ -317,13 +321,16 @@ func (rf *Raft) convertTo(target NodeState) {
 			rf.nextIndex[server] = rf.lastLogIndex + 1
 			rf.matchIndex[server] = 0
 		}
-		//log.Printf("server%d become leader", rf.me)
+
 		rf.noopCount = 0
 		for i := 1; i <= rf.getRelativeLogIndex(rf.lastLogIndex); i++ {
 			if rf.log[i].Command == "noop" {
 				rf.noopCount++
 			}
+			//log.Printf("leader %d log index %d cmd %v",rf.me,rf.getAbsoluteLogIndex(i),rf.log[i].Command)
 		}
+		rf.noopCount = rf.noopCount + rf.snapshotNoopCount
+		//log.Printf("server %d become leader, noopcount %d, snapshotNoopcount %d",rf.me,rf.noopCount,rf.snapshotNoopCount)
 		go func() {
 			rf.Start("noop")
 		}()
@@ -348,8 +355,16 @@ func (rf *Raft) TrimmingLogWithSnapshot(trimmingIndex int, snapshot []byte) {
 	if trimmingIndex <= rf.snapshotLastIncludedIndex {
 		return
 	}
+	var noopCount int
+	for i := 1; i <= rf.getRelativeLogIndex(trimmingIndex); i++ {
+		if rf.log[i].Command == "noop" {
+			noopCount++
+		}
+	}
+	rf.snapshotNoopCount = rf.snapshotNoopCount + noopCount
 	rf.log = rf.log[rf.getRelativeLogIndex(trimmingIndex):]
 	rf.snapshotLastIncludedIndex = trimmingIndex
+
 	rf.persist()
 	rf.persister.SaveStateAndSnapshot(rf.persister.ReadRaftState(), snapshot)
 

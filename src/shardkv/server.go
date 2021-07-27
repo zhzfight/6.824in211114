@@ -37,11 +37,6 @@ type Op struct {
 	Tag      int32
 }
 
-type checkReply struct {
-	err   Err
-	value string
-}
-
 type ShardKV struct {
 	mu           sync.Mutex
 	me           int
@@ -64,6 +59,7 @@ type ShardKV struct {
 	log              map[int]Op
 	databaseMu       sync.Mutex
 	logMu            sync.Mutex
+	rfMu             sync.Mutex
 	shards           []int
 }
 
@@ -79,16 +75,18 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 	shard := key2shard(args.Key)
 	thisShardConfigNumber := kv.shards[shard]
 	if args.ConfigNumber != kv.configNumber {
-		log.Printf("conf dont equal cid %d conf %d gid %d,conf %d", args.Cid, args.ConfigNumber, kv.gid, kv.configNumber)
+		log.Printf("cid %d get shard %d in gid %d args.conf %d shardconf %d kv.conf %d and request", args.Cid, key2shard(args.Key), kv.gid, args.ConfigNumber, thisShardConfigNumber, kv.configNumber)
+
 		reply.Err = ErrWrongGroup
 		kv.mu.Unlock()
 		return
 	}
 
 	if thisShardConfigNumber != args.ConfigNumber {
-		log.Printf("shardconf dont equal cid %d conf %d gid %d,shardconf %d", args.Cid, args.ConfigNumber, kv.gid, thisShardConfigNumber)
+
 		//因为当前shard的Conf没有达到最新的conf，所以要请求
 		if thisShardConfigNumber < args.ConfigNumber {
+			log.Printf("cid %d put shard %d in gid %d args.conf %d shardconf %d kv.conf %d and request", args.Cid, key2shard(args.Key), kv.gid, args.ConfigNumber, thisShardConfigNumber, kv.configNumber)
 			go kv.requestShard1(shard, args.ConfigNumber)
 		}
 		reply.Err = ErrWrongGroup
@@ -100,6 +98,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 	kv.mu.Unlock()
 
 	index, _, isLeader := kv.rf.Start(cmd)
+	//log.Printf("cid %d gid %d start in index %d server %d cmd:%v", args.Cid, kv.gid,  index,kv.me, cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
 		return
@@ -118,6 +117,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 				}
 				return
 			} else {
+				//log.Printf("cid %d gid %d server %d fail in index %d cmd:%v", args.Cid, kv.gid, kv.me, index, cmd)
 				reply.Err = ErrWrongLeader
 				return
 			}
@@ -143,16 +143,17 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	shard := key2shard(args.Key)
 	thisShardConfigNumber := kv.shards[shard]
 	if args.ConfigNumber != kv.configNumber {
-		log.Printf("conf dont equal cid %d conf %d gid %d,conf %d", args.Cid, args.ConfigNumber, kv.gid, kv.configNumber)
+		log.Printf("cid %d put shard %d in gid %d args.conf %d shardconf %d kv.conf %d", args.Cid, key2shard(args.Key), kv.gid, args.ConfigNumber, thisShardConfigNumber, kv.configNumber)
 		reply.Err = ErrWrongGroup
 		kv.mu.Unlock()
 		return
 	}
 
 	if thisShardConfigNumber != args.ConfigNumber {
-		log.Printf("shardconf dont equal cid %d conf %d gid %d,shardconf %d", args.Cid, args.ConfigNumber, kv.gid, thisShardConfigNumber)
+
 		//因为当前shard的Conf没有达到最新的conf，所以要请求
 		if thisShardConfigNumber < args.ConfigNumber {
+			log.Printf("cid %d put shard %d in gid %d args.conf %d shardconf %d kv.conf %d and request", args.Cid, key2shard(args.Key), kv.gid, args.ConfigNumber, thisShardConfigNumber, kv.configNumber)
 			go kv.requestShard1(shard, args.ConfigNumber)
 		}
 		reply.Err = ErrWrongGroup
@@ -163,7 +164,7 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	if ok {
 		if res >= args.Rid {
 			reply.Err = OK
-			log.Printf("client %d rid %d higerserial gid %d put shard %d value %s thisshard %d args.conf %d Err %v", args.Cid, args.Rid, kv.gid, key2shard(args.Key), args.Value, thisShardConfigNumber, args.ConfigNumber, reply)
+
 			kv.mu.Unlock()
 			return
 		}
@@ -171,6 +172,7 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	cmd := Op{Operator: args.Op, Key: args.Key, Value: args.Value, Cid: args.Cid, Rid: args.Rid, GroupConfigNumber: args.ConfigNumber, Tag: rand.Int31()}
 	kv.mu.Unlock()
 	index, _, isLeader := kv.rf.Start(cmd)
+	//log.Printf("cid %d gid %d start in index %d server %d cmd:%v", args.Cid, kv.gid,  index,kv.me, cmd)
 
 	if !isLeader {
 		reply.Err = ErrWrongLeader
@@ -186,6 +188,7 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 				reply.Err = res.Err
 				return
 			} else {
+				//log.Printf("cid %d gid %d server %d fail in index %d cmd:%v", args.Cid, kv.gid, kv.me, index, cmd)
 				reply.Err = ErrWrongLeader
 				return
 			}
@@ -283,9 +286,9 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 				kv.mu.Lock()
 				if _, isLeader := kv.rf.GetState(); isLeader {
 					if cmd.Operator == "Put" || cmd.Operator == "Append" || cmd.Operator == "Get" {
-						log.Printf("gid %d cmd %v shard %d cmd.num %d kv.num %d shardnum %d", kv.gid, cmd, key2shard(cmd.Key), cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)])
+						log.Printf("gid %d index %d server %d cmd %v shard %d cmd.num %d kv.num %d shardnum %d", kv.gid, applyMsg.CommandIndex, kv.me, cmd, key2shard(cmd.Key), cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)])
 					} else {
-						log.Printf("gid %d cmd %v cmd.num %d kv.num %d shardnum %d", kv.gid, cmd, cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)])
+						log.Printf("gid %d index %d server %d cmd %v cmd.num %d kv.num %d shardnum %d", kv.gid, applyMsg.CommandIndex, kv.me, cmd, cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)])
 					}
 				}
 				if cmd.Operator == "Put" || cmd.Operator == "Append" {
@@ -317,6 +320,7 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 						kv.databaseMu.Unlock()
 						cmd.Err = OK
 					} else {
+						log.Printf("cid %d put shard %d groupconf %d kvconf %d shardconf %d", cmd.Cid, cmd.Shard, cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)])
 						cmd.Err = ErrWrongGroup
 					}
 
@@ -333,41 +337,41 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 						}
 
 					} else {
+						log.Printf("cid %d get shard %d groupconf %d kvconf %d shardconf %d", cmd.Cid, cmd.Shard, cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)])
 						cmd.Err = ErrWrongGroup
 					}
 
 				} else if cmd.Operator == "ConfigChange" {
 
 					if cmd.Config.Num > kv.configNumber {
-
-						newShards := make(map[int]struct{})
-						for shard, gid := range cmd.Config.Shards {
-							if gid == kv.gid {
-								newShards[shard] = struct{}{}
-							}
-						}
-						log.Printf("gid %d newshards %v", kv.gid, newShards)
-						log.Printf("gid %d oldshards %v", kv.gid, kv.shards)
-						newResponsibleShard := make(map[int]struct{})
-						for k, _ := range newShards {
-							if kv.shards[k] == kv.configNumber {
-								//改成cmd更新如何？
-								cmd := Op{Operator: "InstallShardMigration", Shard: k, GroupConfigNumber: cmd.Config.Num, FromGid: kv.gid}
-								kv.rf.Start(cmd)
-								//kv.shards[k] = cmd.Config.Num
-							} else {
-								newResponsibleShard[k] = struct{}{}
-							}
-						}
 						if _, isLeader := kv.rf.GetState(); isLeader {
+							newShards := make(map[int]struct{})
+							for shard, gid := range cmd.Config.Shards {
+								if gid == kv.gid {
+									newShards[shard] = struct{}{}
+								}
+							}
+							log.Printf("gid %d newshards %v", kv.gid, newShards)
+							log.Printf("gid %d oldshards %v", kv.gid, kv.shards)
+							newResponsibleShard := make(map[int]struct{})
+							for k, _ := range newShards {
+								if kv.shards[k] == kv.configNumber {
+									//改成cmd更新如何？
+									cmd := Op{Operator: "InstallShardMigration", Shard: k, GroupConfigNumber: cmd.Config.Num, FromGid: kv.gid}
+									index, _, _ := kv.rf.Start(cmd)
+									log.Printf("installmigration gid %d start in index %d server %d cmd:%v", kv.gid, index, kv.me, cmd)
+									//kv.shards[k] = cmd.Config.Num
+								} else {
+									newResponsibleShard[k] = struct{}{}
+								}
+							}
+
 							if len(newResponsibleShard) > 0 {
 								for shard, _ := range newResponsibleShard {
 									go kv.requestShard1(shard, cmd.Config.Num)
 								}
 							}
-
 						}
-
 						kv.shardConfig = append(kv.shardConfig, cmd.Config)
 						kv.configNumber = cmd.Config.Num
 
@@ -475,7 +479,6 @@ func (kv *ShardKV) takeSnapshot(persister *raft.Persister) {
 	for {
 
 		if persister.RaftStateSize() > 8*kv.maxraftstate {
-			//log.Printf("takesnapshot")
 			kv.mu.Lock()
 			kv.databaseMu.Lock()
 			w := new(bytes.Buffer)
@@ -485,18 +488,20 @@ func (kv *ShardKV) takeSnapshot(persister *raft.Persister) {
 			e.Encode(kv.shards)
 			e.Encode(kv.shardConfig)
 			lastAppliedIndex := kv.lastAppliedIndex
+			log.Printf("takesnapshot gid %d server %d: preindex %d lastindex %d", kv.gid, kv.me, kv.preAppliedIndex, kv.lastAppliedIndex)
+
 			kv.databaseMu.Unlock()
 			kv.mu.Unlock()
 			data := w.Bytes()
-			//log.Printf("server%d:snapshot trimming %d",kv.me,lastAppliedIndex)
+
 			kv.rf.TrimmingLogWithSnapshot(lastAppliedIndex, data)
 
 			// wait for start(cmd) timeout
-			time.Sleep(2000 * time.Millisecond)
-
+			time.Sleep(4000 * time.Millisecond)
 			// clean up the kv.log
 			kv.logMu.Lock()
 			for i := kv.preAppliedIndex + 1; i <= lastAppliedIndex; i++ {
+				log.Printf("gid %d server %d index %d cmd %v", kv.gid, kv.me, i, kv.log[i])
 				delete(kv.log, i)
 			}
 			kv.logMu.Unlock()
@@ -544,18 +549,23 @@ func (kv *ShardKV) ShardMigration(args *shardArgs, reply *shardReply) {
 	}
 	kv.mu.Lock()
 	if args.RequestConfigNumber != kv.shards[args.Shard] {
+		if kv.shards[args.Shard] < args.RequestConfigNumber {
+			log.Printf("gid %d request shard %d in gid %d reqestshardconf %d kvshardconf %d and request", args.Gid, args.Shard, kv.gid, args.RequestConfigNumber, kv.shards[args.Shard])
+			go kv.requestShard1(args.Shard, args.RequestConfigNumber)
+		}
 		reply.Err = ErrWrongGroup
 		kv.mu.Unlock()
 		return
 	}
 	cmd := Op{Shard: args.Shard, RequestConfigNumber: args.RequestConfigNumber, Operator: "ShardMigration", ToGid: args.Gid, Tag: rand.Int31()}
+	kv.mu.Unlock()
 	index, _, isLeader := kv.rf.Start(cmd)
+	//log.Printf("migration gid %d start in index %d server %d cmd:%v", kv.gid,  index,kv.me, cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
-		kv.mu.Unlock()
 		return
 	}
-	kv.mu.Unlock()
+
 	t := time.Now()
 	for time.Since(t).Milliseconds() < WaitResult {
 		kv.logMu.Lock()
@@ -580,7 +590,7 @@ func (kv *ShardKV) ShardMigration(args *shardArgs, reply *shardReply) {
 
 				return
 			} else {
-				log.Printf("gid %d from gid %d failly get shardmigration %d because errorwrongleader,res:%v,cmd:%v", cmd.ToGid, kv.gid, args.Shard, res, cmd)
+				log.Printf("gid %d from gid %d server %d failly get shardmigration %d because errorwrongleader,index %d res:%v,cmd:%v", cmd.ToGid, kv.gid, kv.me, args.Shard, index, res, cmd)
 				reply.Err = ErrWrongLeader
 				return
 			}
@@ -604,8 +614,8 @@ func (kv *ShardKV) periodicallyGetLatestConfig() {
 				log.Printf("gid %d query %d and get latestConfig %v nowshard %v", kv.gid, kv.configNumber+1, latestConfig, kv.shards)
 				cmd := Op{Config: latestConfig, Operator: "ConfigChange"}
 				kv.mu.Unlock()
-				kv.rf.Start(cmd)
-
+				index, _, _ := kv.rf.Start(cmd)
+				log.Printf("confchange gid %d start in index %d server %d cmd:%v", kv.gid, index, kv.me, cmd)
 				time.Sleep(3 * poll * time.Millisecond)
 			} else {
 				kv.mu.Unlock()
@@ -663,7 +673,6 @@ func (kv *ShardKV) requestShard(shard int, servers []string, oldgid int, request
 
 */
 func (kv *ShardKV) ShardDeletion(args *deleteArgs, reply *deleteReply) {
-	defer log.Printf("gid %d delete shard %d by gid %d Err %v", kv.gid, args.Shard, args.Gid, reply)
 	if _, isLeader := kv.rf.GetState(); !isLeader {
 		reply.Err = ErrWrongLeader
 		return
@@ -679,17 +688,17 @@ func (kv *ShardKV) ShardDeletion(args *deleteArgs, reply *deleteReply) {
 		kv.mu.Unlock()
 		return
 	}
-	log.Printf("gid %d start cmd delete shard %d in conf %d", kv.gid, args.Shard, args.DeleteConfigNumber)
 	cmd := Op{Shard: args.Shard, DeleteConfigNumber: args.DeleteConfigNumber, Operator: "DeleteShard", Tag: rand.Int31()}
 	//log.Printf("gid %d server %d confignumber %d start cmd %v",
 	//	kv.gid, kv.me, kv.configNumber, cmd)
 	index, _, isLeader := kv.rf.Start(cmd)
+	kv.mu.Unlock()
+	log.Printf("deletion gid %d start in index %d server %d cmd:%v", kv.gid, index, kv.me, cmd)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
-		kv.mu.Unlock()
 		return
 	}
-	kv.mu.Unlock()
+
 	t := time.Now()
 	for time.Since(t).Milliseconds() < WaitResult {
 		kv.logMu.Lock()
@@ -749,7 +758,8 @@ func (kv *ShardKV) requestShard1(shard int, currentConfigNumber int) {
 		if oldResponsibleGid == kv.gid {
 			if kv.shards[shard] == i {
 				cmd := Op{Operator: "InstallShardMigration", Shard: shard, GroupConfigNumber: currentConfigNumber, FromGid: kv.gid}
-				kv.rf.Start(cmd)
+				index, _, _ := kv.rf.Start(cmd)
+				log.Printf("installmigration gid %d start in index %d server %d cmd:%v", kv.gid, index, kv.me, cmd)
 				break
 			} else {
 				continue
@@ -758,7 +768,8 @@ func (kv *ShardKV) requestShard1(shard int, currentConfigNumber int) {
 		//如果发现以前的config中没有负责这个shard的group，那么也只需要自更新shard的configNumber
 		if oldResponsibleGid == 0 {
 			cmd := Op{Operator: "InstallShardMigration", Shard: shard, GroupConfigNumber: currentConfigNumber, FromGid: kv.gid}
-			kv.rf.Start(cmd)
+			index, _, _ := kv.rf.Start(cmd)
+			log.Printf("installmigration gid %d start in index %d server %d cmd:%v", kv.gid, index, kv.me, cmd)
 			break
 		}
 		if servers, ok = kv.shardConfig[i].Groups[oldResponsibleGid]; ok {
@@ -769,6 +780,7 @@ func (kv *ShardKV) requestShard1(shard int, currentConfigNumber int) {
 	if !ok {
 		return
 	}
+	log.Printf("gid %d start request shard %d from gid %d requestconf %d currconf %d", kv.gid, shard, oldResponsibleGid, i, currentConfigNumber)
 	var args shardArgs
 	args.Shard = shard
 	args.RequestConfigNumber = i
@@ -781,8 +793,8 @@ func (kv *ShardKV) requestShard1(shard int, currentConfigNumber int) {
 			ok := srv.Call("ShardKV.ShardMigration", &args, &reply)
 			if ok && (reply.Err == OK) {
 				cmd := Op{Operator: "InstallShardMigration", ShardDB: reply.ShardDb, Shard: shard, RequestConfigNumber: args.RequestConfigNumber, GroupConfigNumber: currentConfigNumber, SerialDB: reply.SerialDb, FromGid: oldResponsibleGid}
-				log.Printf("installshardmigration gid %d start cmd %v request", kv.gid, cmd)
 				kv.rf.Start(cmd)
+
 				return
 			}
 			if ok && (reply.Err == ErrWrongGroup) {
@@ -792,6 +804,9 @@ func (kv *ShardKV) requestShard1(shard int, currentConfigNumber int) {
 			if ok && reply.Err == ErrWrongLeader {
 				continue
 			}
+		}
+		if _, isLeader := kv.rf.GetState(); !isLeader {
+			return
 		}
 		kv.mu.Lock()
 		//如果发现本机的kv.configNumber更新了，那么停止当前的请求进程？
