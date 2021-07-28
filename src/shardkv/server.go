@@ -550,6 +550,11 @@ func (kv *ShardKV) ShardMigration(args *shardArgs, reply *shardReply) {
 	}
 	kv.mu.Lock()
 
+	if args.RequestConfigNumber > kv.configNumber {
+		reply.Err = ErrWrongGroup
+		kv.mu.Unlock()
+		return
+	}
 	if args.RequestConfigNumber != kv.shards[args.Shard] {
 		if kv.shards[args.Shard] == -args.RequestConfigNumber {
 
