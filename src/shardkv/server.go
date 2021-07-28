@@ -286,9 +286,9 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 				kv.mu.Lock()
 				if _, isLeader := kv.rf.GetState(); isLeader {
 					if cmd.Operator == "Put" || cmd.Operator == "Append" || cmd.Operator == "Get" {
-						log.Printf("gid %d index %d server %d cmd %v shard %d cmd.num %d kv.num %d shardnum %d", kv.gid, applyMsg.CommandIndex, kv.me, cmd, key2shard(cmd.Key), cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)])
+						log.Printf("gid %d index %d server %d cmd %v shard %d cmd.num %d kv.num %d shardnum %d, now shards %v", kv.gid, applyMsg.CommandIndex, kv.me, cmd, key2shard(cmd.Key), cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)], kv.shards)
 					} else {
-						log.Printf("gid %d index %d server %d cmd %v cmd.num %d kv.num %d shardnum %d", kv.gid, applyMsg.CommandIndex, kv.me, cmd, cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)])
+						log.Printf("gid %d index %d server %d cmd %v cmd.num %d kv.num %d shardnum %d, now shards %v", kv.gid, applyMsg.CommandIndex, kv.me, cmd, cmd.GroupConfigNumber, kv.configNumber, kv.shards[key2shard(cmd.Key)], kv.shards)
 					}
 				}
 				if cmd.Operator == "Put" || cmd.Operator == "Append" {
@@ -402,8 +402,11 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 					}
 
 				} else if cmd.Operator == "InstallShardMigration" {
-
-					if kv.shards[cmd.Shard] < cmd.GroupConfigNumber {
+					if cmd.FromGid == 0 || cmd.FromGid == kv.gid {
+						if cmd.GroupConfigNumber > kv.shards[cmd.Shard] {
+							kv.shards[cmd.Shard] = cmd.GroupConfigNumber
+						}
+					} else if kv.shards[cmd.Shard] < cmd.RequestConfigNumber {
 						if cmd.ShardDB != nil {
 							kv.databaseMu.Lock()
 							for k, v := range cmd.ShardDB {
@@ -422,18 +425,18 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 								kv.serial[k] = v
 							}
 						}
-						kv.databaseMu.Lock()
-						if _, isLeader := kv.rf.GetState(); isLeader {
-							log.Printf("gid %d install shard %d:in config %d now shards %v serial %v db %v", kv.gid, cmd.Shard, cmd.GroupConfigNumber, kv.shards, kv.serial, kv.database)
-							if cmd.FromGid != kv.gid {
-								log.Printf("gid %d start delete gid %d shard %d in conf %d nowshard %v", kv.gid, cmd.FromGid, cmd.Shard, cmd.RequestConfigNumber, kv.shards)
-								if servers, ok := kv.shardConfig[cmd.RequestConfigNumber].Groups[cmd.FromGid]; ok {
-									go kv.deleteShard(cmd.Shard, cmd.RequestConfigNumber, cmd.FromGid, servers)
-								}
+					}
+					kv.databaseMu.Lock()
+					if _, isLeader := kv.rf.GetState(); isLeader {
+						log.Printf("gid %d install shard %d:in config %d now shards %v serial %v db %v", kv.gid, cmd.Shard, cmd.GroupConfigNumber, kv.shards, kv.serial, kv.database)
+						if cmd.FromGid != kv.gid {
+							log.Printf("gid %d start delete gid %d shard %d in conf %d nowshard %v", kv.gid, cmd.FromGid, cmd.Shard, cmd.RequestConfigNumber, kv.shards)
+							if servers, ok := kv.shardConfig[cmd.RequestConfigNumber].Groups[cmd.FromGid]; ok {
+								go kv.deleteShard(cmd.Shard, cmd.RequestConfigNumber, cmd.FromGid, servers)
 							}
 						}
-						kv.databaseMu.Unlock()
 					}
+					kv.databaseMu.Unlock()
 
 				} else if cmd.Operator == "DeleteShard" {
 					if cmd.DeleteConfigNumber == kv.shards[cmd.Shard] {
@@ -549,10 +552,6 @@ func (kv *ShardKV) ShardMigration(args *shardArgs, reply *shardReply) {
 	}
 	kv.mu.Lock()
 	if args.RequestConfigNumber != kv.shards[args.Shard] {
-		if kv.shards[args.Shard] < args.RequestConfigNumber {
-			log.Printf("gid %d request shard %d in gid %d reqestshardconf %d kvshardconf %d and request", args.Gid, args.Shard, kv.gid, args.RequestConfigNumber, kv.shards[args.Shard])
-			go kv.requestShard1(args.Shard, args.RequestConfigNumber)
-		}
 		reply.Err = ErrWrongGroup
 		kv.mu.Unlock()
 		return
