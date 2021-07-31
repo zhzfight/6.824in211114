@@ -1,6 +1,8 @@
 package mr
 
-import "fmt"
+import (
+	"fmt"
+)
 import "log"
 import "net/rpc"
 import "hash/fnv"
@@ -41,22 +43,15 @@ func Worker(mapf func(string, string) []KeyValue,
 //
 // the RPC argument and reply types are defined in rpc.go.
 //
-func CallExample() {
-
-	// declare an argument structure.
-	args := TaskArgs{}
-
-	// fill in the argument(s).
-	args.X = 99
-
-	// declare a reply structure.
+func askForTask() {
+	args := TaskArgs{toWorker: make(chan Command)}
 	reply := TaskReply{}
-
 	// send the RPC request, wait for the reply.
-	call("Master.Example", &args, &reply)
+	call("Master.AssignJob", &args, &reply)
+	if reply.Err == NoJob {
 
-	// reply.Y should be 100.
-	fmt.Printf("reply.Y %v\n", reply.Y)
+	}
+
 }
 
 //

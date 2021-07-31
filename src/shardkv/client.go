@@ -10,7 +10,6 @@ package shardkv
 
 import (
 	"../labrpc"
-	"log"
 )
 import "crypto/rand"
 import "math/big"
@@ -80,7 +79,7 @@ func (ck *Clerk) Get(key string) string {
 	for {
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
-		log.Printf("client gid %d shard %d config %v", gid, shard, ck.config)
+		//log.Printf("client gid %d shard %d config %v", gid, shard, ck.config)
 		if servers, ok := ck.config.Groups[gid]; ok {
 			// try each server for the Shard.
 			for si := 0; si < len(servers); si++ {
@@ -88,11 +87,11 @@ func (ck *Clerk) Get(key string) string {
 				var reply GetReply
 				ok := srv.Call("ShardKV.Get", &args, &reply)
 				if ok && (reply.Err == OK || reply.Err == ErrNoKey) {
-					log.Printf("client %d ok gid %d server %d shard %d", ck.Cid, gid, si, shard)
+					//log.Printf("client %d ok gid %d server %d shard %d", ck.Cid, gid, si, shard)
 					return reply.Value
 				}
 				if ok && (reply.Err == ErrWrongGroup) {
-					log.Printf("client %d wronggroup", ck.Cid)
+					//log.Printf("client %d wronggroup", ck.Cid)
 					break
 				}
 				// ... not ok, or ErrWrongLeader
@@ -127,7 +126,7 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	for {
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
-		log.Printf("client %d put gid %d shard %d config %v", ck.Cid, gid, shard, ck.config)
+		//log.Printf("client %d put gid %d shard %d config %v", ck.Cid, gid, shard, ck.config)
 		if servers, ok := ck.config.Groups[gid]; ok {
 			for si := 0; si < len(servers); si++ {
 				srv := ck.make_end(servers[si])
@@ -137,12 +136,12 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 					return
 				}
 				if ok && reply.Err == ErrWrongGroup {
-					log.Printf("client %d wronggroup", ck.Cid)
+					//log.Printf("client %d wronggroup", ck.Cid)
 					break
 				}
 				// ... not ok, or ErrWrongLeader
 				if ok && reply.Err == ErrWrongLeader {
-					log.Printf("client %d wrongleader", ck.Cid)
+					//log.Printf("client %d wrongleader", ck.Cid)
 					continue
 				}
 

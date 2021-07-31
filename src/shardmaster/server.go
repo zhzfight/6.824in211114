@@ -2,7 +2,6 @@ package shardmaster
 
 import (
 	"../raft"
-	"log"
 	"time"
 )
 import "../labrpc"
@@ -57,7 +56,6 @@ func (sm *ShardMaster) Join(args *JoinArgs, reply *JoinReply) {
 		reply.WrongLeader = true
 		return
 	}
-	defer log.Printf("join %v reply %v", args, reply)
 	if sm.duplicateCheck(args.Cid, args.Rid) {
 		reply.Err = OK
 		reply.WrongLeader = false
@@ -101,7 +99,6 @@ func (sm *ShardMaster) Leave(args *LeaveArgs, reply *LeaveReply) {
 		reply.WrongLeader = true
 		return
 	}
-	defer log.Printf("leave %v reply %v", args, reply)
 	if sm.duplicateCheck(args.Cid, args.Rid) {
 		reply.Err = OK
 		reply.WrongLeader = false
@@ -283,7 +280,6 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 							Num:    sm.configNumber + 1,
 							Groups: make(map[int][]string),
 						}
-						log.Printf("newconfig %d join %v", newConfig.Num, cmd)
 						newGids := make([]int, 0)
 						for k, v := range sm.configs[sm.configNumber].Groups {
 							newConfig.Groups[k] = v
@@ -334,7 +330,6 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister)
 							Num:    sm.configNumber + 1,
 							Groups: make(map[int][]string),
 						}
-						log.Printf("newconfig %d leave %v", newConfig.Num, cmd)
 						leaveGids := make(map[int]struct{})
 						for _, gid := range cmd.GIDs {
 							leaveGids[gid] = struct{}{}

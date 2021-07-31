@@ -13,13 +13,24 @@ import "strconv"
 // example to show how to declare the arguments
 // and reply for an RPC.
 //
+type Err string
+
+const (
+	NoJob = "NoJob"
+	Ok    = "Ok"
+)
 
 type TaskArgs struct {
-	X int
+	toWorker   chan Command
+	fromWorker chan Res
 }
 
 type TaskReply struct {
-	Y int
+	TP  TaskType
+	MN  int
+	RN  int
+	FN  string
+	Err Err
 }
 
 // Add your RPC definitions here.
