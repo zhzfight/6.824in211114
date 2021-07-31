@@ -182,7 +182,7 @@ func MakeMaster(files []string, nReduce int) *Master {
 
 func (m *Master) monitor(taskType TaskType, taskNum int) {
 	t := time.Now()
-	timer := new(time.Timer)
+	timer := time.NewTimer(2 * time.Second)
 	var channelTo chan Command
 	var channelFrom chan Res
 	if taskType == Map {
@@ -192,24 +192,66 @@ func (m *Master) monitor(taskType TaskType, taskNum int) {
 		channelTo = m.RChannelsTo[taskNum]
 		channelFrom = m.RChannelsFrom[taskNum]
 	}
+	reply := true
+	done := false
+here:
 	for time.Since(t).Seconds() < 10 {
 		//在这10s内，以200毫秒为周期ping worker进程
 		select {
 		case <-timer.C:
-		//检查有无回复
-		case res := <-channelFrom:
+			//检查有无回复
+			if reply == false {
+				timer.Stop()
+				break here
+			}
+			timer.Reset(2 * time.Second)
+			channelTo <- Query
 
+		case res := <-channelFrom:
+			reply = true
+			if res == Completed {
+				timer.Stop()
+				done = true
+				break here
+			}
 		}
 	}
 	//如果10s内完不成这个任务，则将这个任务回收
 	channelTo = nil
+	channelFrom = nil
+	m.mu.Lock()
 	if taskType == Map {
-		m.MChannelsTo[taskNum] = nil
-		m.MChannelsFrom[taskNum] = nil
-		m.MTs[taskNum].S = Idle
+		if m.MTs[taskNum].S == Completed {
+			m.mu.Unlock()
+			return
+		}
 	} else {
-		m.RChannelsTo[taskNum] = nil
-		m.RChannelsFrom[taskNum] = nil
-		m.RTs[taskNum].S = Idle
+		if m.RTs[taskNum].S == Completed {
+			m.mu.Unlock()
+			return
+		}
 	}
+
+	if !done {
+		if taskType == Map {
+			m.MChannelsTo[taskNum] = nil
+			m.MChannelsFrom[taskNum] = nil
+			m.MTs[taskNum].S = Idle
+		} else {
+			m.RChannelsTo[taskNum] = nil
+			m.RChannelsFrom[taskNum] = nil
+			m.RTs[taskNum].S = Idle
+		}
+	} else {
+		if taskType == Map {
+			m.MChannelsTo[taskNum] = nil
+			m.MChannelsFrom[taskNum] = nil
+			m.MTs[taskNum].S = Completed
+		} else {
+			m.RChannelsTo[taskNum] = nil
+			m.RChannelsFrom[taskNum] = nil
+			m.RTs[taskNum].S = Completed
+		}
+	}
+	m.mu.Unlock()
 }
