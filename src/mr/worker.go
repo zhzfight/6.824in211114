@@ -132,8 +132,11 @@ func Worker(mapf func(string, string) []KeyValue,
 				kva = make([]KeyValue, 0)
 
 				for i := 0; i < 8; i++ {
-					iFileName := "mr-" + string(i) + string(task.RN)
-					file, _ := os.Open(iFileName)
+					iFileName := "mr-" + string(i) + "-" + string(task.RN)
+					file, err := os.Open(iFileName)
+					if err != nil {
+						log.Fatalf("cannot open intermediate file %v", iFileName)
+					}
 					dec := json.NewDecoder(file)
 					for {
 						var kv KeyValue
