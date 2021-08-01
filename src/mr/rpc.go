@@ -26,11 +26,13 @@ type TaskArgs struct {
 }
 
 type TaskReply struct {
-	TP  TaskType
-	MN  int
-	RN  int
-	FN  string
-	Err Err
+	TP      TaskType
+	MN      int
+	RN      int
+	FN      string
+	FNs     []string
+	NReduce int
+	Err     Err
 }
 
 // Add your RPC definitions here.

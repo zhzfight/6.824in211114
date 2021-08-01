@@ -30,6 +30,8 @@ type Master struct {
 const (
 	Map       = "Map"
 	Reduce    = " Reduce"
+	None      = "None"
+	Wait      = "Wait"
 	Idle      = "Idle"
 	Positive  = "Positive"
 	Completed = "Completed"
@@ -42,11 +44,13 @@ type TaskType string
 type Command string
 type Res string
 type Task struct {
-	TP TaskType
-	MN int
-	RN int
-	FN string
-	S  State
+	TP      TaskType
+	MN      int
+	RN      int
+	FN      string
+	FNs     []string
+	S       State
+	NReduce int
 }
 type Tasks []Task
 
@@ -60,6 +64,7 @@ type Tasks []Task
 func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 	m.mu.Lock()
 	if !m.MD {
+		reply.TP = Wait
 		for i := 0; i < m.M; i++ {
 			if m.MTs[i].S == Idle {
 				m.MChannelsTo[i] = args.toWorker
@@ -72,14 +77,16 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 				break
 			}
 		}
+
 	} else if !m.RD {
+		reply.TP = Wait
 		for i := 0; i < m.R; i++ {
 			if m.MTs[i].S == Idle {
 				m.RChannelsTo[i] = args.toWorker
 				m.MChannelsFrom[i] = args.fromWorker
 				reply.TP = Reduce
 				reply.RN = m.MTs[i].RN
-				reply.FN = m.MTs[i].FN
+				reply.FNs = m.MTs[i].FNs
 				reply.Err = Ok
 				go m.monitor(Reduce, i)
 				break
@@ -172,6 +179,7 @@ func MakeMaster(files []string, nReduce int) *Master {
 	}
 
 	for i := 0; i < m.R; i++ {
+
 		task := Task{TP: Reduce, RN: i, S: Idle}
 		m.RTs = append(m.RTs, task)
 	}
