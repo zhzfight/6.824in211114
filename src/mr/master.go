@@ -183,6 +183,7 @@ func MakeMaster(files []string, nReduce int) *Master {
 			if e != nil {
 				log.Printf("cannot wraite %v", fn)
 			}
+			fp.Close()
 			count++
 		}
 	}
