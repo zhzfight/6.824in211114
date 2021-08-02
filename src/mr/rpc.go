@@ -21,8 +21,8 @@ const (
 )
 
 type TaskArgs struct {
-	toWorker   chan Command
-	fromWorker chan Res
+	ToWorker   chan Command
+	FromWorker chan Res
 }
 
 type TaskReply struct {
