@@ -182,6 +182,7 @@ func MakeMaster(files []string, nReduce int) *Master {
 			count++
 		}
 	}
+	log.Printf("count %d", count)
 
 	for i := 0; i < m.M; i++ {
 		task := Task{TP: Map, MN: i, FN: "../main/Input-" + strconv.Itoa(i), S: Idle}
