@@ -1,11 +1,14 @@
 package mr
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"runtime"
 	"sort"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -57,15 +60,15 @@ func Worker(mapf func(string, string) []KeyValue,
 	var mu sync.Mutex
 
 	for {
-		mu.Lock()
 		taskState = Idle
-		mu.Unlock()
 		task := askForTask(receiver, sender)
 		if task.TP == None {
+			log.Printf("workerGid %d job all complete and return", GetGID())
 			return
 		} else if task.TP == Wait {
-
+			log.Printf("workerGid %d wait", GetGID())
 		} else {
+			taskState = Positive
 			go func() {
 				for {
 					select {
@@ -78,28 +81,26 @@ func Worker(mapf func(string, string) []KeyValue,
 					}
 				}
 			}()
-			mu.Lock()
-			taskState = Positive
-			mu.Unlock()
 			if task.TP == Map {
+				log.Printf("workerGid %d get task %v", GetGID(), task)
 				intermediate := []KeyValue{}
-				file, err := os.Open(task.FNs[0])
+				file, err := os.Open(task.FN)
 				if err != nil {
-					log.Fatalf("cannot open %v", task.FNs)
+					log.Fatalf("cannot open %v", task.FN)
 				}
 				content, err := ioutil.ReadAll(file)
 				if err != nil {
-					log.Fatalf("cannot read %v", task.FNs)
+					log.Fatalf("cannot read %v", task.FN)
 				}
 				file.Close()
-				kva := mapf(task.FNs[0], string(content))
+				kva := mapf(task.FN, string(content))
 				intermediate = append(intermediate, kva...)
 
 				sort.Sort(ByKey(intermediate))
 
 				encs := make([]*json.Encoder, task.NReduce)
 				for i := 0; i < task.NReduce; i++ {
-					oname := "mr-" + string(task.MN) + "-" + string(i)
+					oname := "mr-" + strconv.Itoa(task.MN) + "-" + strconv.Itoa(i)
 					intermediateFile, err := os.Create(oname)
 					if err != nil {
 						log.Fatalf("cannot create intermediate file %v", oname)
@@ -120,10 +121,11 @@ func Worker(mapf func(string, string) []KeyValue,
 				taskState = Completed
 				mu.Unlock()
 			} else {
+				log.Printf("workerGid %d get task %v", GetGID(), task)
 				mu.Lock()
 				taskState = Positive
 				mu.Unlock()
-				oname := "mr-out-" + string(task.RN)
+				oname := "mr-out-" + strconv.Itoa(task.RN)
 				ofile, err := os.Create(oname)
 				if err != nil {
 					log.Fatalf("cannot create outputfile %v", oname)
@@ -132,7 +134,7 @@ func Worker(mapf func(string, string) []KeyValue,
 				kva = make([]KeyValue, 0)
 
 				for i := 0; i < 8; i++ {
-					iFileName := "mr-" + string(i) + "-" + string(task.RN)
+					iFileName := "mr-" + strconv.Itoa(i) + "-" + strconv.Itoa(task.RN)
 					file, err := os.Open(iFileName)
 					if err != nil {
 						log.Fatalf("cannot open intermediate file %v", iFileName)
@@ -217,4 +219,12 @@ func call(rpcname string, args interface{}, reply interface{}) bool {
 
 	fmt.Println(err)
 	return false
+}
+func GetGID() uint64 {
+	b := make([]byte, 64)
+	b = b[:runtime.Stack(b, false)]
+	b = bytes.TrimPrefix(b, []byte("goroutine "))
+	b = b[:bytes.IndexByte(b, ' ')]
+	n, _ := strconv.ParseUint(string(b), 10, 64)
+	return n
 }
