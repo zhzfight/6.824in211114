@@ -68,6 +68,7 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 		reply.TP = Wait
 		for i := 0; i < m.M; i++ {
 			if m.MTs[i].S == Idle {
+				log.Printf("assign job worktype %v tasknum %d", Map, i)
 				m.MTs[i].S = Positive
 				m.MChannelsTo[i] = args.ToWorker
 				m.MChannelsFrom[i] = args.FromWorker
@@ -84,6 +85,7 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 		reply.TP = Wait
 		for i := 0; i < m.R; i++ {
 			if m.MTs[i].S == Idle {
+				log.Printf("assign job worktype %v tasknum %d", Reduce, i)
 				m.RTs[i].S = Positive
 				m.RChannelsTo[i] = args.ToWorker
 				m.MChannelsFrom[i] = args.FromWorker
