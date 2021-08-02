@@ -3,6 +3,7 @@ package mr
 import (
 	"io/ioutil"
 	"log"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -142,16 +143,24 @@ func MakeMaster(files []string, nReduce int) *Master {
 	m.R = nReduce
 	m.MTs = make([]Task, 0)
 	m.RTs = make([]Task, 0)
+
+	//worker进程在请求任务的时候需要传递两个通道参数，用于与master进行通信
 	m.MChannelsTo = make([]chan Command, m.M)
 	m.RChannelsTo = make([]chan Command, m.R)
+	m.MChannelsFrom = make([]chan Res, m.M)
+	m.RChannelsFrom = make([]chan Res, m.R)
 
+	//创建输入文件
 	for i := 0; i < m.M; i++ {
-		fp, err := os.Create("./Input-" + string(i))
+		fn := "./Input-" + strconv.Itoa(i)
+		fp, err := os.Create(fn)
 		if err != nil {
-			log.Fatalf("cannot create file %v", fp)
+			log.Fatalf("cannot create file %v", fn)
 		}
 		fp.Close()
 	}
+
+	//将输入文件按行进行切分写入到不同的map输入文件中
 	var count int
 	for _, filename := range files {
 		file, err := os.Open(filename)
@@ -165,21 +174,21 @@ func MakeMaster(files []string, nReduce int) *Master {
 		file.Close()
 		lines := strings.Split(string(content), "\n")
 		for _, line := range lines {
-			err := ioutil.WriteFile("./Input"+string(count%m.M), []byte(line), 0644)
+			fn := "./Input-" + strconv.Itoa(count%m.M)
+			err := ioutil.WriteFile(fn, []byte(line), 0644)
 			if err != nil {
-				log.Fatalf("cannot write %v", "./Input-"+string(count%m.M))
+				log.Fatalf("cannot write %v", fn)
 			}
 			count++
 		}
 	}
 
 	for i := 0; i < m.M; i++ {
-		task := Task{TP: Map, MN: i, FN: "Input-" + string(i), S: Idle}
+		task := Task{TP: Map, MN: i, FN: "../main/Input-" + strconv.Itoa(i), S: Idle}
 		m.MTs = append(m.MTs, task)
 	}
 
 	for i := 0; i < m.R; i++ {
-
 		task := Task{TP: Reduce, RN: i, S: Idle}
 		m.RTs = append(m.RTs, task)
 	}
