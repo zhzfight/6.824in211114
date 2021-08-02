@@ -180,7 +180,7 @@ func Worker(mapf func(string, string) []KeyValue,
 // the RPC argument and reply types are defined in rpc.go.
 //
 func askForTask(receiver chan Command, sender chan Res) Task {
-	args := TaskArgs{toWorker: receiver, fromWorker: sender}
+	args := TaskArgs{ToWorker: receiver, FromWorker: sender}
 	reply := TaskReply{}
 	// send the RPC request, wait for the reply.
 	call("Master.AssignJob", &args, &reply)

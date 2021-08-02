@@ -69,8 +69,8 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 		for i := 0; i < m.M; i++ {
 			if m.MTs[i].S == Idle {
 				m.MTs[i].S = Positive
-				m.MChannelsTo[i] = args.toWorker
-				m.MChannelsFrom[i] = args.fromWorker
+				m.MChannelsTo[i] = args.ToWorker
+				m.MChannelsFrom[i] = args.FromWorker
 				reply.TP = Map
 				reply.MN = m.MTs[i].MN
 				reply.FN = m.MTs[i].FN
@@ -85,8 +85,8 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 		for i := 0; i < m.R; i++ {
 			if m.MTs[i].S == Idle {
 				m.RTs[i].S = Positive
-				m.RChannelsTo[i] = args.toWorker
-				m.MChannelsFrom[i] = args.fromWorker
+				m.RChannelsTo[i] = args.ToWorker
+				m.MChannelsFrom[i] = args.FromWorker
 				reply.TP = Reduce
 				reply.RN = m.MTs[i].RN
 				reply.FNs = m.MTs[i].FNs
