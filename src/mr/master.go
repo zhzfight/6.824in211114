@@ -200,7 +200,7 @@ func MakeMaster(files []string, nReduce int) *Master {
 		task := Task{TP: Reduce, RN: i, S: Idle}
 		m.RTs = append(m.RTs, task)
 	}
-
+	log.Printf("maptask %v\n reducetask %v\n", m.MTs, m.RTs)
 	m.server()
 	return &m
 }
