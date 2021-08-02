@@ -84,14 +84,14 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 	} else if !m.RD {
 		reply.TP = Wait
 		for i := 0; i < m.R; i++ {
-			if m.MTs[i].S == Idle {
+			if m.RTs[i].S == Idle {
 				log.Printf("assign job worktype %v tasknum %d", Reduce, i)
 				m.RTs[i].S = Positive
 				m.RChannelsTo[i] = args.ToWorker
-				m.MChannelsFrom[i] = args.FromWorker
+				m.RChannelsFrom[i] = args.FromWorker
 				reply.TP = Reduce
-				reply.RN = m.MTs[i].RN
-				reply.FNs = m.MTs[i].FNs
+				reply.RN = m.RTs[i].RN
+				reply.FNs = m.RTs[i].FNs
 				reply.Err = Ok
 				go m.monitor(Reduce, i)
 				break
