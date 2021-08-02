@@ -68,6 +68,7 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 		reply.TP = Wait
 		for i := 0; i < m.M; i++ {
 			if m.MTs[i].S == Idle {
+				m.MTs[i].S = Positive
 				m.MChannelsTo[i] = args.toWorker
 				m.MChannelsFrom[i] = args.fromWorker
 				reply.TP = Map
@@ -83,6 +84,7 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 		reply.TP = Wait
 		for i := 0; i < m.R; i++ {
 			if m.MTs[i].S == Idle {
+				m.RTs[i].S = Positive
 				m.RChannelsTo[i] = args.toWorker
 				m.MChannelsFrom[i] = args.fromWorker
 				reply.TP = Reduce
@@ -272,10 +274,26 @@ here:
 			m.MChannelsTo[taskNum] = nil
 			m.MChannelsFrom[taskNum] = nil
 			m.MTs[taskNum].S = Completed
+			IsCompleted := true
+			for i := 0; i < m.M; i++ {
+				if m.MTs[i].S == Idle {
+					IsCompleted = false
+					break
+				}
+			}
+			m.MD = IsCompleted
 		} else {
 			m.RChannelsTo[taskNum] = nil
 			m.RChannelsFrom[taskNum] = nil
 			m.RTs[taskNum].S = Completed
+			IsCompleted := true
+			for i := 0; i < m.M; i++ {
+				if m.RTs[i].S == Idle {
+					IsCompleted = false
+					break
+				}
+			}
+			m.RD = IsCompleted
 		}
 	}
 	m.mu.Unlock()
