@@ -63,7 +63,7 @@ type Tasks []Task
 // the RPC argument and reply types are defined in rpc.go.
 //
 func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
-	m.mu.Lock()
+
 	if !m.MD {
 		reply.TP = Wait
 		for i := 0; i < m.M; i++ {
@@ -100,7 +100,7 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 	} else {
 		reply.Err = NoJob
 	}
-	m.mu.Unlock()
+
 	return nil
 }
 
