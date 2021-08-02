@@ -143,6 +143,8 @@ func MakeMaster(files []string, nReduce int) *Master {
 	m.R = nReduce
 	m.MTs = make([]Task, 0)
 	m.RTs = make([]Task, 0)
+	m.MD = false
+	m.RD = false
 
 	//worker进程在请求任务的时候需要传递两个通道参数，用于与master进行通信
 	m.MChannelsTo = make([]chan Command, m.M)
