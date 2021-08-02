@@ -175,9 +175,13 @@ func MakeMaster(files []string, nReduce int) *Master {
 		lines := strings.Split(string(content), "\n")
 		for _, line := range lines {
 			fn := "./Input-" + strconv.Itoa(count%m.M)
-			err := ioutil.WriteFile(fn, []byte(line), 0644)
+			fp, err := os.OpenFile(fn, os.O_WRONLY|os.O_APPEND, 0644)
 			if err != nil {
-				log.Fatalf("cannot write %v", fn)
+				log.Printf("cannot open %v", fn)
+			}
+			_, e := fp.Write([]byte(line))
+			if e != nil {
+				log.Printf("cannot wraite %v", fn)
 			}
 			count++
 		}
