@@ -6,7 +6,6 @@ import (
 	"../raft"
 	"../shardmaster"
 	"bytes"
-	"log"
 )
 import "../models"
 import "testing"
@@ -114,7 +113,7 @@ func TestJoinLeave(t *testing.T) {
 	for i := 0; i < n; i++ {
 		check(t, ck, ka[i], va[i])
 	}
-	log.Printf("round2")
+	//log.Printf("round2")
 	cfg.join(1)
 
 	for i := 0; i < n; i++ {
@@ -170,7 +169,7 @@ func TestSnapshot(t *testing.T) {
 
 	cfg.join(1)
 	cfg.join(2)
-	log.Printf("here1")
+	//log.Printf("here1")
 	cfg.leave(0)
 
 	for i := 0; i < n; i++ {
@@ -182,7 +181,7 @@ func TestSnapshot(t *testing.T) {
 
 	cfg.leave(1)
 	cfg.join(0)
-	log.Printf("here2")
+	//log.Printf("here2")
 	for i := 0; i < n; i++ {
 		check(t, ck, ka[i], va[i])
 		x := randstring(20)
@@ -195,7 +194,7 @@ func TestSnapshot(t *testing.T) {
 	for i := 0; i < n; i++ {
 		check(t, ck, ka[i], va[i])
 	}
-	log.Printf("here3")
+	//log.Printf("here3")
 	time.Sleep(1 * time.Second)
 
 	cfg.checklogs()
@@ -319,7 +318,7 @@ func TestConcurrent1(t *testing.T) {
 		va[i] = randstring(5)
 		ck.Put(ka[i], va[i])
 	}
-	log.Printf("here1")
+	//log.Printf("here1")
 	var done int32
 	ch := make(chan bool)
 
@@ -337,33 +336,33 @@ func TestConcurrent1(t *testing.T) {
 	for i := 0; i < n; i++ {
 		go ff(i)
 	}
-	log.Printf("here2")
+	//log.Printf("here2")
 	time.Sleep(150 * time.Millisecond)
 	cfg.join(1)
 	time.Sleep(500 * time.Millisecond)
 	cfg.join(2)
 	time.Sleep(500 * time.Millisecond)
 	cfg.leave(0)
-	log.Printf("here3")
+	//log.Printf("here3")
 	cfg.ShutdownGroup(0)
 	time.Sleep(100 * time.Millisecond)
 	cfg.ShutdownGroup(1)
 	time.Sleep(100 * time.Millisecond)
 	cfg.ShutdownGroup(2)
-	log.Printf("here4")
+	//log.Printf("here4")
 	cfg.leave(2)
 
 	time.Sleep(100 * time.Millisecond)
 	cfg.StartGroup(0)
 	cfg.StartGroup(1)
 	cfg.StartGroup(2)
-	log.Printf("here5")
+	//log.Printf("here5")
 	time.Sleep(100 * time.Millisecond)
 	cfg.join(0)
 	cfg.leave(1)
 	time.Sleep(500 * time.Millisecond)
 	cfg.join(1)
-	log.Printf("here6")
+	//log.Printf("here6")
 	time.Sleep(1 * time.Second)
 
 	atomic.StoreInt32(&done, 1)
@@ -471,7 +470,7 @@ func TestUnreliable1(t *testing.T) {
 		va[i] = randstring(5)
 		ck.Put(ka[i], va[i])
 	}
-	log.Printf("here1")
+	//log.Printf("here1")
 	cfg.join(1)
 	cfg.join(2)
 	cfg.leave(0)
@@ -483,10 +482,10 @@ func TestUnreliable1(t *testing.T) {
 		ck.Append(ka[i], x)
 		va[i] += x
 	}
-	log.Printf("here2")
+	//log.Printf("here2")
 	cfg.join(0)
 	cfg.leave(1)
-	log.Printf("here3")
+	//log.Printf("here3")
 	for ii := 0; ii < n*2; ii++ {
 		i := ii % n
 		check(t, ck, ka[i], va[i])
@@ -541,9 +540,9 @@ func TestUnreliable2(t *testing.T) {
 	cfg.leave(1)
 	time.Sleep(500 * time.Millisecond)
 	cfg.join(1)
-	log.Printf("here123")
+	//log.Printf("here123")
 	cfg.join(0)
-	log.Printf("here456")
+	//log.Printf("here456")
 
 	time.Sleep(2 * time.Second)
 
@@ -772,7 +771,7 @@ func printlog(data []byte) {
 		d.Decode(&snapshotLastIncludedIndex) != nil {
 		panic("fail to decode state")
 	} else {
-		fmt.Printf(" %v ", log)
+		//fmt.Printf(" %v ", log)
 	}
 
 }
@@ -793,7 +792,7 @@ func printsnap(snapshot []byte) {
 		d.Decode(&configs) != nil {
 		panic("fail to decode snapshot")
 	} else {
-		fmt.Printf("database:%d ", len(database))
+		fmt.Printf("database:%d shards %v", len(database), shards)
 	}
 
 }
@@ -966,9 +965,9 @@ func TestChallenge2Partial(t *testing.T) {
 	}
 
 	// QUERY to find shards owned by 102
-	log.Printf("here1")
+	//log.Printf("here1")
 	c := cfg.mck.Query(-1)
-	log.Printf("here2")
+	//log.Printf("here2")
 	owned := make(map[int]bool, n)
 	for s, gid := range c.Shards {
 		owned[s] = gid == cfg.groups[2].gid
@@ -976,7 +975,7 @@ func TestChallenge2Partial(t *testing.T) {
 
 	// KILL 100
 	cfg.ShutdownGroup(0)
-	log.Printf("shutdown0")
+	//log.Printf("shutdown0")
 	// LEAVE 100 + 102
 	// 101 can get old shards from 102, but not from 100. 101 should start
 	// serving shards that used to belong to 102 as soon as possible

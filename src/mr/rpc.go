@@ -26,11 +26,11 @@ type TaskArgs struct {
 }
 
 type TaskReply struct {
-	TP      TaskType
-	MN      int
-	RN      int
-	FN      string
-	FNs     []string
+	Tp      TaskType
+	Mn      int
+	Rn      int
+	Fn      string
+	Fns     []string
 	NReduce int
 	Err     Err
 }

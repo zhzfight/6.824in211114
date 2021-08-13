@@ -188,11 +188,11 @@ func askForTask(receiver chan Command, sender chan Res) Task {
 		task := Task{TP: None}
 		return task
 	} else {
-		if reply.TP == Map {
-			task := Task{TP: Map, MN: reply.MN, FN: reply.FN, NReduce: reply.NReduce}
+		if reply.Tp == Map {
+			task := Task{TP: Map, MN: reply.Mn, FN: reply.Fn, NReduce: reply.NReduce}
 			return task
 		} else {
-			task := Task{TP: Reduce, RN: reply.RN, FNs: reply.FNs, NReduce: reply.NReduce}
+			task := Task{TP: Reduce, RN: reply.Rn, FNs: reply.Fns, NReduce: reply.NReduce}
 			return task
 		}
 	}
@@ -213,6 +213,7 @@ func call(rpcname string, args interface{}, reply interface{}) bool {
 	defer c.Close()
 
 	err = c.Call(rpcname, args, reply)
+	log.Printf("args: %v, reply: %v", args, reply)
 	if err == nil {
 		return true
 	}

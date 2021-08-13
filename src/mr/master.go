@@ -65,16 +65,16 @@ type Tasks []Task
 func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 
 	if !m.MD {
-		reply.TP = Wait
+		reply.Tp = Wait
 		for i := 0; i < m.M; i++ {
 			if m.MTs[i].S == Idle {
 				log.Printf("assign job worktype %v tasknum %d", Map, i)
 				m.MTs[i].S = Positive
 				m.MChannelsTo[i] = args.ToWorker
 				m.MChannelsFrom[i] = args.FromWorker
-				reply.TP = Map
-				reply.MN = m.MTs[i].MN
-				reply.FN = m.MTs[i].FN
+				reply.Tp = Map
+				reply.Mn = m.MTs[i].MN
+				reply.Fn = m.MTs[i].FN
 				reply.Err = Ok
 				go m.monitor(Map, i)
 				break
@@ -82,16 +82,16 @@ func (m *Master) AssignJob(args *TaskArgs, reply *TaskReply) error {
 		}
 
 	} else if !m.RD {
-		reply.TP = Wait
+		reply.Tp = Wait
 		for i := 0; i < m.R; i++ {
 			if m.RTs[i].S == Idle {
 				log.Printf("assign job worktype %v tasknum %d", Reduce, i)
 				m.RTs[i].S = Positive
 				m.RChannelsTo[i] = args.ToWorker
 				m.RChannelsFrom[i] = args.FromWorker
-				reply.TP = Reduce
-				reply.RN = m.RTs[i].RN
-				reply.FNs = m.RTs[i].FNs
+				reply.Tp = Reduce
+				reply.Rn = m.RTs[i].RN
+				reply.Fns = m.RTs[i].FNs
 				reply.Err = Ok
 				go m.monitor(Reduce, i)
 				break
